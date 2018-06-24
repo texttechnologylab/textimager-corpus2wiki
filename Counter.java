@@ -11,11 +11,10 @@ public class Counter{
 
     public static void main(String[]args) throws FileNotFoundException, IOException{
 	File output = new File("/home/eleanor/textimager-client/target/output/output.wiki.xml");
-	//File output = new File("test2.xml");
 	BufferedReader br = new BufferedReader(new FileReader(output));
 	String currentLine = br.readLine();
 	//create a list of hash maps - one for each individual text and one for the corpus as a whole
-	List<HashMap> texts = new ArrayList<HashMap>();
+	List<HashMap<String,Integer>> texts = new ArrayList<HashMap<String,Integer>>();
 	HashMap<String, Integer> corpus = new HashMap<>();
 
 	while(currentLine!=null){
@@ -25,7 +24,6 @@ public class Counter{
 		    if(currentLine.contains("pos:")){
 			String[] currentLineArr = currentLine.split("} ");
 			for(int i=0;i<currentLineArr.length;i++){
-			    //System.out.println(currentLineArr[i]);
 			    String currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf("}"));
 			    if(someText.containsKey(currentTag))
 				someText.put(currentTag, someText.get(currentTag) + 1);
@@ -60,8 +58,8 @@ public class Counter{
 
     }
 	    
-    //rewrites file with freqs from hashmap 
-    public static void fileWrite(File origFile, List<HashMap> maps) throws FileNotFoundException, IOException{
+    //rewrites file with freqs from hashmap inbetween <text> </text> tags
+    public static void fileWrite(File origFile, List<HashMap<String,Integer>> maps) throws FileNotFoundException, IOException{
 	BufferedReader br = new BufferedReader(new FileReader(origFile));
 	File tmp = new File("/home/eleanor/textimager-client/target/output/tmp.xml");
 	PrintWriter pw = new PrintWriter(new FileWriter(tmp));
@@ -94,10 +92,11 @@ public class Counter{
 
     }
 
-    // outputs frequency info in json format for use by graph extension: template from taken from https://github.com/vega/vega/wiki/Tutorial
+    /*outputs frequency info in json format for use by graph extension: 
+    template from taken from https://github.com/vega/vega/wiki/Tutorial*/
 
     public static String prettyPrint(HashMap<String, Integer> map){
-	List<String> keys = new ArrayList(map.keySet());
+	List<String> keys = new ArrayList<>(map.keySet());
 	String jsonReturn = "&lt;graph&gt;{ \"width\": 1000,\"height\": 200,\"padding\": {\"top\": 20, \"left\": 30, \"bottom\": 20, \"right\": 10},\"data\": [{\"name\": \"table\",\"values\": [";
 	for(int i=0;i<keys.size();i++){
 	    if(i==0)
@@ -113,5 +112,4 @@ public class Counter{
     }
 
 }
-
 
