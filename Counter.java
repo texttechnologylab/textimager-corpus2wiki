@@ -10,7 +10,7 @@ import java.io.*;
 public class Counter{
 
     public static void main(String[]args) throws FileNotFoundException, IOException{
-	File output = new File("/home/eleanor/textimager-client/target/output/output.wiki.xml");
+	File output = new File("./maintenance/output.wiki.xml");
 	BufferedReader br = new BufferedReader(new FileReader(output));
 	String currentLine = br.readLine();
 	//create a list of hash maps - one for each individual text and one for the corpus as a whole
@@ -61,7 +61,7 @@ public class Counter{
     //rewrites file with freqs from hashmap inbetween <text> </text> tags
     public static void fileWrite(File origFile, List<HashMap<String,Integer>> maps) throws FileNotFoundException, IOException{
 	BufferedReader br = new BufferedReader(new FileReader(origFile));
-	File tmp = new File("/home/eleanor/textimager-client/target/output/tmp.xml");
+	File tmp = new File("./maintenance/tmp.xml");
 	PrintWriter pw = new PrintWriter(new FileWriter(tmp));
 	int hashMapCount=0;
 	String currLine = br.readLine();
