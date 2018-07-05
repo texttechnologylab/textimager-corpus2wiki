@@ -1,8 +1,6 @@
 # textimager-wikidition
 
-DEPENDENCIES: textimager-client (should this also be included in docker image?)
-
-1. Create a directory for your project.
+1. Create a directory called "WikiExporter" in your home directory.
 2. Download mediawiki image, stack.yml file, java files & scripts to this directory and run using docker-compose -f stack.yml up
 3. Open your browser and go to localhost:8080
 4. Follow the mediawiki wizard for set up: for language, admin account etc., enter your own preferences, and for the database entries, please use the following entries:
