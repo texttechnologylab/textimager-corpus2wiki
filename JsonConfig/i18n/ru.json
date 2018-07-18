@@ -1,0 +1,43 @@
+{
+	"@metadata": {
+		"authors": [
+			"Okras",
+			"Meshkov.a",
+			"NBS",
+			"Irus",
+			"MaxBioHazard",
+			"Yurik",
+			"Mailman",
+			"Facenapalm"
+		]
+	},
+	"jsonconfig-desc": "Позволяет хранить настройки JSON в вики-проекте",
+	"jsonconfig-duplicate-field": "Найдено более одного значения «$1»",
+	"jsonconfig-err-array": "Параметр «$1» должен быть списком. Например, [«значение1», «значение2»,…]",
+	"jsonconfig-err-array-count": "Список «$1» содержит {{PLURAL:$2|$2 значение|$2 значения|$2 значений}}, но должен содержать {{PLURAL:$3|$3 значение|$3 значения|$3 значений}} (столько же значений, сколько и «$4»)",
+	"jsonconfig-err-array-expected": "Значение в «$1» должно было быть списком, заключённым в квадратные скобки […]",
+	"jsonconfig-err-assoc-array": "Параметр «$1» должны быть ассоциативным массивом (словарём). Например, {\"ключ\": \"значение\",…}",
+	"jsonconfig-err-bool": "Параметр «$1» должен быть задать значением true (истина) или false (ложь)",
+	"jsonconfig-err-integer": "Параметр «$1» должен быть целым числом",
+	"jsonconfig-err-localized": "Параметр \"$1\" должен быть объектом, сопоставляющим корректные языковые коды с однострочными строками без символов табуляции и конечных пробелов, например {\"en\":\"текст на английском языке\", ... }",
+	"jsonconfig-err-number": "Параметр «$1» должен быть числом",
+	"jsonconfig-err-object-expected": "Значение в «$1» должно было быть объектом, заключённым в фигурные скобки {…}",
+	"jsonconfig-err-root-array-expected": "Данные JSON должны быть списком, заключённым в квадратные скобки […]",
+	"jsonconfig-err-root-object-expected": "Данные JSON должны быть объектом, заключённым в фигурные скобки {…}",
+	"jsonconfig-err-string": "Параметр «$1» должен быть строкой",
+	"jsonconfig-err-stringline": "Параметр \"$1\" должна быть единственной строки не более чем на $2 символов, без вкладок, а также не должно начинаться или заканчиваться пробелом",
+	"jsonconfig-err-url": "Параметр «$1» должен быть действительным URL-адресом",
+	"jsonconfig-move-aborted-model": "конфигурационная модель JSON «$1» этой страницы не соответствует модели нового заголовка «$2»",
+	"jsonconfig-move-aborted-ns": "новый заголовок страницы не настроен для хранения конфигурации JSON",
+	"jsonconfig-optional-field": "(необязательно)",
+	"jsonconfig-type-name-string": "строка",
+	"jsonconfig-type-name-number": "число",
+	"jsonconfig-type-name-boolean": "логическое значение",
+	"right-jsonconfig-flush": "управление JsonConfig через API",
+	"apihelp-jsonconfig-description": "Обеспечивает прямой доступ к подсистеме JsonConfig.",
+	"apihelp-jsonconfig-param-title": "Заголовок для обработки без префикса пространства имён.",
+	"apihelp-jsonconfig-param-content": "Для $1command=reload использовать вместо этого данный контент.",
+	"apihelp-jsonconfig-example-1": "Показать настройки",
+	"apihelp-jsonconfig-example-2": "Сбросить [[Zero:TEST]]",
+	"apihelp-jsonconfig-example-3": "Перегрузить [[Zero:TEST]]"
+}

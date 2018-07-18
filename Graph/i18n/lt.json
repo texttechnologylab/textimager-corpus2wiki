@@ -1,0 +1,25 @@
+{
+	"@metadata": {
+		"authors": [
+			"Zygimantus",
+			"Eitvys200"
+		]
+	},
+	"graph-broken-category": "Puslapiai su sugedusiais grafikais",
+	"apihelp-graph-param-title": "Puslapio su grafiku pavadinimas",
+	"apierror-graph-invalid": "Grafikas negalimas.",
+	"apierror-graph-missing": "Grafikas nerastas.",
+	"graph-ve-dialog-edit-height": "Aukštis",
+	"graph-ve-dialog-edit-padding-table-bottom": "Apačioje",
+	"graph-ve-dialog-edit-padding-table-left": "Kairėje",
+	"graph-ve-dialog-edit-padding-table-right": "Dešinėje",
+	"graph-ve-dialog-edit-padding-table-top": "Viršuje",
+	"graph-ve-dialog-edit-padding-table-unit": "Pikseliai",
+	"graph-ve-dialog-edit-page-data": "Duomenys",
+	"graph-ve-dialog-edit-page-general": "Bendra",
+	"graph-ve-dialog-edit-page-raw": "Neapdoroti duomenys",
+	"graph-ve-dialog-edit-size-fieldset": "Dydis",
+	"graph-ve-dialog-edit-size-table-unit": "Pikseliai",
+	"graph-ve-dialog-edit-table-row-delete": "Trinti eilutę",
+	"graph-ve-dialog-edit-width": "Plotis"
+}

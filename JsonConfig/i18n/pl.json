@@ -1,0 +1,22 @@
+{
+	"@metadata": {
+		"authors": [
+			"Chrumps"
+		]
+	},
+	"jsonconfig-duplicate-field": "Znaleziono więcej niż jedną wartość „$1”",
+	"jsonconfig-err-array": "Parametr „$1” musi być listą, np. [„wartość1”, „wartość2”, ...]",
+	"jsonconfig-err-assoc-array": "Parametr „$1” musi być tablicą asocjacyjną (słownikiem), np. {„klucz”: „wartość”, ...}",
+	"jsonconfig-err-bad-header-string": "Nagłówek „$1” może zawierać wyłącznie litery, cyfry i znak podkreślenia oraz nie może rozpoczynać się cyfrą.",
+	"jsonconfig-err-bool": "Parametr „$1” musi mieć wartość true (prawda) lub false (fałsz)",
+	"jsonconfig-err-integer": "Parametr „$1” musi być liczbą całkowitą",
+	"jsonconfig-err-number": "Parametr „$1” musi być liczbą",
+	"jsonconfig-err-string": "Parametr „$1” musi być ciągiem znaków",
+	"jsonconfig-optional-field": "(opcjonalne)",
+	"jsonconfig-type-name-number": "liczba",
+	"jsonconfig-type-name-boolean": "wartość logiczna",
+	"jsonconfig-license": "Dane dostępne w ramach licencji $1.",
+	"jsonconfig-license-name-CC0-1.0": "Creative Commons Zero",
+	"apihelp-jsonconfig-example-1": "Pokaż konfigurację",
+	"apihelp-jsondata-description": "Odbierz zlokalizowane dane JSON."
+}

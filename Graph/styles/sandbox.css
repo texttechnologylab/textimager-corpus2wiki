@@ -1,0 +1,13 @@
+/* stylelint-disable selector-max-id */
+
+#mw-graph-right .top_panel {
+	overflow: hidden;
+}
+
+#mw-graph-json {
+	margin: 0;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
