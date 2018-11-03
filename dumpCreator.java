@@ -4,7 +4,9 @@ import java.io.*;
 public class dumpCreator{
     
     public static void main (String[] args) throws IOException,InterruptedException{
-	System.out.println("Working Directory =  " + System.getProperty("user.dir"));
+	// Currently only works, if executed from the folder where dumper.sh, corpus/
+	// and importer.sh are located.
+	// TODO: make it executable from anywhere, and import files in the folder it is executed
 
 	//textimager preprocessing - create the dump
 	ProcessBuilder buildDump = new ProcessBuilder("./dumper.sh");

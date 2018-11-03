@@ -17,13 +17,15 @@ services:
       # this yaml and uncomment the following line and use compose to restart
       # the mediawiki service
       #- ./LocalSettings.php:/var/www/html/LocalSettings.php
+    container_name: mediawiki
   database:
     image: mariadb
     restart: always
     environment:
       # @see https://phabricator.wikimedia.org/source/mediawiki/browse/master/includes/DefaultSettings.php
       MYSQL_DATABASE: wikidb
-      MYSQL_USER: eleanor
+      MYSQL_USER: mediawiki
       MYSQL_PASSWORD: wikidbpw
       MYSQL_ROOT_PASSWORD: wikiexporterpw
+    container_name: mariadb
 
