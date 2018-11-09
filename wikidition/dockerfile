@@ -1,0 +1,56 @@
+FROM mediawiki:1.31
+
+MAINTAINER alexhunziker@sunrise.ch
+
+# Install required packages
+RUN set -x; \
+	apt-get update \
+	&& apt-get install -y --no-install-recommends \
+	git \
+	wget
+
+# Set MediaWiki Variables
+ENV MW_Version=1.31.1
+ENV MW_Home=/var/www/html
+ENV MW_Volume=/mediawiki
+
+# Redirect logs to stdout/stderr
+RUN set -ex \
+	&& ln -sfT /dev/stderr "$APACHE_LOG_DIR/error.log" \
+	&& ln -sfT /dev/stdout "$APACHE_LOG_DIR/access.log" \
+	&& ln -sfT /dev/stdout "$APACHE_LOG_DIR/other_vhosts_access.log"
+
+# MediaWiki core setup
+# TODO: obsolete?
+
+# Customize logo
+COPY logo.png $MW_Home/logo.png
+
+# MediaWiki extensions, clone them from github.
+RUN set -x; \
+	cd $MW_Home/extensions \
+	&& git clone --depth 1 https://github.com/Fannon/SimpleTooltip.git SimpleTooltip\
+	&& git clone --depth 1 https://github.com/wikimedia/mediawiki-extensions-Graph.git Graph\
+	&& git clone --depth 1 https://github.com/wikimedia/mediawiki-extensions-JsonConfig.git JsonConfig
+
+RUN set -x; \
+	ls -al extensions
+
+# Open Port (Obsolete?)
+EXPOSE 8080:80
+
+# Copy Settings, Name change, so that DB Setup runs, name is changed back later
+COPY LocalSettings.php $MW_Home/DockerSettings.php
+
+# Copy and run the config script
+COPY config.sh /config.sh
+RUN chmod -v +x /config.sh
+CMD ["/config.sh"]
+
+VOLUME ["$MW_Home/images", "$MW_Volume"]
+
+#RUN cd $MW_Home/maintenance \
+#	&&php update.php
+
+
+

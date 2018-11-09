@@ -4,20 +4,6 @@
 #   (or "http://$(docker-machine ip):8080" if using docker-machine)
 version: '3'
 services:
-  mediawiki:
-    image: mediawiki
-    restart: always
-    ports:
-      - 8080:80
-    links:
-      - database
-    volumes:
-      - /var/www/html/images
-      # After initial setup, download LocalSettings.php to the same directory as
-      # this yaml and uncomment the following line and use compose to restart
-      # the mediawiki service
-      #- ./LocalSettings.php:/var/www/html/LocalSettings.php
-    container_name: mediawiki
   database:
     image: mariadb
     restart: always
@@ -28,4 +14,29 @@ services:
       MYSQL_PASSWORD: wikidbpw
       MYSQL_ROOT_PASSWORD: wikiexporterpw
     container_name: mariadb
+  wikidition:
+    build:
+      context: ./wikidition
+      dockerfile: dockerfile
+    restart: always
+    links:
+      - database
+    ports:
+      - 8080:80
+    container_name: wikidition
+    environment: 
+      - MW_SITE_NAME=MediaWiki
+      - MW_SITE_LANG=en
+      - MW_DEFAULT_SKIN=vector
+      - MW_ENABLE_UPLOADS=1
+      - MW_USE_INSTANT_COMMONS=0
+      - MW_ADMIN_USER=admin
+      - MW_ADMIN_PASS=password
+      - MW_DB_NAME=wikidb
+      - MW_DB_USER=mediawiki
+      - MW_DB_PASS=wikidbpw
+      - MW_DB_INSTALLDB_USER=root
+      - MW_DB_INSTALLDB_PASS=wikiexporterpw
+      - MW_AUTOUPDATE=true
+      - MW_MAIN_CACHE_TYPE=None
 
