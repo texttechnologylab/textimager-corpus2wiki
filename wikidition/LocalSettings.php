@@ -56,8 +56,8 @@ $wgEmailAuthentication = true;
 $wgDBtype = "mysql";
 $wgDBserver = "database";
 $wgDBname = getenv( 'MW_DB_NAME' );
-$wgDBuser = "root";
-$wgDBpassword = "wikiexporterpw";
+$wgDBuser = getenv( 'MW_DB_USER' );
+$wgDBpassword = getenv( 'MW_DB_PASS' );
 
 # MySQL specific settings
 $wgDBprefix = "";
@@ -130,9 +130,6 @@ wfLoadSkin( 'Vector' );
 # End of automatically generated settings.
 # Add more configuration options below.
 
-require_once "$IP/extensions/SimpleTooltip/SimpleTooltip.php";
-wfLoadExtension( 'JsonConfig' );
-wfLoadExtension( 'Graph' );
 require_once "$IP/extensions/SimpleTooltip/SimpleTooltip.php";
 wfLoadExtension( 'JsonConfig' );
 wfLoadExtension( 'Graph' );

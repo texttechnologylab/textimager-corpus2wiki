@@ -1,28 +1,37 @@
 # textimager-wikidition
 
-1. Create a directory called "WikiExporter" in your home directory.
-2. Download mediawiki image, stack.yml file, java files & scripts to this directory and run using docker-compose -f stack.yml up
-3. Open your browser and go to localhost:8080
-4. Follow the mediawiki wizard for set up: for language, admin account etc., enter your own preferences, and for the database entries, please use the following entries:
-- Database type: MySQL
-- Database host: database
-- Database name: wikidb
-- Database table prefix: LEAVE BLANK
-- Database username: root
-- Database password: wikiexporterpw
-- Check the box for "use the same a/c as for installation"
-- Storage Engine: InnoDB
-- Name of wiki and following settings: your choice
-5. Once the set up is complete, a file called LocalSettings.php will be downloaded. Save this file to your working directory.
-6. Now go into the stack.yml file, uncomment the LocalSettings.php line, and re run it. (using command from above)
-7. Now go to localhost:8080 again and you should have a mediawiki all set up and ready to go!
+## Installation:
 
-To run wikiexporter:
+Requirements: docker and docker-compose need to be installed
 
-Run java dumpCreator - and that's it! 
+1. Download this repo
+2. Runn installation, configuration and start containers using docker-compose -f stack.yml up --build
+3. Open your browser and go to localhost:8080 
 
-visit localhost:8080, visit "localhost/index.php/Corpus" and you should see a list of links to your files - click on any one of them and your text (with grammatical infos as tool tips) will be visible.
+Mediawiki is now set up with the following parameters:
 
+```
+- MW_ADMIN_USER=admin
+- MW_ADMIN_PASS=password
+- MW_DB_NAME=wikidb
+- MW_DB_USER=mediawiki
+- MW_DB_PASS=wikidbpw
+- MW_DB_INSTALLDB_USER=root
+- MW_DB_INSTALLDB_PASS=wikiexporterpw
+```
+
+## Run wikiexporter:
+
+Place the textfiles to be analyzed into the corpus folder and then run
+```
+java dumpCreator 
+```
+and that's it! 
+
+## Access Results
+visit localhost:8080 (or the adress that is indicated in the terminal during service startup - This needs to be fixed), visit "localhost/index.php/Corpus" and you should see a list of links to your files - click on any one of them and your text (with grammatical infos as tool tips) will be visible.
+
+## File information
 dumper.sh: 	runs the CLI jar
  
 importer.sh:	
