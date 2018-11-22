@@ -13,8 +13,8 @@ java Counter
 
 wait
 
-docker cp maintenance/output.wiki.xml mediawiki:/var/www/html/maintenance/output.wiki.xml
+docker cp maintenance/output.wiki.xml wikidition:/var/www/html/maintenance/output.wiki.xml
 
-docker exec mediawiki /bin/sh -c "cd maintenance;php importDump.php < output.wiki.xml;php rebuildrecentchanges.php;cd .."
+docker exec wikidition /bin/sh -c "cd maintenance;php importDump.php < output.wiki.xml;php rebuildrecentchanges.php;cd .."
 
 
