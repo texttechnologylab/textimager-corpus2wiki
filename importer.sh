@@ -2,8 +2,8 @@
 
 printf "importer.sh launched"
 
-sed -i 's/<span class="sentence">//g' maintenance/output.wiki.xml
-sed -i 's/<\/span>//g' maintenance/output.wiki.xml
+sed -i '' 's/<span class="sentence">//g' maintenance/output.wiki.xml
+sed -i '' 's/<\/span>//g' maintenance/output.wiki.xml
 
 javac Counter.java
 
