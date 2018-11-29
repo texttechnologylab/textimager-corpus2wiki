@@ -26,12 +26,8 @@ do
 	#if existing
    	echo "The file with this name is already existed in Wiki"
 	else
-		#go one directory back
-		cd ..
 		#if not copy it from corpus to corpus 2
-    	cp ../corpus/$i ../corpus2/
-		#back to maintenance (for corret looping)
-    	cd maintenance 	
+    		cp ../corpus/$i ../corpus2/	
    		echo copied
 	fi
 done
