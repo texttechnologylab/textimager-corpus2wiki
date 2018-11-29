@@ -17,6 +17,7 @@ done
 cd ..
 #go to "maintenance" folder to check if the files are already existing in our Wiki
 cd maintenance
+mkdir ../corpus2
 for i in "${array[@]}"
 do
 	echo $i
@@ -28,7 +29,7 @@ do
 		#go one directory back
 		cd ..
 		#if not copy it from corpus to corpus 2
-    	cp corpus/$i corpus2/
+    	cp ../corpus/$i ../corpus2/
 		#back to maintenance (for corret looping)
     	cd maintenance 	
    		echo copied

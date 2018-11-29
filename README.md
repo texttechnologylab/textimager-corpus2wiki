@@ -5,7 +5,7 @@
 Requirements: docker and docker-compose need to be installed
 
 1. Download this repo
-2. Runn installation, configuration and start containers using docker-compose -f stack.yml up --build
+2. Runn installation, configuration and start containers using docker-compose -f stack.yml up (if you want a newly compiled wikidition container, add --build)
 3. Open your browser and go to localhost:8080 
 
 Mediawiki is now set up with the following parameters:
