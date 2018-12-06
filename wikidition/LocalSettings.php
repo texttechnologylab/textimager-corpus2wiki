@@ -134,6 +134,9 @@ require_once "$IP/extensions/SimpleTooltip/SimpleTooltip.php";
 wfLoadExtension( 'JsonConfig' );
 wfLoadExtension( 'Graph' );
 
+# Allow Javascript to be run on site. (TODO: remove for release !XXS HAZARD!)
+$wgAllowUserJs = true;
+
 # Enable Debuging (TODO: remove for release)
 $wgShowExceptionDetails = true; 
 $wgShowDBErrorBacktrace = true;
