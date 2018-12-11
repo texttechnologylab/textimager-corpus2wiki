@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Alex Hunziker",
+			"Hasanagha Mammadov",
+			"Text Technology Lab, Goethe Universitaet Frankfurt"
+		]
+	},
+	"morphmarker-desc": "Provides tooltips and text hilighting functionality"
+}
