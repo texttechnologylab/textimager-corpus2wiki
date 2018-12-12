@@ -24,7 +24,14 @@ public class Counter{
 		    if(currentLine.contains("pos:")){
 			String[] currentLineArr = currentLine.split("} ");
 			for(int i=0;i<currentLineArr.length;i++){
-			    String currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf("}"));
+				String currentTag;
+				// um den Fehler beim dem erneuten Aufruf von inmporter.sh zu vermeiden
+				// Da die Zeile nach dem ersten Aufruf nicht mehr wie pos:whatever}} aussieht 
+				if(!currentLine.contains("pos_")){
+			     currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf("}"));
+				}else {
+				 currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf("|pos_"));
+				}
 			    if(someText.containsKey(currentTag))
 				someText.put(currentTag, someText.get(currentTag) + 1);
 			    else 
@@ -68,6 +75,26 @@ public class Counter{
 	String nextLine = br.readLine();
 
 	while(nextLine!=null){
+		//Hier wird die Zeile umgeschrieben
+		// von ",pos:whatever}}" zu  ",pos:whatever|pos_whatever}}" 
+		if(currLine.contains("pos:")){
+		    String[] currentLineArr2 = currLine.split("} ");
+		    currLine="";
+		    //System.out.println(currLine);	
+		    for(int i=0;i<currentLineArr2.length;i++){
+		    	String tempo="";
+			    String currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].indexOf("}"));
+		    	//System.out.println(currentLineArr2[i]);		
+			    //System.out.println(currentTag2);
+			    currentLineArr2[i]=currentLineArr2[i].substring(0, currentLineArr2[i].length()-1);
+			    tempo= currentLineArr2[i]+"|pos_"+currentTag2+"}}";
+			    currLine=currLine+tempo+" ";
+			    //System.out.println(currLine);	
+		    	}
+		}
+
+		
+		
 	    if(nextLine.equals("</text>")){
 		//if at end of certain text, append info from hashmap
 		currLine = currLine + " " + prettyPrint(maps.get(hashMapCount));
