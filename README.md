@@ -2,10 +2,9 @@
 
 ## Installation:
 
-Requirements: docker and docker-compose need to be installed
-
-1. Download this repo
-2. Runn installation, configuration and start containers using docker-compose -f stack.yml up (if you want a newly compiled wikidition container, add --build)
+1. Install [docker](https://www.docker.com/get-started) and [docker-compose](https://docs.docker.com/compose/install/)
+2. Download this repo
+3. Runn installation, configuration and start containers using docker-compose -f stack.yml up (if you want a newly compiled wikidition container, add --build)
 3. Open your browser and go to localhost:8080 
 
 Mediawiki is now set up with the following parameters:
@@ -20,24 +19,20 @@ Mediawiki is now set up with the following parameters:
 - MW_DB_INSTALLDB_PASS=wikiexporterpw
 ```
 
-## Run wikiexporter:
+## Add Files to Wikitition:
 
-Place the textfiles to be analyzed into the corpus folder and then run
-```
-java dumpCreator 
-```
-and that's it! 
+1. Make sure the containers are running, then open your browser and go to localhost:8080/import
+2. Select all the files you want to be analized and added to the Wikidition
+3. Pressing the "Import"-Button will start the import procedure. Please keep the browser open until the process is finished.
+
+(Please note that currently the above process is not fully implemented yet. As of now, files need to be copied using `docker cp MY_LOCAL_FOLDER wikidition:/var/www/html/import/corpus`and then the import procedure can be started by going to localhost8080:import/importer.php?lang=en)
 
 ## Access Results
-visit localhost:8080 (or the adress that is indicated in the terminal during service startup - This needs to be fixed), visit "localhost/index.php/Corpus" and you should see a list of links to your files - click on any one of them and your text (with grammatical infos as tool tips) will be visible.
-
-## File information
-dumper.sh: 	runs the CLI jar
+visit localhost:8080 (or the adress that is indicated in the terminal during service startup - This needs to be fixed), visit "localhost/index.php/Special:AllPages" and you should see a list of links to your files - click on any one of them and your text (with grammatical infos as tool tips) will be visible.
  
-importer.sh:	
--copies the output (XML) file into the maintenance file in container
--copies the SimpleTooltip, Graph and JSon extension into extensions file in container
--runs importDump.php and rebuilds mediawiki
--adds the line "require_once "$IP/extensions/SimpleTooltip-master/SimpleTooltip.php" (and all other extension configs)	to the LocalSettings.php file (runs the extensions)
+## Legal
+(c)2018 [Text Technology Lab](https://www.texttechnologylab.org), Goethe University Frankfurt
 
-dumpCreator.java: creates processes for both scripts and runs them. 
+Authors: Alex Hunziker, Hasanagha Mammadov, Eleanor Rutherford
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 

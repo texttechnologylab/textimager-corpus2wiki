@@ -51,7 +51,7 @@ disable_ob();
 
 // Initialize Progress Bar
 echo '<html><style>#myProgress{ width:100%; background-color:#ddd} #myBar{width:1%;height:30px;background-color:#4CAF50;}</style></body>';
-echo "<p>Input Progress</p>";
+echo "<p>Import Progress</p>";
 echo '<div id="myProgress"><div id="myBar"></div></div>';
 echo '<script>
 	function set_progress(prog){
