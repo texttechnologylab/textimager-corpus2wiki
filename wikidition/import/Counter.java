@@ -29,8 +29,10 @@ public class Counter{
 				// Da die Zeile nach dem ersten Aufruf nicht mehr wie pos:whatever}} aussieht 
 				if(!currentLine.contains("pos_")){
 			     currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf("}"));
+			     // currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf(", ")-1);
 				}else {
 				 currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf("|pos_"));
+				 //currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf("|pos_"));
 				}
 			    if(someText.containsKey(currentTag))
 				someText.put(currentTag, someText.get(currentTag) + 1);
@@ -76,7 +78,7 @@ public class Counter{
 
 	while(nextLine!=null){
 		//Hier wird die Zeile umgeschrieben
-		// von ",pos:whatever}}" zu  ",pos:whatever|pos_whatever}}" 
+		// von ",pos:whatever, }}" zu  ",pos:whatever, |pos_whatever}}" 
 		if(currLine.contains("pos:")){
 		    String[] currentLineArr2 = currLine.split("} ");
 		    currLine="";
@@ -84,12 +86,16 @@ public class Counter{
 		    for(int i=0;i<currentLineArr2.length;i++){
 		    	String tempo="";
 			    String currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].indexOf("}"));
-		    	//System.out.println(currentLineArr2[i]);		
+		    	//String currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].indexOf(", ")-1);
+			    //System.out.println(currentLineArr2[i]);		
 			    //System.out.println(currentTag2);
 			    currentLineArr2[i]=currentLineArr2[i].substring(0, currentLineArr2[i].length()-1);
 			    tempo= currentLineArr2[i]+"|pos_"+currentTag2+"}}";
 			    currLine=currLine+tempo+" ";
 			    //System.out.println(currLine);	
+			    	//if(currentLineArr2[i].contains("LOCATION")) {
+			    	//	locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("text:")+5,currentLineArr2[i].indexOf(" |l"));
+		    		//}
 		    	}
 		}
 
@@ -99,6 +105,9 @@ public class Counter{
 		//if at end of certain text, append info from hashmap
 		currLine = currLine + " " + prettyPrint(maps.get(hashMapCount));
 		hashMapCount++;
+		//Add Map to MediaWiki File
+		//currLine = currLine + "{{#display_map:" +locations+"}}";
+		
 	    }
 	    pw.println(currLine);
 	    currLine = nextLine;
