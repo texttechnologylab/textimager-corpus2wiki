@@ -70,6 +70,11 @@ if [ ! -e "$MW_VOLUME/LocalSettings.php" ]; then
         "$MW_SITE_NAME" \
         "$MW_ADMIN_USER"
 
+    # Run composer update to download the composer managed extensions.
+    # Note: it would be better (conceptually and from a user perspective  
+    #       if there was a way to do this without composer
+    cd $MW_Home
+    php composer.phar update --no-dev
 fi
 
 # Rename DockerSettings.php to LocalSettings.php so that it will be found by Mediawiki
