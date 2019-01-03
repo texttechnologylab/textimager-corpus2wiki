@@ -8,9 +8,11 @@ ini_set('display_errors', '1');
 error_reporting(E_ALL);
 
 // Get parameters
-$lang = $_GET["lang"];
+$default_lan = 0;
+$lang = $_POST["language"];
 if($lang == ""){
 	$lang = "en";
+	$default_lan = 1;
 }
 
 // tell php to automatically flush after every output
@@ -42,23 +44,45 @@ function disable_ob() {
 }
 
 function print_log($log){
-	echo '<textarea cols="100" rows="8" style="overflow:auto;background-color:black;color:lime;">';
+	echo '<textarea cols="70" rows="8" style="overflow:auto;background-color:black;color:lime;">';
 	print_r($log);
 	echo '</textarea><br><br>';
 }	
 
 disable_ob();
 
+// Page header
+echo '<!DOCTYPE html><html lang="en" ><head><meta charset="UTF-8"><title>Wikidition Importer</title><link rel="stylesheet" href="css/style.css"></head>';
+echo '<body><div class="content"><img src="logo.png" style="border:none">';
+echo '<h1>Wikidition Uploader</h1><h2>Step 2: Processing and Analyzing Files...</h2>';
+echo '<b>Please note</b>: This process may take a wile... Closing this window before the process is completed will abort the import.<br><br>';
+
+if($default_lan == 1){
+	echo 'Warning: No language settings found. English assumed...<br><br>';
+}
+
 // Initialize Progress Bar
 echo '<html><style>#myProgress{ width:100%; background-color:#ddd} #myBar{width:1%;height:30px;background-color:#4CAF50;}</style></body>';
-echo "<p>Import Progress</p>";
-echo '<div id="myProgress"><div id="myBar"></div></div>';
+echo "<h3>Import Progress</h3>";
+echo '<div id="myProgress"><div id="myBar"></div></div><br><br>';
 echo '<script>
 	function set_progress(prog){
 		var elem = document.getElementById("myBar");
 		elem.style.width = prog + "%"
 	}
 </script>';
+
+// Step 0: Upload files to docker
+echo "Upload data to Wikidition...";
+// Count total files
+$countfiles = count($_FILES['file']['name']);
+// Looping all files
+for($i=0;$i<$countfiles;$i++){
+	$filename = $_FILES['file']['name'][$i];
+	// Upload file
+	move_uploaded_file($_FILES['file']['tmp_name'][$i],'corpus/'.$filename);
+} 
+echo "<b>done</b><br><script>set_progress(2);</script>";
 
 // Step 1: Create Backup of Mediawiki
 echo "Create Backup of current data...";
@@ -71,9 +95,9 @@ if(file_exists($backup_file)) {
 	echo "<b>done</b><br>";
 } else {
 	echo "<b>failed</b><br>";
+	print_log($log1);
 }
-echo '<script>set_progress(5);</script>';
-print_log($log1);
+echo '<script>set_progress(7);</script>';
 
 // Step 2: Call Textimager
 echo "Analyze Texts...";
@@ -96,7 +120,9 @@ exec("sed -i 's/<\/span>//g' maintenance/output.wiki.xml", $log32);
 exec("javac Counter.java; wait; java Counter;wait", $log33);
 $log3 = array_merge($log31, $log32, $log33);
 echo "<b>done</b><br>";
-print_log($log3);
+if (!empty($playerlist)) {
+     print_log($log3);
+}
 echo '<script>set_progress(80);</script>';
 
 // Step 4: Import into Mediawiki
@@ -115,6 +141,10 @@ if(file_exists("maintainance/output.wiki.xml")){
 array_map('unlink', array_filter((array) glob("corpus/*")));
 echo '<b>done</b><br>';
 echo '<script>set_progress(100);</script>';
+
+// All done.
+echo '<p style="color:green;"><b>Input procedure terminated</b></p>';
+echo '<p>All documents that were processed sucessfully are now available in the <a href="http://localhost:8080/index.php/Special:AllPages"><b>Wikidition</b></a></p>';
 
 
 ?>

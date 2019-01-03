@@ -22,10 +22,8 @@ Mediawiki is now set up with the following parameters:
 ## Add Files to Wikitition:
 
 1. Make sure the containers are running, then open your browser and go to localhost:8080/import
-2. Select all the files you want to be analized and added to the Wikidition
-3. Pressing the "Import"-Button will start the import procedure. Please keep the browser open until the process is finished.
-
-(Please note that currently the above process is not fully implemented yet. As of now, files need to be copied using `docker cp MY_LOCAL_FOLDER wikidition:/var/www/html/import/corpus`and then the import procedure can be started by going to localhost8080:import/importer.php?lang=en)
+2. Select all the files you want to be analized and added to the Wikidition and select the appropriate settings
+3. Pressing the "Upload & Process"-Button will start the import procedure. Please keep the browser open until the process is finished.
 
 ## Access Results
 visit localhost:8080 (or the adress that is indicated in the terminal during service startup - This needs to be fixed), visit "localhost/index.php/Special:AllPages" and you should see a list of links to your files - click on any one of them and your text (with grammatical infos as tool tips) will be visible.
