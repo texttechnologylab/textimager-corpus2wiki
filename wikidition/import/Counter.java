@@ -10,34 +10,47 @@ import java.io.*;
 public class Counter{
 
     public static void main(String[]args) throws FileNotFoundException, IOException{
+    //Read the MediaWiki Output file 	
 	File output = new File("./maintenance/output.wiki.xml");
 	BufferedReader br = new BufferedReader(new FileReader(output));
+	//Read pro line 
 	String currentLine = br.readLine();
 	//create a list of hash maps - one for each individual text and one for the corpus as a whole
+	//the grapic at the ende of text will be created with this hash map 
 	List<HashMap<String,Integer>> texts = new ArrayList<HashMap<String,Integer>>();
 	HashMap<String, Integer> corpus = new HashMap<>();
-
+	//Read till the end of Output file 
 	while(currentLine!=null){
+		//Local HashMap for loop 
 	    HashMap<String,Integer> someText = new HashMap<>();
 	    //while we are on a particular page (and not finished it as signalled by </page>
+	    //Read for each page 
 	    while(!currentLine.contains("</page>")){
+	    	//If it contains pos, it must be saved 
 		    if(currentLine.contains("pos:")){
-			String[] currentLineArr = currentLine.split("} ");
+		    //Split:  {{#tip-text: whatever |lemma:whatever,pos:NNP,NE:LOCATION
+		    //or {{#tip-text: whatever |lemma:whatever,pos:VBZ
+		    //TODO It could cause error, if {{#tip-text: }} |lemma:},pos:}}}}
+			String[] currentLineArr = currentLine.split("}} ");
+			//For each splited part
 			for(int i=0;i<currentLineArr.length;i++){
+				//To save pos-Tag
 				String currentTag;
-				// um den Fehler beim dem erneuten Aufruf von inmporter.sh zu vermeiden
-				// Da die Zeile nach dem ersten Aufruf nicht mehr wie pos:whatever}} aussieht 
-				if(!currentLine.contains("pos_")){
-			     currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf("}"));
-			     // currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf(", ")-1);
+				//If the splited part has NE the tag is between "pos:" and ",NE"
+				//Else betwenn "pos:" and end of string 
+				if(currentLineArr[i].contains("NE")){
+					currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf(",NE")-1);
+
 				}else {
-				 currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf("|pos_"));
-				 //currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf("|pos_"));
+					currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].length());
+
 				}
+				//to save in HashMap for single page
 			    if(someText.containsKey(currentTag))
 				someText.put(currentTag, someText.get(currentTag) + 1);
 			    else 
 				someText.put(currentTag, 1);
+			    //and summed in Corpus 
 			    if(corpus.containsKey(currentTag))
 				corpus.put(currentTag, corpus.get(currentTag) + 1);
 			    else 
@@ -69,46 +82,63 @@ public class Counter{
 	    
     //rewrites file with freqs from hashmap inbetween <text> </text> tags
     public static void fileWrite(File origFile, List<HashMap<String,Integer>> maps) throws FileNotFoundException, IOException{
-	BufferedReader br = new BufferedReader(new FileReader(origFile));
+	//To rewrite output xml file, that got from MediaWikiWriter 
+    BufferedReader br = new BufferedReader(new FileReader(origFile));
+    //Create new file to copy at the end to original file 
 	File tmp = new File("./maintenance/tmp.xml");
 	PrintWriter pw = new PrintWriter(new FileWriter(tmp));
 	int hashMapCount=0;
+	//Processing the actual and next line 
 	String currLine = br.readLine();
 	String nextLine = br.readLine();
-
+	//String for Locations 
+	String locations = "";
+	
 	while(nextLine!=null){
-		//Hier wird die Zeile umgeschrieben
-		// von ",pos:whatever, }}" zu  ",pos:whatever, |pos_whatever}}" 
+		//Rewrite the tooltip-Tag 
+		// from  ",pos:whatever}}" to  ",pos:whatever|pos_whatever}}" 
+		// or from  ",pos:whatever,NE:LOCATION}}" to  ",pos:whatever,NE:Location|pos_whatever}}"
 		if(currLine.contains("pos:")){
-		    String[] currentLineArr2 = currLine.split("} ");
+			//Split again 
+			//TODO It could cause error, if {{#tip-text: }} |lemma:},pos:}}}}
+		    String[] currentLineArr2 = currLine.split("}} ");
+		    //Empty current line to rewrite 
 		    currLine="";
-		    //System.out.println(currLine);	
 		    for(int i=0;i<currentLineArr2.length;i++){
+		    	//Temporary file for saving strings for current line 
 		    	String tempo="";
-			    String currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].indexOf("}"));
-		    	//String currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].indexOf(", ")-1);
-			    //System.out.println(currentLineArr2[i]);		
-			    //System.out.println(currentTag2);
-			    currentLineArr2[i]=currentLineArr2[i].substring(0, currentLineArr2[i].length()-1);
+		    	//Read pos-Tag but this time for not summing up, but for rewriting for each Token
+			    String currentTag2;  
+			    if(currentLineArr2[i].contains("NE")){
+			    	currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].indexOf(",NE")-1);
+
+				}else {
+					currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].length());
+
+				}
+			    //Creating the form {{#tip-text: whatever |lemma:whatever,pos:NNP,NE:LOCATION|pos_whatever}}
+			    //or {{#tip-text: whatever |lemma:whatever,pos:VBZ|pos_whatever}}
 			    tempo= currentLineArr2[i]+"|pos_"+currentTag2+"}}";
 			    currLine=currLine+tempo+" ";
-			    //System.out.println(currLine);	
-			    	//if(currentLineArr2[i].contains("LOCATION")) {
-			    	//	locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("text:")+5,currentLineArr2[i].indexOf(" |l"));
-		    		//}
+			    //Saving Locations in Array
+					if(currentLineArr2[i].contains("LOCATION")) {
+						locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("text:")+5,currentLineArr2[i].indexOf(" |l"));
+			    	}
 		    	}
 		}
 
 		
-		
+		// If the next line is </text> add Graph 
 	    if(nextLine.equals("</text>")){
 		//if at end of certain text, append info from hashmap
 		currLine = currLine + " " + prettyPrint(maps.get(hashMapCount));
 		hashMapCount++;
-		//Add Map to MediaWiki File
-		//currLine = currLine + "{{#display_map:" +locations+"}}";
-		
+		//Add Map to MediaWiki File if only there is any location in the text
+		if(!locations.isEmpty()){
+			currLine = currLine + "{{#display_map:" +locations+"}}";
+		}
 	    }
+	    //Continue to reading lines in output file 
 	    pw.println(currLine);
 	    currLine = nextLine;
 	    nextLine = br.readLine();
@@ -148,4 +178,3 @@ public class Counter{
     }
 
 }
-
