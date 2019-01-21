@@ -1,9 +1,0 @@
-{
-	"@metadata": {
-		"authors": [
-			"Srdjan m"
-		]
-	},
-	"right-jsonconfig-flush": "Upravljanje JsonConfig-om putem API-ja",
-	"action-jsonconfig-flush": "upravljate JsonConfig-om putem API-ja"
-}

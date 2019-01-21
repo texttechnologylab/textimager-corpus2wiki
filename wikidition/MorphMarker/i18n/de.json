@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Alex Hunziker",
+			"Hasanagha Mammadov",
+			"Text Technology Lab, Goethe Universitaet Frankfurt"
+		]
+	},
+	"morphmarker-desc": "Ermöglicht Tooltips und das Markieren von Textteilen anhand von Gruppen"
+}

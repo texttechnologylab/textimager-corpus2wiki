@@ -1,0 +1,74 @@
+FROM mediawiki:1.31
+
+MAINTAINER alexhunziker@sunrise.ch
+
+# Workaround for this strange bug:
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199
+RUN set -x; \
+	mkdir -p /usr/share/man/man1
+
+# Install required packages
+# only jre 8 is in the reposisories currently...
+RUN set -x; \
+	apt-get update \
+	&& apt-get install -y --no-install-recommends \
+	git \
+	wget \
+	default-jdk \
+	nano \
+	unzip \
+	&& apt-get clean
+
+# Set MediaWiki Variables
+ENV MW_Version=1.31.1
+ENV MW_Home=/var/www/html
+ENV MW_Volume=/mediawiki
+
+# Redirect logs to stdout/stderr
+RUN set -ex \
+	&& ln -sfT /dev/stderr "$APACHE_LOG_DIR/error.log" \
+	&& ln -sfT /dev/stdout "$APACHE_LOG_DIR/access.log" \
+	&& ln -sfT /dev/stdout "$APACHE_LOG_DIR/other_vhosts_access.log"
+
+# Customize logo
+COPY logo.png $MW_Home/logo.png
+
+# MediaWiki extensions, clone them from github.
+RUN set -x; \
+	cd $MW_Home/extensions \
+	&& git clone --depth 1 https://github.com/wikimedia/mediawiki-extensions-Graph.git Graph\
+	&& git clone --depth 1 https://github.com/wikimedia/mediawiki-extensions-JsonConfig.git  JsonConfig
+
+#RUN set -x; \
+#	ls -al extensions
+
+# Open Port
+EXPOSE 8080:80
+
+# Copy LocalSettings (Name is changed to trigger MW installation) 
+COPY LocalSettings.php $MW_Home/DockerSettings.php
+
+# Now we add the custom composer file and install composer
+# (It would be nice if a way was found to install all plugins without composer)
+COPY composer.local.json $MW_Home/composer.local.json
+RUN wget https://getcomposer.org/composer.phar
+
+# Copy Files for input procedure
+COPY import $MW_Home/import
+RUN chmod 777 -R import
+
+# Copy custom extensions
+COPY MorphMarker $MW_Home/extensions/MorphMarker/
+
+# Copy and run the config script
+COPY config.sh /config.sh
+RUN chmod -v +x /config.sh
+CMD ["/config.sh"]
+
+VOLUME ["$MW_Home/images", "$MW_Volume"]
+
+#RUN cd $MW_Home/maintenance \
+#	&&php update.php
+
+
+

@@ -1,0 +1,16 @@
+/*----- Tabs -----*/
+.NN.posSelected {
+    background:lightGreen;
+}
+.V.posSelected {
+    background:lightCyan ;
+}
+.ADJ.posSelected {
+    background:lightGoldenRodYellow ;
+}
+.ART.posSelected {
+    background:gold;
+}
+.NE.posSelected {
+    background:hotPink  ;
+}

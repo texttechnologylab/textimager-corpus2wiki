@@ -1,34 +1,36 @@
 # textimager-wikidition
 
-1. Create a directory called "WikiExporter" in your home directory.
-2. Download mediawiki image, stack.yml file, java files & scripts to this directory and run using docker-compose -f stack.yml up
-3. Open your browser and go to localhost:8080
-4. Follow the mediawiki wizard for set up: for language, admin account etc., enter your own preferences, and for the database entries, please use the following entries:
-- Database type: MySQL
-- Database host: database
-- Database name: wikidb
-- Database table prefix: LEAVE BLANK
-- Database username: root
-- Database password: wikiexporterpw
-- Check the box for "use the same a/c as for installation"
-- Storage Engine: InnoDB
-- Name of wiki and following settings: your choice
-5. Once the set up is complete, a file called LocalSettings.php will be downloaded. Save this file to your working directory.
-6. Now go into the stack.yml file, uncomment the LocalSettings.php line, and re run it. (using command from above)
-7. Now go to localhost:8080 again and you should have a mediawiki all set up and ready to go!
+## Installation:
 
-To run wikiexporter:
+1. Install [docker](https://www.docker.com/get-started) and [docker-compose](https://docs.docker.com/compose/install/)
+2. Download this repo
+3. Runn installation, configuration and start containers using docker-compose -f stack.yml up (if you want a newly compiled wikidition container, add --build)
+3. Open your browser and go to localhost:8080 
 
-Run java dumpCreator - and that's it! 
+Mediawiki is now set up with the following parameters:
 
-visit localhost:8080, visit "localhost/index.php/Corpus" and you should see a list of links to your files - click on any one of them and your text (with grammatical infos as tool tips) will be visible.
+```
+- MW_ADMIN_USER=admin
+- MW_ADMIN_PASS=password
+- MW_DB_NAME=wikidb
+- MW_DB_USER=mediawiki
+- MW_DB_PASS=wikidbpw
+- MW_DB_INSTALLDB_USER=root
+- MW_DB_INSTALLDB_PASS=wikiexporterpw
+```
 
-dumper.sh: 	runs the CLI jar
+## Add Files to Wikitition:
+
+1. Make sure the containers are running, then open your browser and go to localhost:8080/import
+2. Select all the files you want to be analized and added to the Wikidition and select the appropriate settings
+3. Pressing the "Upload & Process"-Button will start the import procedure. Please keep the browser open until the process is finished.
+
+## Access Results
+visit localhost:8080 (or the adress that is indicated in the terminal during service startup - This needs to be fixed), visit "localhost/index.php/Special:AllPages" and you should see a list of links to your files - click on any one of them and your text (with grammatical infos as tool tips) will be visible.
  
-importer.sh:	
--copies the output (XML) file into the maintenance file in container
--copies the SimpleTooltip, Graph and JSon extension into extensions file in container
--runs importDump.php and rebuilds mediawiki
--adds the line "require_once "$IP/extensions/SimpleTooltip-master/SimpleTooltip.php" (and all other extension configs)	to the LocalSettings.php file (runs the extensions)
+## Legal
+(c)2018 [Text Technology Lab](https://www.texttechnologylab.org), Goethe University Frankfurt
 
-dumpCreator.java: creates processes for both scripts and runs them. 
+Authors: Alex Hunziker, Hasanagha Mammadov, Eleanor Rutherford
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 

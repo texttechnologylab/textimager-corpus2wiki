@@ -1,0 +1,3 @@
+Hello and Welcome to Wikidition!
+If you see this page in your Wikidition, this means that your first import of files was successful.
+
