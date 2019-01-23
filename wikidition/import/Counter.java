@@ -38,8 +38,8 @@ public class Counter{
 				String currentTag;
 				//If the splited part has NE the tag is between "pos:" and ",NE"
 				//Else betwenn "pos:" and end of string 
-				if(currentLineArr[i].contains("NE")){
-					currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf(",NE")-1);
+				if(currentLineArr[i].contains("NE:")){
+					currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf(",NE:")-1);
 
 				}else {
 					currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].length());
@@ -109,8 +109,8 @@ public class Counter{
 		    	String tempo="";
 		    	//Read pos-Tag but this time for not summing up, but for rewriting for each Token
 			    String currentTag2;  
-			    if(currentLineArr2[i].contains("NE")){
-			    	currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].indexOf(",NE")-1);
+			    if(currentLineArr2[i].contains("NE:")){
+			    	currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].indexOf(",NE:")-1);
 
 				}else {
 					currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].length());
@@ -122,7 +122,10 @@ public class Counter{
 			    currLine=currLine+tempo+" ";
 			    //Saving Locations in Array
 					if(currentLineArr2[i].contains("LOCATION")) {
-						locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("text:")+5,currentLineArr2[i].indexOf(" |l"));
+						locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("text:")+5,currentLineArr2[i].indexOf(" |l"))+"~"+currentLineArr2[i].substring(currentLineArr2[i].indexOf("text:")+5,currentLineArr2[i].indexOf(" |l"));
+			    	}
+					if(currentLineArr2[i].contains("I-LOC")) {
+						locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("text:")+5,currentLineArr2[i].indexOf(" |l"))+"~"+currentLineArr2[i].substring(currentLineArr2[i].indexOf("text:")+5,currentLineArr2[i].indexOf(" |l"));
 			    	}
 		    	}
 		}
