@@ -4,6 +4,7 @@ creates a list of hash maps - each hash map represents a text, whereby the keys 
 
 */
 
+
 import java.util.*; 
 import java.io.*;
 
