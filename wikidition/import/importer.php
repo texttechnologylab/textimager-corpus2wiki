@@ -73,15 +73,21 @@ echo '<script>
 </script>';
 
 // Step 0: Upload files to docker
-echo "Upload data to Wikidition...";
 // Count total files
 $countfiles = count($_FILES['file']['name']);
+echo "Upload data to Wikidition ($countfiles files)...";
 // Looping all files
 for($i=0;$i<$countfiles;$i++){
 	$filename = $_FILES['file']['name'][$i];
+	echo "Extracting ".$filename."...";
 	// Upload file
 	move_uploaded_file($_FILES['file']['tmp_name'][$i],'corpus/'.$filename);
+	if(strpos($filename, ".zip")){
+		exec("cd /var/www/html/import/corpus; unzip -n -j ".$filename.";cd ..", $log1);
+		unlink("corpus/".$filename);
+	}
 } 
+echo "Files to process: ".(count(scandir("corpus")) - 2)."...";
 echo "<b>done</b><br><script>set_progress(2);</script>";
 
 // Step 1: Create Backup of Mediawiki
@@ -102,7 +108,7 @@ echo '<script>set_progress(7);</script>';
 // Step 2: Call Textimager
 echo "Analyze Texts...";
 putenv("SHELL=/bin/bash");
-exec("java -jar textimager-CLI.jar -i 'corpus' --input-format TXT --input-language ".$lang." -output maintenance --output-format MEDIAWIKI -p 'LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger'", $log2);
+exec("nohup java -jar textimager-CLI.jar -i 'corpus' --input-format TXT --input-language ".$lang." -output maintenance --output-format MEDIAWIKI -p 'LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger'", $log2);
 if(file_exists("maintenance/output.wiki.xml")){
 	echo "<b>done</b><br>";
 } else {
