@@ -1,7 +1,6 @@
 <?php
 // Importer.php, Wikidition
 // (c)2018 Text Technology Lab, Goethe University Frankfurt
-// Authors: Alex Hunziker, Hasan
 
 // Ensure that we are getting all Messages
 ini_set('display_errors', '1');
