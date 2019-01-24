@@ -138,7 +138,7 @@ public class Counter{
 		hashMapCount++;
 		//Add Map to MediaWiki File if only there is any location in the text
 		if(!locations.isEmpty()){
-			currLine = currLine + "{{#display_map:" +locations+ "~" +locations+ "}}";
+			currLine = currLine + "{{#display_map:" +locations+ "}}";
 		}
 	    }
 	    //Continue to reading lines in output file 
