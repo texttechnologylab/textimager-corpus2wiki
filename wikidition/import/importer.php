@@ -107,7 +107,7 @@ echo '<script>set_progress(7);</script>';
 // Step 2: Call Textimager
 echo "Analyze Texts...";
 putenv("SHELL=/bin/bash");
-exec("nohup java -jar textimager-CLI.jar -i 'corpus' --input-format TXT --input-language ".$lang." -output maintenance --output-format MEDIAWIKI -p 'LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger'", $log2);
+exec("nohup java -jar textimager-CLI.jar -i 'corpus' --input-format TXT --input-language ".$lang." -output maintenance --output-format MEDIAWIKI -p 'LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService'", $log2);
 if(file_exists("maintenance/output.wiki.xml")){
 	echo "<b>done</b><br>";
 } else {
