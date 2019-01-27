@@ -39,7 +39,7 @@ public class Counter{
 				//If the splited part has NE the tag is between "pos:" and ",NE"
 				//Else betwenn "pos:" and end of string 
 				if(currentLineArr[i].contains("NE:")){
-					currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf(",NE:")-1);
+					currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf(",NE:"));
 
 				}else {
 					currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].length());
@@ -95,6 +95,9 @@ public class Counter{
 	String locations = "";
 	
 	while(nextLine!=null){
+		if(currLine.contains("xml:space")) {
+			currLine=currLine.replaceAll(" & "," and ");
+		}
 		//Rewrite the tooltip-Tag 
 		// from  ",pos:whatever}}" to  ",pos:whatever|pos_whatever}}" 
 		// or from  ",pos:whatever,NE:LOCATION}}" to  ",pos:whatever,NE:Location|pos_whatever}}"
@@ -110,7 +113,7 @@ public class Counter{
 		    	//Read pos-Tag but this time for not summing up, but for rewriting for each Token
 			    String currentTag2;  
 			    if(currentLineArr2[i].contains("NE:")){
-			    	currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].indexOf(",NE:")-1);
+			    	currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].indexOf(",NE:"));
 
 				}else {
 					currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].length());
@@ -129,7 +132,13 @@ public class Counter{
 			    	}
 		    	}
 		}
-
+		
+		if(nextLine.contains("[[Category:DDC")) {
+			currLine = nextLine;
+			while(!nextLine.equals("</text>")) {
+				nextLine = br.readLine();
+			}
+		}
 		
 		// If the next line is </text> add Graph 
 	    if(nextLine.equals("</text>")){
