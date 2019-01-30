@@ -122,6 +122,7 @@ echo '<script>set_progress(60);</script>';
 echo "Prepare texts for Wikidition import...";
 exec("sed -i 's/<span class=\"sentence\">//g' maintenance/output.wiki.xml", $log31);
 exec("sed -i 's/<\/span>//g' maintenance/output.wiki.xml", $log32);
+exec("sed -i 's/Ä/\&#196;/g;s/Ö/\&#214;/g;s/Ü/\&#220;/g;s/ä/\&#228;/g;s/ö/\&#246;/g;s/ü/\&#252;/g;s/ß/\&#223;/g;' maintenance/output.wiki.xml", $log322);
 exec("javac Counter.java; wait; java Counter;wait", $log33);
 $log3 = array_merge($log31, $log32, $log33);
 echo "<b>done</b><br>";
