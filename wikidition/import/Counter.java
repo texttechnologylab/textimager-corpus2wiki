@@ -149,6 +149,7 @@ public class Counter{
 		if(!locations.isEmpty()){
 			currLine = currLine + "{{#display_map:" +locations+ "}}";
 		}
+		locations = "";
 	    }
 	    //Continue to reading lines in output file 
 	    pw.println(currLine);
