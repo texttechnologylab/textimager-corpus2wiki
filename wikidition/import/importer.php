@@ -13,6 +13,16 @@ if($lang == ""){
 	$lang = "en";
 	$default_lan = 1;
 }
+$DEFAULT_PIPELINES = [
+	"en" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer",
+	"de" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService",
+];
+if(array_key_exists($lang, $DEFAULT_PIPELINES)){
+	$pipeline = $DEFAULT_PIPELINES[$lang];
+}else{
+	echo "<b>FATAL ERROR:</b> The language $lang is not assigned any pipeline. Process aborted.";
+	exit;
+}
 
 // tell php to automatically flush after every output
 // including lines of output produced by shell commands
@@ -78,10 +88,10 @@ echo "Upload data to Wikidition ($countfiles files)...";
 // Looping all files
 for($i=0;$i<$countfiles;$i++){
 	$filename = $_FILES['file']['name'][$i];
-	echo "Extracting ".$filename."...";
 	// Upload file
 	move_uploaded_file($_FILES['file']['tmp_name'][$i],'corpus/'.$filename);
 	if(strpos($filename, ".zip")){
+		echo "Extracting ".$filename."...";
 		exec("cd /var/www/html/import/corpus; unzip -n -j ".$filename.";cd ..", $log1);
 		unlink("corpus/".$filename);
 	}
@@ -107,7 +117,7 @@ echo '<script>set_progress(7);</script>';
 // Step 2: Call Textimager
 echo "Analyze Texts...";
 putenv("SHELL=/bin/bash");
-exec("nohup java -jar textimager-CLI.jar -i 'corpus' --input-format TXT --input-language ".$lang." -output maintenance --output-format MEDIAWIKI -p 'LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService'", $log2);
+exec("nohup java -jar textimager-CLI.jar -i 'corpus' --input-format TXT --input-language ".$lang." -output maintenance --output-format MEDIAWIKI -p '$pipeline'", $log2);
 if(file_exists("maintenance/output.wiki.xml")){
 	echo "<b>done</b><br>";
 } else {
