@@ -134,7 +134,7 @@ wfLoadSkin( 'Vector' );
 wfLoadExtension( 'JsonConfig' );
 wfLoadExtension( 'Graph' );
 wfLoadExtension( 'Maps');
-require_once "$IP/extensions/MorphMarker/MorphMarker.php";
+require_once "$IP/extensions/MediaWikiAnnotator/MediaWikiAnnotator.php";
 require_once __DIR__ . '/extensions/Maps/Maps_Settings.php';
 
 # Enable Debuging (TODO: remove for release)

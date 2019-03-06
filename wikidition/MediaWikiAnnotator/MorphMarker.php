@@ -1,6 +1,6 @@
 <?php
 /**
- * MorphMarker Extension
+ * MediaWikiAnnotator Extension
  * Provides basic tooltips, and highlighting of word groups.
  *
  *
@@ -27,7 +27,7 @@ $dirbasename = basename( $dir );
 // CONFIGURATION                        //
 //////////////////////////////////////////
 
-$wgMorphMarkerSubmitText = 'NEW';
+$wgMediaWikiAnnotatorSubmitText = 'NEW';
 
 
 //////////////////////////////////////////
@@ -36,11 +36,11 @@ $wgMorphMarkerSubmitText = 'NEW';
 
 $wgExtensionCredits['other'][] = array(
    'path'           => __FILE__,
-   'name'           => 'MorphMarker',
+   'name'           => 'MediaWikiAnnotator',
    'author'         => array( 'Alex Hunziker', 'Hasanagha Mammadov', 'Text Technology Lab, University of Frankfurt' ),
    'version'        => '0.1',
    'url'            => 'https://www.texttechnologylab.org',
-   'descriptionmsg' => 'morphmarker-desc',
+   'descriptionmsg' => 'mediaWikiAnnotator-desc',
    'license-name'   => 'MIT'
 );
 
@@ -49,7 +49,7 @@ $wgExtensionCredits['other'][] = array(
 // RESOURCE LOADER                      //
 //////////////////////////////////////////
 
-$wgResourceModules['ext.MorphMarker'] = array(
+$wgResourceModules['ext.MediaWikiAnnotator'] = array(
    'scripts' => array(
       'lib/jquery.tooltipster.js',
       'lib/SimpleTooltip.js',
@@ -63,7 +63,7 @@ $wgResourceModules['ext.MorphMarker'] = array(
       // No dependencies
    ),
    'localBasePath' => __DIR__,
-   'remoteExtPath' => 'MorphMarker',
+   'remoteExtPath' => 'MediaWikiAnnotator',
 );
 
 
@@ -72,16 +72,16 @@ $wgResourceModules['ext.MorphMarker'] = array(
 //////////////////////////////////////////
 
 // Register i18n
-$wgMessagesDirs['MorphMarker'] = $dir . '/i18n';
-$wgExtensionMessagesFiles['MorphMarker'] = $dir . '/MorphMarker.i18n.php';
-$wgExtensionMessagesFiles['MorphMarkerMagic'] = $dir . '/MorphMarker.i18n.magic.php';
+$wgMessagesDirs['MediaWikiAnnotator'] = $dir . '/i18n';
+$wgExtensionMessagesFiles['MediaWikiAnnotator'] = $dir . '/MediaWikiAnnotator.i18n.php';
+$wgExtensionMessagesFiles['MediaWikiAnnotatorMagic'] = $dir . '/MediaWikiAnnotator.i18n.magic.php';
 
 // Register files
-$wgAutoloadClasses['MorphMarkerParserFunction'] = $dir . '/modules/MorphMarkerParserFunction.php';
+$wgAutoloadClasses['MediaWikiAnnotatorParserFunction'] = $dir . '/modules/MediaWikiAnnotatorParserFunction.php';
 
 // Register hooks
-$wgHooks['BeforePageDisplay'][] = 'MorphMarkerOnBeforePageDisplay';
-$wgHooks['ParserFirstCallInit'][] = 'MorphMarkerOnParserFirstCallInit';
+$wgHooks['BeforePageDisplay'][] = 'MediaWikiAnnotatorOnBeforePageDisplay';
+$wgHooks['ParserFirstCallInit'][] = 'MediaWikiAnnotatorOnParserFirstCallInit';
 
 
 
@@ -92,10 +92,10 @@ $wgHooks['ParserFirstCallInit'][] = 'MorphMarkerOnParserFirstCallInit';
 /**
 * Add libraries to resource loader
 */
-function MorphMarkerOnBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
+function MediaWikiAnnotatorOnBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
 
   // Add as ResourceLoader Module
-  $out->addModules('ext.MorphMarker');
+  $out->addModules('ext.MediaWikiAnnotator');
 
   return true;
 }
@@ -105,11 +105,11 @@ function MorphMarkerOnBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
 *
 * See also http://www.mediawiki.org/wiki/Manual:Parser_functions
 */
-function MorphMarkerOnParserFirstCallInit( &$parser ) {
+function MediaWikiAnnotatorOnParserFirstCallInit( &$parser ) {
 
   // Register parser functions
-  $parser->setFunctionHook('morph', 'MorphMarkerParserFunction::morphmarker');
-  $parser->setFunctionHook('tip-text', 'MorphMarkerParserFunction::morphmarker');
+  $parser->setFunctionHook('morph', 'MediaWikiAnnotatorParserFunction::mediaWikiAnnotator');
+  $parser->setFunctionHook('tip-text', 'MediaWikiAnnotatorParserFunction::mediaWikiAnnotator');
 
   return true;
 }

@@ -10,8 +10,8 @@
  * This shim maintains compatibility back to MediaWiki 1.17.
  */
 $messages = array();
-if ( !function_exists( 'wfJsonI18nShimMorphMarker' ) ) {
-   function wfJsonI18nShimMorphMarker( $cache, $code, &$cachedData ) {
+if ( !function_exists( 'wfJsonI18nShimMediaWikiAnnotator' ) ) {
+   function wfJsonI18nShimMediaWikiAnnotator( $cache, $code, &$cachedData ) {
        $codeSequence = array_merge( array( $code ), $cachedData['fallbackSequence'] );
        foreach ( $codeSequence as $csCode ) {
            $fileName = dirname( __FILE__ ) . "/i18n/$csCode.json";

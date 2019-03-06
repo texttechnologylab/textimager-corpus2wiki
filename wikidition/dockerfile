@@ -45,7 +45,7 @@ RUN set -x; \
 # Open Port
 EXPOSE 8080:80
 
-# Copy LocalSettings (Name is changed to trigger MW installation) 
+# Copy LocalSettings (Name is changed to trigger MW installation)
 COPY LocalSettings.php $MW_Home/DockerSettings.php
 
 # Now we add the custom composer file and install composer
@@ -58,7 +58,7 @@ COPY import $MW_Home/import
 RUN chmod 777 -R import
 
 # Copy custom extensions
-COPY MorphMarker $MW_Home/extensions/MorphMarker/
+COPY MediaWikiAnnotator $MW_Home/extensions/MediaWikiAnnotator/
 
 # Copy and run the config script
 COPY config.sh /config.sh
@@ -69,6 +69,3 @@ VOLUME ["$MW_Home/images", "$MW_Volume"]
 
 #RUN cd $MW_Home/maintenance \
 #	&&php update.php
-
-
-
