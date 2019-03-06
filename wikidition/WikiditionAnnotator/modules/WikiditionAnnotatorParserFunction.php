@@ -1,12 +1,12 @@
 <?php
 
 /**
- * MediaWikiAnnotator Parser Functions
+ * WikiditionAnnotator Parser Functions
  *
  * @file
  * @ingroup Extensions
  */
-class MediaWikiAnnotatorParserFunction {
+class WikiditionAnnotatorParserFunction {
 
     /**
      * Parser function handler for {{#tip-text: inline-text | tooltip-text | group_mark}}
@@ -16,7 +16,7 @@ class MediaWikiAnnotatorParserFunction {
      *
      * @return string: HTML to insert in the page.
      */
-    public static function mediaWikiAnnotator( $parser, $value /* arg2, arg3, */ ) {
+    public static function wikiditionAnnotator( $parser, $value /* arg2, arg3, */ ) {
 
         $args = array_slice( func_get_args(), 2 );
         $info = $args[0];

@@ -1,8 +1,8 @@
-# Morph Marker
+# Wikidition Annotator
 
-This Extension is based on the [MediaWiki Extension](https://www.mediawiki.org/wiki/Extension:SimpleTooltip). It provides basic tooltip support as well as text highlighting based on predefinded word groups.
+This Extension is based on the [MediaWiki Extension](https://www.mediawiki.org/wiki/Extension:SimpleTooltip). It provides tooltips for key-value-pair information about words and scentences. Furthermore it provides word highlighting according to assigned key values. 
 
-## Copyright 
+## Copyright
 
 Copyright (c) 2015 Simon Heimler for the original Tooltip Extension
 Copyright (c) 2018 [Text Technlogy Lab](https://www.texttechnologylab.org/"), Universitaet Frankfurt for the modifications

@@ -58,7 +58,7 @@ COPY import $MW_Home/import
 RUN chmod 777 -R import
 
 # Copy custom extensions
-COPY MediaWikiAnnotator $MW_Home/extensions/MediaWikiAnnotator/
+COPY WikiditionAnnotator $MW_Home/extensions/WikiditionAnnotator/
 
 # Copy and run the config script
 COPY config.sh /config.sh

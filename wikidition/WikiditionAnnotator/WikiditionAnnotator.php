@@ -1,6 +1,6 @@
 <?php
 /**
- * MediaWikiAnnotator Extension
+ * WikiditionAnnotator Extension
  * Provides basic tooltips, and highlighting of word groups.
  *
  *
@@ -27,7 +27,7 @@ $dirbasename = basename( $dir );
 // CONFIGURATION                        //
 //////////////////////////////////////////
 
-$wgMediaWikiAnnotatorSubmitText = 'NEW';
+$wgWikiditionAnnotatorSubmitText = 'NEW';
 
 
 //////////////////////////////////////////
@@ -36,11 +36,11 @@ $wgMediaWikiAnnotatorSubmitText = 'NEW';
 
 $wgExtensionCredits['other'][] = array(
    'path'           => __FILE__,
-   'name'           => 'MediaWikiAnnotator',
+   'name'           => 'WikiditionAnnotator',
    'author'         => array( 'Alex Hunziker', 'Hasanagha Mammadov', 'Text Technology Lab, University of Frankfurt' ),
    'version'        => '0.1',
    'url'            => 'https://www.texttechnologylab.org',
-   'descriptionmsg' => 'mediaWikiAnnotator-desc',
+   'descriptionmsg' => 'wikiditionAnnotator-desc',
    'license-name'   => 'MIT'
 );
 
@@ -49,7 +49,7 @@ $wgExtensionCredits['other'][] = array(
 // RESOURCE LOADER                      //
 //////////////////////////////////////////
 
-$wgResourceModules['ext.MediaWikiAnnotator'] = array(
+$wgResourceModules['ext.WikiditionAnnotator'] = array(
    'scripts' => array(
       'lib/jquery.tooltipster.js',
       'lib/SimpleTooltip.js',
@@ -63,7 +63,7 @@ $wgResourceModules['ext.MediaWikiAnnotator'] = array(
       // No dependencies
    ),
    'localBasePath' => __DIR__,
-   'remoteExtPath' => 'MediaWikiAnnotator',
+   'remoteExtPath' => 'WikiditionAnnotator',
 );
 
 
@@ -72,16 +72,16 @@ $wgResourceModules['ext.MediaWikiAnnotator'] = array(
 //////////////////////////////////////////
 
 // Register i18n
-$wgMessagesDirs['MediaWikiAnnotator'] = $dir . '/i18n';
-$wgExtensionMessagesFiles['MediaWikiAnnotator'] = $dir . '/MediaWikiAnnotator.i18n.php';
-$wgExtensionMessagesFiles['MediaWikiAnnotatorMagic'] = $dir . '/MediaWikiAnnotator.i18n.magic.php';
+$wgMessagesDirs['WikiditionAnnotator'] = $dir . '/i18n';
+$wgExtensionMessagesFiles['WikiditionAnnotator'] = $dir . '/WikiditionAnnotator.i18n.php';
+$wgExtensionMessagesFiles['WikiditionAnnotatorMagic'] = $dir . '/WikiditionAnnotator.i18n.magic.php';
 
 // Register files
-$wgAutoloadClasses['MediaWikiAnnotatorParserFunction'] = $dir . '/modules/MediaWikiAnnotatorParserFunction.php';
+$wgAutoloadClasses['WikiditionAnnotatorParserFunction'] = $dir . '/modules/WikiditionAnnotatorParserFunction.php';
 
 // Register hooks
-$wgHooks['BeforePageDisplay'][] = 'MediaWikiAnnotatorOnBeforePageDisplay';
-$wgHooks['ParserFirstCallInit'][] = 'MediaWikiAnnotatorOnParserFirstCallInit';
+$wgHooks['BeforePageDisplay'][] = 'WikiditionAnnotatorOnBeforePageDisplay';
+$wgHooks['ParserFirstCallInit'][] = 'WikiditionAnnotatorOnParserFirstCallInit';
 
 
 
@@ -92,10 +92,10 @@ $wgHooks['ParserFirstCallInit'][] = 'MediaWikiAnnotatorOnParserFirstCallInit';
 /**
 * Add libraries to resource loader
 */
-function MediaWikiAnnotatorOnBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
+function WikiditionAnnotatorOnBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
 
   // Add as ResourceLoader Module
-  $out->addModules('ext.MediaWikiAnnotator');
+  $out->addModules('ext.WikiditionAnnotator');
 
   return true;
 }
@@ -105,11 +105,11 @@ function MediaWikiAnnotatorOnBeforePageDisplay( OutputPage &$out, Skin &$skin ) 
 *
 * See also http://www.mediawiki.org/wiki/Manual:Parser_functions
 */
-function MediaWikiAnnotatorOnParserFirstCallInit( &$parser ) {
+function WikiditionAnnotatorOnParserFirstCallInit( &$parser ) {
 
   // Register parser functions
-  $parser->setFunctionHook('morph', 'MediaWikiAnnotatorParserFunction::mediaWikiAnnotator');
-  $parser->setFunctionHook('tip-text', 'MediaWikiAnnotatorParserFunction::mediaWikiAnnotator');
+  $parser->setFunctionHook('morph', 'WikiditionAnnotatorParserFunction::wikiditionAnnotator');
+  $parser->setFunctionHook('tip-text', 'WikiditionAnnotatorParserFunction::wikiditionAnnotator');
 
   return true;
 }
