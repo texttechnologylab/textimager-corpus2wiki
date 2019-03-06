@@ -19,15 +19,18 @@ class MorphMarkerParserFunction {
     public static function morphmarker( $parser, $value /* arg2, arg3, */ ) {
 
         $args = array_slice( func_get_args(), 2 );
-        $title = $args[0];
-	$morph = $args[1];
+        $info = $args[0];
+	      $morph = $args[1];
 
         //////////////////////////////////////////
         // BUILD HTML                           //
         //////////////////////////////////////////
 
+        $info = str_replace(",", "</td></tr><tr><td><b>", $info);
+        $info = str_replace(":", "</b></td><td>", $info);
+
         $html  = '<span class="simple-tooltip simple-tooltip-inline MORPH_' . $morph . '"';
-        $html .= ' data-simple-tooltip="' . htmlspecialchars(Sanitizer::removeHTMLtags($title)) . '"';
+        $html .= ' data-simple-tooltip="<table><tr><th colspan=2>'. $value. '</th></tr><tr><td><b>' . $info . '</td></tr></table>"';
         $html .= '>' . $value . '</span>';
 
         return array(
