@@ -14,7 +14,8 @@ if($lang == ""){
 	$default_lan = 1;
 }
 $DEFAULT_PIPELINES = [
-	"en" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer",
+	//"en" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer",
+	"en" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService",
 	"de" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService",
 ];
 if(array_key_exists($lang, $DEFAULT_PIPELINES)){
@@ -56,7 +57,7 @@ function print_log($log){
 	echo '<textarea cols="70" rows="8" style="overflow:auto;background-color:black;color:lime;">';
 	print_r($log);
 	echo '</textarea><br><br>';
-}	
+}
 
 disable_ob();
 
@@ -95,7 +96,7 @@ for($i=0;$i<$countfiles;$i++){
 		exec("cd /var/www/html/import/corpus; unzip -n -j ".$filename.";cd ..", $log1);
 		unlink("corpus/".$filename);
 	}
-} 
+}
 echo "Files to process: ".(count(scandir("corpus")) - 2)."...";
 echo "<b>done</b><br><script>set_progress(2);</script>";
 
