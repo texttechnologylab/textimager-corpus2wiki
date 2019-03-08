@@ -1,5 +1,5 @@
 <?php
-include 'TooltipParser.php'
+//include 'TooltipParser.php';
 
 /**
  * WikiditionAnnotator Parser Functions
@@ -7,7 +7,7 @@ include 'TooltipParser.php'
  * @file
  * @ingroup Extensions
  */
-class WikiditionAnnotatorScentenceFunction {
+class SentenceInformationParser {
 
     /**
      * Parser function handler for {{#sentence: sentence_id | START/END | attribute:value,...}}
@@ -40,7 +40,8 @@ class WikiditionAnnotatorScentenceFunction {
           $tooltip_title  = "Sentence #".$value;
           $value = "<sup>".$value."</sup>";
 
-          $html = TooltipParser::parseTooltip($value, $info, $title, "");
+          $html  = TooltipParser::parseTooltip($value, $info, $tooltip_title, "");
+          $html .= "</span>";
         }
 
         return array(

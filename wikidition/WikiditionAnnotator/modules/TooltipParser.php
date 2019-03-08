@@ -23,13 +23,13 @@ class TooltipParser {
        $info = str_replace(",", "</td></tr><tr><td><b>", $info);
        $info = str_replace(":", "</b></td><td>", $info);
 
-       $html  = '<span class="simple-tooltip simple-tooltip-inline '
+       $html  = '<span class="simple-tooltip simple-tooltip-inline ';
        $html .= $hilite_categories . '"';
        $html .= ' data-simple-tooltip="<table><tr><th colspan=2>';
-       $html .= $tooltip_title . '</th></tr><tr><td><b>' . $info . '</td></tr></table>"';
+       $html .= $title . '</th></tr><tr><td><b>' . $info . '</td></tr></table>"';
        $html .= '>' . $value . '</span>';
 
-       return html;
+       return $html;
 
     }
 

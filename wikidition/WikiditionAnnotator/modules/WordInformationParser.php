@@ -1,5 +1,5 @@
 <?php
-include 'TooltipParser.php'
+//include 'TooltipParser.php';
 
 /**
  * WikiditionAnnotator Parser Functions
@@ -7,7 +7,7 @@ include 'TooltipParser.php'
  * @file
  * @ingroup Extensions
  */
-class WikiditionAnnotatorParserFunction {
+class WordInformationParser {
 
     /**
      * Parser function handler for {{#word: theWord | attribute:value,...}}
@@ -19,7 +19,7 @@ class WikiditionAnnotatorParserFunction {
      */
    public static function parseWordInfo( $parser, $value ) {
 
-        $args = array_slice( func_get_args(), 1 );
+        $args = array_slice( func_get_args(), 2 );
         $info = $args[0];
 
         //////////////////////////////////////////
