@@ -1,11 +1,16 @@
 # Wikidition Annotator
 
-This Extension is based on the [MediaWiki Extension](https://www.mediawiki.org/wiki/Extension:SimpleTooltip). It provides tooltips for key-value-pair information about words and scentences. Furthermore it provides word highlighting according to assigned key values. 
+This Extension is based on the [MediaWiki Extension](https://www.mediawiki.org/wiki/Extension:SimpleTooltip). It provides tooltips for key-value-pair information about words, scentences and docuemnts. Furthermore it provides word highlighting according to assigned key values.
+
+The registered hooks are:
+- #word (for annotating a word)
+- #scentence (for a scentence annotation)
+- #infobox (for document annotations)
 
 ## Copyright
 
 Copyright (c) 2015 Simon Heimler for the original Tooltip Extension
-Copyright (c) 2018 [Text Technlogy Lab](https://www.texttechnologylab.org/"), Universitaet Frankfurt for the modifications
+Copyright (c) 2019 [Text Technlogy Lab](https://www.texttechnologylab.org/"), Universitaet Frankfurt for the modifications
 
 ## The MIT License (MIT)
 

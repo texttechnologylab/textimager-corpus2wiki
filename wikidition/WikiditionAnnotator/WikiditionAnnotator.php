@@ -58,6 +58,7 @@ $wgResourceModules['ext.WikiditionAnnotator'] = array(
    'styles' => array(
       'lib/tooltipster.css',
       'lib/SimpleTooltip.css',
+      'lib/infobox.css'
    ),
    'dependencies' => array(
       // No dependencies
@@ -78,6 +79,7 @@ $wgExtensionMessagesFiles['WikiditionAnnotatorMagic'] = $dir . '/WikiditionAnnot
 
 // Register files
 $wgAutoloadClasses['WikiditionAnnotatorParserFunction'] = $dir . '/modules/WikiditionAnnotatorParserFunction.php';
+$wgAutoloadClasses['TextInformationParser'] = $dir . '/modules/TextInformationParser.php';
 
 // Register hooks
 $wgHooks['BeforePageDisplay'][] = 'WikiditionAnnotatorOnBeforePageDisplay';
@@ -110,6 +112,7 @@ function WikiditionAnnotatorOnParserFirstCallInit( &$parser ) {
   // Register parser functions
   $parser->setFunctionHook('morph', 'WikiditionAnnotatorParserFunction::wikiditionAnnotator');
   $parser->setFunctionHook('tip-text', 'WikiditionAnnotatorParserFunction::wikiditionAnnotator');
+  $parser->setFunctionHook('textinfo', 'TextInformationParser::wikiditionTextInformation');
 
   return true;
 }

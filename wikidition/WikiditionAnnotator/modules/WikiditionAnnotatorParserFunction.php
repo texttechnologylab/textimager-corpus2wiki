@@ -45,6 +45,8 @@ class WikiditionAnnotatorParserFunction {
         $tooltip_title  = ($tip_type=="sentence" ? "Sentence #" : "");
         $tooltip_title .= $value;
 
+        $value = ($tip_type=="sentence") ? "<sup>".$value."</sup>" : $value;
+
         $html  = '<span class="simple-tooltip simple-tooltip-inline ' . $hilite_categories . '"';
         $html .= ' data-simple-tooltip="<table><tr><th colspan=2>'. $tooltip_title . '</th></tr><tr><td><b>' . $info . '</td></tr></table>"';
         $html .= '>' . $value . '</span>';
