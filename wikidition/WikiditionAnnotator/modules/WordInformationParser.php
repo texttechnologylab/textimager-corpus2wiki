@@ -1,22 +1,23 @@
 <?php
+include 'TooltipParser.php'
 
 /**
- * WikiditionAnnotator Document Information
+ * WikiditionAnnotator Parser Functions
  *
  * @file
  * @ingroup Extensions
  */
-class TextInformationParser {
+class WikiditionAnnotatorParserFunction {
 
     /**
-     * Parser function handler for {{#textinfo: foo:bar,foox:barx}}
+     * Parser function handler for {{#word: theWord | attribute:value,...}}
      *
      * @param Parser $parser
      * @param string $arg
      *
      * @return string: HTML to insert in the page.
      */
-   public static function parseTextInfo( $parser, $value) {
+   public static function parseWordInfo( $parser, $value ) {
 
         $args = array_slice( func_get_args(), 1 );
         $info = $args[0];
@@ -28,12 +29,15 @@ class TextInformationParser {
         $info = htmlspecialchars(Sanitizer::removeHTMLtags($info));
         $info = addslashes($info);
 
-        $info = str_replace(",", "</td></tr><tr><td><b>", $info);
-        $info = str_replace(":", "</b></td><td>", $info);
+        $hilite_categories = "";
+        $parts = explode(",", $info);
+        for($i=0; $i<sizeof($parts); $i++){
+          $this_part = explode(":", $parts[$i]);
+          if($this_part[0]=="lemma") continue;
+          $hilite_categories .= " MARK_" . $this_part[0] . "_" . $this_part[1];
+        }
 
-        $html  = '<table class="textinformation">';
-        $html .= '<tr><th colspan=2>Text Information</th></tr>';
-        $html .= '<tr><td><b>'.$info.'</td></tr></table>';
+        $html = TooltipParser::parseTooltip($value, $info, $value, $hilite_categories);
 
         return array(
             $html,

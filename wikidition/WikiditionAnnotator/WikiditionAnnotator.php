@@ -80,6 +80,10 @@ $wgExtensionMessagesFiles['WikiditionAnnotatorMagic'] = $dir . '/WikiditionAnnot
 // Register files
 $wgAutoloadClasses['WikiditionAnnotatorParserFunction'] = $dir . '/modules/WikiditionAnnotatorParserFunction.php';
 $wgAutoloadClasses['TextInformationParser'] = $dir . '/modules/TextInformationParser.php';
+$wgAutoloadClasses['ParagraphInformationParser'] = $dir . '/modules/ParagraphInformationParser.php';
+$wgAutoloadClasses['SentenceInformationParser'] = $dir . '/modules/SentenceInformationParser.php';
+$wgAutoloadClasses['WordInformationParser'] = $dir . '/modules/WordInformationParser.php';
+$wgAutoloadClasses['TooltipParser'] = $dir . '/modules/TooltipParser.php';
 
 // Register hooks
 $wgHooks['BeforePageDisplay'][] = 'WikiditionAnnotatorOnBeforePageDisplay';
@@ -110,9 +114,10 @@ function WikiditionAnnotatorOnBeforePageDisplay( OutputPage &$out, Skin &$skin )
 function WikiditionAnnotatorOnParserFirstCallInit( &$parser ) {
 
   // Register parser functions
-  $parser->setFunctionHook('morph', 'WikiditionAnnotatorParserFunction::wikiditionAnnotator');
-  $parser->setFunctionHook('tip-text', 'WikiditionAnnotatorParserFunction::wikiditionAnnotator');
-  $parser->setFunctionHook('textinfo', 'TextInformationParser::wikiditionTextInformation');
+  $parser->setFunctionHook('textinfo', 'TextInformationParser::parseTextInfo');
+  $parser->setFunctionHook('paragraph', 'ParagraphInformationParser::parseParagraphInfo');
+  $parser->setFunctionHook('sentence', 'SentenceInformationParser::parseSentenceInfo');
+  $parser->setFunctionHook('word', 'WordInformationParser::parseWordInfo');
 
   return true;
 }
