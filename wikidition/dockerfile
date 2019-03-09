@@ -17,6 +17,7 @@ RUN set -x; \
 	default-jdk \
 	nano \
 	unzip \
+	maven \
 	&& apt-get clean
 
 # Set MediaWiki Variables
@@ -39,9 +40,6 @@ RUN set -x; \
 	&& git clone --depth 1 https://github.com/wikimedia/mediawiki-extensions-Graph.git Graph\
 	&& git clone --depth 1 https://github.com/wikimedia/mediawiki-extensions-JsonConfig.git  JsonConfig
 
-#RUN set -x; \
-#	ls -al extensions
-
 # Open Port
 EXPOSE 8080:80
 
@@ -57,6 +55,19 @@ RUN wget https://getcomposer.org/composer.phar
 COPY import $MW_Home/import
 RUN chmod 777 -R import
 
+# Download and Build textimager CLI
+# This will clone the latest version of textimager-client; if it is broken, build will fail.
+RUN set -x; \
+	cd $MW_Home/import \
+	&& git clone --depth 1 https://github.com/texttechnologylab/textimager-client.git
+RUN set -x; \
+	cd $MW_Home/import \
+	&& cd textimager-client \
+	&& mvn install -DskipTests \
+	&& mv target/textimager-CLI.jar ../textimager-CLI.jar \
+	&& cd .. \
+	&& rm -r textimager-client
+
 # Copy custom extensions
 COPY WikiditionAnnotator $MW_Home/extensions/WikiditionAnnotator/
 
@@ -66,6 +77,3 @@ RUN chmod -v +x /config.sh
 CMD ["/config.sh"]
 
 VOLUME ["$MW_Home/images", "$MW_Volume"]
-
-#RUN cd $MW_Home/maintenance \
-#	&&php update.php
