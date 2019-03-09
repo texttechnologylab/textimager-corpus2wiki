@@ -29,19 +29,19 @@ class ParagraphInformationParser {
 
         $html = "";
 
-        if($switch == "START"){
-          $html = '<span class="PARAGRAPH_'.$value.'">';
+        if($switch == "END"){
+          $html = '</span>';
         }
 
-        if($switch == "END"){
+        if($switch == "START"){
           $info = htmlspecialchars(Sanitizer::removeHTMLtags($info));
           $info = addslashes($info);
 
           $tooltip_title  = "Paragraph ".$value;
-          $value = "<sup>".$value."</sup>";
+          $value = '<span style="background-color:#ddf;">('.$value.')</span>';
 
-          $html = TooltipParser::parseTooltip($value, $info, $tooltip_title, "");
-          $html .= "</span>";
+          $html  = '<span class="PARAGRAPH_'.$value.'">';
+          $html .= TooltipParser::parseTooltip($value, $info, $tooltip_title, "");
         }
 
         return array(
