@@ -15,8 +15,8 @@ if($lang == ""){
 }
 $DEFAULT_PIPELINES = [
 	//"en" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer",
-	"en" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService",
-	"de" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService",
+	"en" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService,MateMorphTagger",
+	"de" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService,MateMorphTagger",
 ];
 if(array_key_exists($lang, $DEFAULT_PIPELINES)){
 	$pipeline = $DEFAULT_PIPELINES[$lang];
@@ -25,32 +25,38 @@ if(array_key_exists($lang, $DEFAULT_PIPELINES)){
 	exit;
 }
 
-// tell php to automatically flush after every output
-// including lines of output produced by shell commands
-disable_ob();
+function liveExecuteCommand($cmd){
 
-function disable_ob() {
-    // Turn off output buffering
-    ini_set('output_buffering', 'off');
-    // Turn off PHP output compression
-    ini_set('zlib.output_compression', false);
-    // Implicitly flush the buffer(s)
-    ini_set('implicit_flush', true);
-    ob_implicit_flush(true);
-    // Clear, and turn off output buffering
-    while (ob_get_level() > 0) {
-        // Get the curent level
-        $level = ob_get_level();
-        // End the buffering
-        ob_end_clean();
-        // If the current level has not changed, abort
-        if (ob_get_level() == $level) break;
+    while (@ ob_end_flush()); // end all output buffers if any
+
+		echo '<div style="width:100%; font-family:Monospace; height:170px;overflow:auto;background-color:black;color:lime;">';
+
+    $proc = popen("$cmd 2>&1 ; echo Exit status : $?", 'r');
+
+    $live_output     = "";
+    $complete_output = "";
+
+    while (!feof($proc))
+    {
+        $live_output     = fread($proc, 4096);
+        $complete_output = $complete_output . $live_output;
+				$live_output = str_replace("\n", "<br>", $live_output);
+        echo "$live_output";
+        @ flush();
     }
-    // Disable apache output buffering/compression
-    if (function_exists('apache_setenv')) {
-        apache_setenv('no-gzip', '1');
-        apache_setenv('dont-vary', '1');
-    }
+
+    pclose($proc);
+
+    // get exit status
+    preg_match('/[0-9]+$/', $complete_output, $matches);
+
+		echo '</div><br><br>';
+
+    // return exit status and intended output
+    return array (
+                    'exit_status'  => intval($matches[0]),
+                    'output'       => str_replace("Exit status : " . $matches[0], '', $complete_output)
+                 );
 }
 
 function print_log($log){
@@ -59,13 +65,11 @@ function print_log($log){
 	echo '</textarea><br><br>';
 }
 
-disable_ob();
-
 // Page header
 echo '<!DOCTYPE html><html lang="en" ><head><meta charset="UTF-8"><title>Wikidition Importer</title><link rel="stylesheet" href="css/style.css"></head>';
 echo '<body><div class="content"><img src="logo.png" style="border:none">';
 echo '<h1>Wikidition Uploader</h1><h2>Step 2: Processing and Analyzing Files...</h2>';
-echo '<b>Please note</b>: This process may take a wile... Closing this window before the process is completed will abort the import.<br><br>';
+echo '<b>Please note</b>: This process may take a wile... Closing this window before the process is completed will abort the import.<br>';
 
 if($default_lan == 1){
 	echo 'Warning: No language settings found. English assumed...<br><br>';
@@ -118,14 +122,13 @@ echo '<script>set_progress(7);</script>';
 // Step 2: Call Textimager
 echo "Analyze Texts...";
 putenv("SHELL=/bin/bash");
-exec("nohup java -jar textimager-CLI.jar -i 'corpus' --input-format TXT --input-language ".$lang." -output maintenance --output-format MEDIAWIKI -p '$pipeline'", $log2);
+liveExecuteCommand("nohup java -jar textimager-CLI.jar -i 'corpus' --input-format TXT --input-language ".$lang." -output maintenance --output-format MEDIAWIKI -p '$pipeline'");
 if(file_exists("maintenance/output.wiki.xml")){
 	echo "<b>done</b><br>";
 } else {
 	echo "<b>failed</b><br>";
 	exit;
 }
-print_log($log2);
 echo '<script>set_progress(60);</script>';
 
 
@@ -134,20 +137,19 @@ echo "Prepare texts for Wikidition import...";
 exec("sed -i 's/<span class=\"sentence\">//g' maintenance/output.wiki.xml", $log31);
 exec("sed -i 's/<\/span>//g' maintenance/output.wiki.xml", $log32);
 exec("sed -i 's/Ä/\&#196;/g;s/Ö/\&#214;/g;s/Ü/\&#220;/g;s/ä/\&#228;/g;s/ö/\&#246;/g;s/ü/\&#252;/g;s/ß/\&#223;/g;' maintenance/output.wiki.xml", $log322);
-exec("javac Counter.java; wait; java Counter;wait", $log33);
-$log3 = array_merge($log31, $log32, $log33);
+$log3 = array_merge($log31, $log32);
 echo "<b>done</b><br>";
 if (!empty($playerlist)) {
      print_log($log3);
 }
+liveExecuteCommand("javac Counter.java; wait; java Counter;wait");
 echo '<script>set_progress(80);</script>';
 
 // Step 4: Import into Mediawiki
 echo "Import texts into Wikidition...";
-exec("php ../maintenance/importDump.php < maintenance/output.wiki.xml", $log4);
-exec("php ../maintenance/rebuildrecentchanges.php", $log5);
+liveExecuteCommand("php ../maintenance/importDump.php < maintenance/output.wiki.xml");
+liveExecuteCommand("php ../maintenance/rebuildrecentchanges.php");
 echo '<b>done</b><br>';
-print_log(array_merge($log4, $log5));
 echo '<script>set_progress(95);</script>';
 
 // Step 5: Clean up
