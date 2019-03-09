@@ -1,11 +1,34 @@
 # Wikidition Annotator
 
-This Extension is based on the [MediaWiki Extension](https://www.mediawiki.org/wiki/Extension:SimpleTooltip). It provides tooltips for key-value-pair information about words, scentences and docuemnts. Furthermore it provides word highlighting according to assigned key values.
+WikiditionAnnotator is a MediaWiki extension that can be used to Annotate Words, Sentences, Paragraphs and Texts with key-value pairs. It provides the following features:
 
-The registered hooks are:
-- #word (for annotating a word)
-- #scentence (for a scentence annotation)
-- #infobox (for document annotations)
+- Tool-tips with information about Words, Sentences and Paragraphs in tabular form
+- Info-box with information about the text
+- Function to mark Words based on their annotations
+
+The Extension is based on the [MediaWiki Extension](https://www.mediawiki.org/wiki/Extension:SimpleTooltip).
+
+
+## Registered Hooks
+
+The following hooks are registered by the extension and can be used with the shown syntax:
+
+- `{{#word: MyWord | attribute1:value1,attribute2:value2,...}}`
+- `{{#sentence: Nr | START}}`
+- `{{#sentence: Nr |END | attribute1:value1,attribute2:value2,...}}`
+- `{{#paragraph: Id |START | attribute1:value1,attribute2:value2,...}}`
+- `{{#paragraph: Id |END }}`
+- `{{#paragraph: Id |END }}`
+- `{{#textinfo: attribute1:value1,attribute2:value2,...}}`
+
+## Generated HTML
+The tags/hooks and their comprised information are converted to HTML for display.
+
+The generated HTML is for all information kinds (except text information) a <span>-Object which encloses the text displayed and also contains the table which is displayed in the tool-tip.
+
+The textinfo is just converted to a HTML table, that is displayed on the right side of the MediaWiki page.
+
+The paragraph and sentence hooks open, respectively, close a separate <span>-object, which have a distinct class name. This is done to keep the hierarchical structure, and thereby enclosing all the elements that belong to the sentence/paragraph.
 
 ## Copyright
 
