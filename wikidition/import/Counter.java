@@ -143,7 +143,7 @@ public class Counter{
 		
 		if(nextLine.contains("[[Category:DDC")) {
 			currLine = nextLine;
-			while(!nextLine.equals("</text>")) {
+			while(nextLine.contains("[[Category:DDC")) {
 				nextLine = br.readLine();
 			}
 		}
@@ -183,7 +183,7 @@ public class Counter{
 
     public static String prettyPrint(HashMap<String, Integer> map){
 	List<String> keys = new ArrayList<>(map.keySet());
-	String jsonReturn = "&lt;graph&gt;{ \"width\": 1000,\"height\": 200,\"padding\": {\"top\": 20, \"left\": 30, \"bottom\": 20, \"right\": 10},\"data\": [{\"name\": \"table\",\"values\": [";
+	String jsonReturn = "&lt;br&gt;&lt;graph&gt;{ \"width\": 1000,\"height\": 200,\"padding\": {\"top\": 20, \"left\": 30, \"bottom\": 20, \"right\": 10},\"data\": [{\"name\": \"table\",\"values\": [";
 	for(int i=0;i<keys.size();i++){
 	    if(i==0)
 		jsonReturn+= "{\"category\":\"" + keys.get(i) + "\",\"amount\":" + map.get(keys.get(i)) + "}";
