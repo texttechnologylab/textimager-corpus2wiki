@@ -38,13 +38,15 @@ public class Counter{
 				String currentTag;
 				//If the splited part has NE the tag is between "pos:" and ",NE"
 				//Else betwenn "pos:" and end of string 
-				if(currentLineArr[i].contains("NE:")){
-					currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf(",NE:"));
-
-				}else {
-					currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].length());
-
-				}
+				if(currentLineArr[i].contains("#word")){
+					if(currentLineArr[i].contains("NE:")){
+						currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf(",NE:"));
+	
+					}else {
+						currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].length());
+	
+					}
+				
 				//to save in HashMap for single page
 			    if(someText.containsKey(currentTag))
 				someText.put(currentTag, someText.get(currentTag) + 1);
@@ -55,6 +57,7 @@ public class Counter{
 				corpus.put(currentTag, corpus.get(currentTag) + 1);
 			    else 
 				corpus.put(currentTag, 1);
+				}
 			}//end for
 			currentLine = br.readLine();
 		    }//end if
