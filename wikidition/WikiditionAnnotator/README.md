@@ -6,7 +6,7 @@ WikiditionAnnotator is a MediaWiki extension that can be used to Annotate Words,
 - Info-box with information about the text
 - Function to mark Words based on their annotations
 
-The Extension is based on the [MediaWiki Extension](https://www.mediawiki.org/wiki/Extension:SimpleTooltip).
+The Extension is based on the Mediawiki Extension [Simple Tooltip](https://www.mediawiki.org/wiki/Extension:SimpleTooltip).
 
 
 ## Registered Hooks
@@ -15,10 +15,10 @@ The following hooks are registered by the extension and can be used with the sho
 
 - `{{#word: MyWord | attribute1:value1,attribute2:value2,...}}`
 - `{{#sentence: Nr | START}}`
-- `{{#sentence: Nr |END | attribute1:value1,attribute2:value2,...}}`
-- `{{#paragraph: Id |START | attribute1:value1,attribute2:value2,...}}`
-- `{{#paragraph: Id |END }}`
-- `{{#paragraph: Id |END }}`
+- `{{#sentence: Nr | END | attribute1:value1,attribute2:value2,...}}`
+- `{{#paragraph: Id | START | attribute1:value1,attribute2:value2,...}}`
+- `{{#paragraph: Id | END }}`
+- `{{#paragraph: Id | END }}`
 - `{{#textinfo: attribute1:value1,attribute2:value2,...}}`
 
 ## Generated HTML

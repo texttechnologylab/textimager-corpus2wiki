@@ -30,7 +30,7 @@ class ParagraphInformationParser {
         $html = "";
 
         if($switch == "END"){
-          $html = '</span>';
+          $html = '</span><br>';
         }
 
         if($switch == "START"){
@@ -40,7 +40,7 @@ class ParagraphInformationParser {
           $tooltip_title  = "Paragraph ".$value;
           $value_txt = '<span style="background-color:#ddd;">('.$value.')</span>';
 
-          $html  = '<span class="PARAGRAPH_'.$value.'">';
+          $html  = '<br><span class="PARAGRAPH_'.$value.'">';
           $html .= TooltipParser::parseTooltip($value_txt, $info, $tooltip_title, "");
         }
 

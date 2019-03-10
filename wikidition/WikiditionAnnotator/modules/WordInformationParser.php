@@ -28,6 +28,9 @@ class WordInformationParser {
 
         $info = htmlspecialchars(Sanitizer::removeHTMLtags($info));
         $info = addslashes($info);
+        $info = str_replace(array(":,", "::"), array(":&comma;", ":&colon;"), $info);
+
+        $value = str_replace(array("\"", '"'), "&quot;", $value);
 
         $hilite_categories = "";
         $parts = explode(",", $info);
