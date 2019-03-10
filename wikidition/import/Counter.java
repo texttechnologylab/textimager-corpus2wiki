@@ -19,6 +19,7 @@ public class Counter{
 	//the grapic at the ende of text will be created with this hash map 
 	List<HashMap<String,Integer>> texts = new ArrayList<HashMap<String,Integer>>();
 	HashMap<String, Integer> corpus = new HashMap<>();
+	String ddc_tags = "";
 	//Read till the end of Output file 
 	while(currentLine!=null){
 		//Local HashMap for loop 
@@ -46,7 +47,6 @@ public class Counter{
 						currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].length());
 	
 					}
-				
 				//to save in HashMap for single page
 			    if(someText.containsKey(currentTag))
 				someText.put(currentTag, someText.get(currentTag) + 1);
@@ -57,6 +57,11 @@ public class Counter{
 				corpus.put(currentTag, corpus.get(currentTag) + 1);
 			    else 
 				corpus.put(currentTag, 1);
+				}
+				if(currentLineArr[i].contains("DDC")){
+					if(!ddc_tags.contains(currentLineArr[i].substring(currentLineArr[i].indexOf("DDC:")+4,currentLineArr[i].length()))){
+						ddc_tags= ddc_tags +":"+ currentLineArr[i].substring(currentLineArr[i].indexOf("DDC:")+4,currentLineArr[i].length())+",";
+					}
 				}
 			}//end for
 			currentLine = br.readLine();
@@ -79,12 +84,12 @@ public class Counter{
 	//add the last page entry with data
 	texts.add(corpus);
 	//rewrite xml file
-	fileWrite(output, texts);
+	fileWrite(output, texts, ddc_tags);
 
     }
 	    
     //rewrites file with freqs from hashmap inbetween <text> </text> tags
-    public static void fileWrite(File origFile, List<HashMap<String,Integer>> maps) throws FileNotFoundException, IOException{
+    public static void fileWrite(File origFile, List<HashMap<String,Integer>> maps, String ddc_tags) throws FileNotFoundException, IOException{
 	//To rewrite output xml file, that got from MediaWikiWriter 
     BufferedReader br = new BufferedReader(new FileReader(origFile));
     //Create new file to copy at the end to original file 
@@ -101,6 +106,17 @@ public class Counter{
 		if(currLine.contains("xml:space")) {
 			currLine=currLine.replaceAll(" & "," and ");
 		}
+		if(currLine.contains("textinfo:")){
+			String[] currentLineArr2 = currLine.split("}}");
+			currLine="";
+			for(int i=0;i<currentLineArr2.length;i++){
+				String tempo="";
+				 if(currentLineArr2[i].contains("#textinfo:")) {
+				    	tempo= currentLineArr2[i]+"DDC"+ddc_tags;
+				    }
+				 currLine=currLine+tempo+"}}";
+			}
+		}
 		//Rewrite the tooltip-Tag 
 		// from  ",pos:whatever}}" to  ",pos:whatever|pos_whatever}}" 
 		// or from  ",pos:whatever,NE:LOCATION}}" to  ",pos:whatever,NE:Location|pos_whatever}}"
@@ -116,6 +132,7 @@ public class Counter{
 		    	//Read pos-Tag but this time for not summing up, but for rewriting for each Token
 			    String currentTag2; 
 			    if(currentLineArr2[i].contains("#word")) {
+			    	
 				    if(currentLineArr2[i].contains("NE:")){
 				    	currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].indexOf(",NE:"));
 	
@@ -126,9 +143,11 @@ public class Counter{
 				    //Creating the form {{#tip-text: whatever |lemma:whatever,pos:NNP,NE:LOCATION|pos_whatever}}
 				    //or {{#tip-text: whatever |lemma:whatever,pos:VBZ|pos_whatever}}
 				    tempo= currentLineArr2[i]+"|pos_"+currentTag2+"}}";
+				   
 			    }else {
 			    	tempo= currentLineArr2[i]+"}}";
-			    }
+			    } 
+			    
 			    //tempo= currentLineArr2[i]+"|pos_"+currentTag2+"}}";
 			    currLine=currLine+tempo+" ";
 			    //Saving Locations in Array
@@ -141,12 +160,12 @@ public class Counter{
 		    	}
 		}
 		
-		if(nextLine.contains("[[Category:DDC")) {
-			currLine = nextLine;
-			while(nextLine.contains("[[Category:DDC")) {
-				nextLine = br.readLine();
-			}
-		}
+		//if(nextLine.contains("[[Category:DDC")) {
+		//	currLine = nextLine;
+		//	while(nextLine.contains("[[Category:DDC")) {
+		//		nextLine = br.readLine();
+		//	}
+		//}
 		
 		// If the next line is </text> add Graph 
 	    if(nextLine.equals("</text>")){
