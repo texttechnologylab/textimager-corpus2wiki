@@ -111,24 +111,29 @@ public class Counter{
 		    	//Temporary file for saving strings for current line 
 		    	String tempo="";
 		    	//Read pos-Tag but this time for not summing up, but for rewriting for each Token
-			    String currentTag2;  
-			    if(currentLineArr2[i].contains("NE:")){
-			    	currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].indexOf(",NE:"));
-
-				}else {
-					currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].length());
-
-				}
-			    //Creating the form {{#tip-text: whatever |lemma:whatever,pos:NNP,NE:LOCATION|pos_whatever}}
-			    //or {{#tip-text: whatever |lemma:whatever,pos:VBZ|pos_whatever}}
-			    tempo= currentLineArr2[i]+"|pos_"+currentTag2+"}}";
+			    String currentTag2; 
+			    if(currentLineArr2[i].contains("#word")) {
+				    if(currentLineArr2[i].contains("NE:")){
+				    	currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].indexOf(",NE:"));
+	
+					}else {
+						currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].length());
+	
+					}
+				    //Creating the form {{#tip-text: whatever |lemma:whatever,pos:NNP,NE:LOCATION|pos_whatever}}
+				    //or {{#tip-text: whatever |lemma:whatever,pos:VBZ|pos_whatever}}
+				    tempo= currentLineArr2[i]+"|pos_"+currentTag2+"}}";
+			    }else {
+			    	tempo= currentLineArr2[i]+"}}";
+			    }
+			    //tempo= currentLineArr2[i]+"|pos_"+currentTag2+"}}";
 			    currLine=currLine+tempo+" ";
 			    //Saving Locations in Array
 					if(currentLineArr2[i].contains("LOCATION")) {
-						locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("text:")+5,currentLineArr2[i].indexOf(" |l"))+"~"+currentLineArr2[i].substring(currentLineArr2[i].indexOf("text:")+5,currentLineArr2[i].indexOf(" |l"));
+						locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+"~"+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"));
 			    	}
 					if(currentLineArr2[i].contains("I-LOC")) {
-						locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("text:")+5,currentLineArr2[i].indexOf(" |l"))+"~"+currentLineArr2[i].substring(currentLineArr2[i].indexOf("text:")+5,currentLineArr2[i].indexOf(" |l"));
+						locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+"~"+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"));
 			    	}
 		    	}
 		}
@@ -149,8 +154,6 @@ public class Counter{
 		if(!locations.isEmpty()){
 			currLine = currLine + "{{#display_map:" +locations+ "}}";
 		}
-		//To reset locations for the next text
-		locations = "";
 	    }
 	    //Continue to reading lines in output file 
 	    pw.println(currLine);
