@@ -178,6 +178,7 @@ public class Counter{
 		}
 	    }
 	    //Continue to reading lines in output file 
+	    currLine=currLine.replaceAll(" & "," and ");
 	    pw.println(currLine);
 	    currLine = nextLine;
 	    nextLine = br.readLine();
