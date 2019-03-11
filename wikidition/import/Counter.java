@@ -103,9 +103,9 @@ public class Counter{
 	String locations = "";
 	
 	while(nextLine!=null){
-		if(currLine.contains("xml:space")) {
-			currLine=currLine.replaceAll(" & "," and ");
-		}
+		//if(currLine.contains("xml:space")) {
+		//	currLine=currLine.replaceAll(" & "," and ");
+		//}
 		if(currLine.contains("textinfo:")){
 			String[] currentLineArr2 = currLine.split("}}");
 			currLine="";
@@ -178,7 +178,7 @@ public class Counter{
 		}
 	    }
 	    //Continue to reading lines in output file 
-	    currLine=currLine.replaceAll(" & "," and ");
+	    currLine=currLine.replaceAll(" & "," &#38; ");
 	    pw.println(currLine);
 	    currLine = nextLine;
 	    nextLine = br.readLine();
