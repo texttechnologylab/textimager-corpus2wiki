@@ -176,6 +176,8 @@ public class Counter{
 		if(!locations.isEmpty()){
 			currLine = currLine + "{{#display_map:" +locations+ "}}";
 		}
+		//To reset locations for the next text
+		locations = "";
 	    }
 	    //Continue to reading lines in output file 
 	    currLine=currLine.replaceAll(" & "," &#38; ");
