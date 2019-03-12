@@ -1,4 +1,14 @@
-var GeoViz = function(e) {
+// SO WHAT IS THIS???
+
+// This a modified version of the bundle.js from the GeoViz Project (16/17)
+// It is intended as a proof of concept regarding the integration of GeoViz
+// into the Wikidition Project
+
+// Most funcitonality of GeoViz has been disabled, or, due to a lack of availability
+// of data, not implemented for this demo.
+
+
+var GeoViz = function(e, data) {
     var t = {};
 
     function n(o) {
@@ -84,176 +94,6 @@ var GeoViz = function(e) {
             return L.popup().setLatLng(e).setContent(t).openOn(this.mapInstance)
         }
     }
-    class s {
-        static convertData(e) {
-            return console.log(e), {
-                Events: [{
-                    Id: "id:2",
-                    occurrences: [{
-                        source: {
-                            begin: 0,
-                            end: 32
-                        },
-                        persons: ["id:0"]
-                    }],
-                    location: ["id:1"],
-                    type: "point"
-                }, {
-                    Id: "id:999",
-                    occurrences: [{
-                        source: {
-                            begin: 0,
-                            end: 32
-                        },
-                        persons: ["id:0"]
-                    }],
-                    location: ["id:99"],
-                    type: "point"
-                }, {
-                    Id: "id:4",
-                    occurrences: [{
-                        source: {
-                            begin: 33,
-                            end: 74
-                        },
-                        persons: ["id:0"]
-                    }],
-                    location: ["id:1", "id:3"],
-                    type: "edge"
-                }, {
-                    Id: "id:8",
-                    occurrences: [{
-                        source: {
-                            begin: 75,
-                            end: 139
-                        },
-                        persons: ["id:0", "id:5", "id:6", "id:7"]
-                    }],
-                    location: ["id:3"],
-                    type: "point"
-                }],
-                Locations: [{
-                    Id: "id:1",
-                    source: {
-                        begin: 14,
-                        end: 19
-                    }
-                }, {
-                    Id: "id:3",
-                    source: {
-                        begin: 54,
-                        end: 63
-                    }
-                }, {
-                    Id: "id:99",
-                    source: {
-                        begin: 54,
-                        end: 63
-                    }
-                }],
-                Persons: [{
-                    source: {
-                        begin: 0,
-                        end: 5
-                    },
-                    Id: "id:0",
-                    displayName: "Pascal A.",
-                    forname: "Pascal",
-                    surname: "Adeberg"
-                }, {
-                    source: {
-                        begin: 79,
-                        end: 83
-                    },
-                    Id: "id:5",
-                    displayName: "Pedro",
-                    forname: "Pedro",
-                    surname: void 0
-                }, {
-                    source: {
-                        begin: 86,
-                        end: 90
-                    },
-                    Id: "id:6",
-                    displayName: "Lukas",
-                    forname: "Lukas",
-                    surname: void 0
-                }, {
-                    source: {
-                        begin: 96,
-                        end: 100
-                    },
-                    Id: "id:7",
-                    displayName: "Robin",
-                    forname: "Robin",
-                    surname: void 0
-                }],
-                Context: [{
-                    Id: "id:9",
-                    reference: "id:1",
-                    center: [50.23161452670807, 8.768849372863771],
-                    type: "geoJson",
-                    geoJson: {
-                        type: "Polygon",
-                        coordinates: [
-                            [
-                                [8.688465, 50.236651],
-                                [8.817679, 50.1985329],
-                                [8.8185946, 50.2114282],
-                                [8.6969239, 50.2504603],
-                                [8.688465, 50.236651]
-                            ]
-                        ]
-                    }
-                }, {
-                    Id: "id:9",
-                    reference: "id:3",
-                    center: [50.12228407229906, 8.646154403686525],
-                    type: "geoJson",
-                    geoJson: {
-                        type: "Polygon",
-                        coordinates: [
-                            [
-                                [8.5994166, 50.1140381],
-                                [8.6006126, 50.1120474],
-                                [8.6038263, 50.1072348],
-                                [8.6049185, 50.1056762],
-                                [8.6081404, 50.1054894],
-                                [8.612954, 50.1055512],
-                                [8.6126594, 50.1066861],
-                                [8.6158222, 50.1071152],
-                                [8.6171373, 50.1077047],
-                                [8.618812, 50.1075938]
-                            ]
-                        ]
-                    }
-                },{
-                    Id: "id:9",
-                    reference: "id:99",
-                    center: [50.22228407229906, 9.746154403686525],
-                    type: "geoJson",
-                    geoJson: {
-                        type: "Polygon",
-                        coordinates: [
-                            [
-                                [8.7994166, 50.1140381],
-                                [9.6006126, 50.1120474],
-                                [9.6038263, 50.1072348],
-                                [9.6049185, 50.1056762],
-                                [9.6081404, 50.1054894],
-                                [9.612954, 50.1055512],
-                                [9.6126594, 50.1066861],
-                                [9.6158222, 50.1071152],
-                                [8.6171373, 50.1077047],
-                                [8.618812, 50.1075938]
-                            ]
-                        ]
-                    }
-                }],
-                Text: "PLACEHOLDER"
-            }
-        }
-    }
     class i {
         constructor() {
             this.htmlElement = document.createElement("html"), this.htmlElement.title = "Popup", this.htmlElement.innerText = "Test"
@@ -323,17 +163,19 @@ var GeoViz = function(e) {
             this.htmlElement.style.display = "flex",
             this.htmlElement.style.flexFlow = "row wrap",
             this.htmlElement.style.alignItems = "center",
-            this.htmlTextElement = new r(e), // We don't want this in our demo
+            //this.htmlTextElement = new r(e), // We don't want this in our demo
             this.htmlMapElement = new a(e),
             this.mapInstance = new o(e + "map", t),
             this.mapInstance.onMapClick(this.onMapClicked.bind(this))
         }
         displayData(e) {
-            const t = s.convertData(e);
-            this.htmlTextElement.addText(t.Text), console.log(t.Text), this.parseData(t)
+            const t = mapData; //s.convertData(e);
+            //this.htmlTextElement.addText(t.Text),
+            //console.log(t.Text),
+            this.parseData(t)
         }
         onMapClicked(e) {
-            this.htmlTextElement.deselectPhrase()
+            //this.htmlTextElement.deselectPhrase()
         }
         parseData(e) {
             const t = new Map;
@@ -379,7 +221,8 @@ var GeoViz = function(e) {
                             maxHeight: 400
                         }).on("click", () => {
                             const e = n.occurrences[0].source;
-                            console.log("popup click", e.begin, e.end), this.htmlTextElement.selectPhrase(e.begin, e.end)
+                            console.log("popup click", e.begin, e.end)//,
+                            //this.htmlTextElement.selectPhrase(e.begin, e.end)
                         });
                         break;
                     case "point":
@@ -390,7 +233,7 @@ var GeoViz = function(e) {
                             maxHeight: 400
                         }).on("click", () => {
                             const e = n.occurrences[0].source;
-                            console.log("popup click", e.begin, e.end), this.htmlTextElement.selectPhrase(e.begin, e.end)
+                            console.log("popup click", e.begin, e.end)//, this.htmlTextElement.selectPhrase(e.begin, e.end)
                         });
                         break;
                     default:
@@ -404,7 +247,51 @@ var GeoViz = function(e) {
     })
 }]);
 
-console.log(this);
-var geovizTool = new GeoViz.MapTool('map');
+// Here we are building the data structure for GeoViz from the Data on the Wikidition Page
+
+var locationString = document.getElementById("mapdata").innerText
+var mapLocations = locationString.split(",")
+document.getElementById("mapdata").innerText = ""
+
+var mapData ={
+    Events: [],
+    Locations: [],
+    Persons: [],
+    Context: [],
+    Text: "PLACEHOLDER"
+}
+for(var i=0; i<mapLocations.length; i++){
+  mapData.Events.push({
+      Id: "id:"+i,
+      occurrences: [{
+          source: {},
+          persons: []
+      }],
+      location: ["id:"+i],
+      type: "point"
+  })
+}
+for(var i=0; i<mapLocations.length; i++){
+  mapData.Locations.push({
+          Id: "id:"+i,
+          source: {}
+      })
+}
+for(var i=0; i<mapLocations.length; i++){
+  mapData.Context.push({
+          Id: "id:"+i,
+          reference: "id:"+i,
+          center: mapLocations[i].split(":").map(x => parseFloat(x)),
+          type: "geoJson",
+          geoJson: {
+              type: "Polygon",
+              coordinates: [
+                  []
+              ]
+          }
+      })
+}
+console.log(mapData);
+var geovizTool = new GeoViz.MapTool('map', mapData);
 geovizTool.displayData(undefined, { multiLayers: true });
 //# sourceMappingURL=bundle.js.map
