@@ -250,7 +250,7 @@ var GeoViz = function(e) {
                         ]
                     }
                 }],
-                Text: "Pascal ist in Karben aufgewacht. Von dort ist er nach Bockenheim gefahren. Mit Pedro, Lukas und Robin hat er anschließen etwas präsentiert."
+                Text: "PLACEHOLDER"
             }
         }
     }
@@ -320,7 +320,13 @@ var GeoViz = function(e) {
     class c {
         constructor(e, t) {
             if (this.htmlElement = document.getElementById(e), null == this.htmlElement) throw `no html element with id '${e}' found`;
-            this.htmlElement.style.display = "flex", this.htmlElement.style.flexFlow = "row wrap", this.htmlElement.style.alignItems = "center", this.htmlTextElement = new r(e), this.htmlMapElement = new a(e), this.mapInstance = new o(e + "map", t), this.mapInstance.onMapClick(this.onMapClicked.bind(this))
+            this.htmlElement.style.display = "flex",
+            this.htmlElement.style.flexFlow = "row wrap",
+            this.htmlElement.style.alignItems = "center",
+            this.htmlTextElement = new r(e), // We don't want this in our demo
+            this.htmlMapElement = new a(e),
+            this.mapInstance = new o(e + "map", t),
+            this.mapInstance.onMapClick(this.onMapClicked.bind(this))
         }
         displayData(e) {
             const t = s.convertData(e);
@@ -397,4 +403,8 @@ var GeoViz = function(e) {
         return c
     })
 }]);
+
+console.log(this);
+var geovizTool = new GeoViz.MapTool('map');
+geovizTool.displayData(undefined, { multiLayers: true });
 //# sourceMappingURL=bundle.js.map
