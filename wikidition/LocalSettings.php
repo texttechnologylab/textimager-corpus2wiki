@@ -138,6 +138,7 @@ wfLoadExtension( 'JsonConfig' );
 wfLoadExtension( 'Graph' );
 wfLoadExtension( 'Maps');
 require_once "$IP/extensions/WikiditionAnnotator/WikiditionAnnotator.php";
+require_once "$IP/extensions/GeoViz/GeoViz.php";
 require_once __DIR__ . '/extensions/Maps/Maps_Settings.php';
 
 # Enable Debuging (TODO: remove for release)

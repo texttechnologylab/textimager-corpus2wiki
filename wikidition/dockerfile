@@ -70,6 +70,7 @@ RUN set -x; \
 
 # Copy custom extensions
 COPY WikiditionAnnotator $MW_Home/extensions/WikiditionAnnotator/
+COPY GeoViz $MW_Home/extensions/GeoViz/
 
 # Copy and run the config script
 COPY config.sh /config.sh
