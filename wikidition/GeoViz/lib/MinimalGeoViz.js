@@ -7,6 +7,8 @@
 // Most funcitonality of GeoViz has been disabled, or, due to a lack of availability
 // of data, not implemented for this demo.
 
+// We strongly recommend to exchange this file for a proper implementation.
+
 
 var GeoViz = function(e, data) {
     var t = {};
@@ -103,15 +105,9 @@ var GeoViz = function(e, data) {
             t.style.display = "inline-block";
             const n = document.createElement("body");
             n.style.height = "fit-content", n.style.width = "fit-content";
-            for (const t of e.occurrences) {
-                const e = i.createDetails(`${t.source.begin} - ${t.source.end}`),
-                    o = document.createElement("div");
-                for (const e of t.persons) {
-                    const t = i.createDetails(e);
-                    o.appendChild(t)
-                }
-                e.appendChild(o), n.appendChild(e)
-            }
+            console.log(e);
+            const u = i.createDetails(`${e.text}`);
+            n.appendChild(u);
             return t.appendChild(n), t
         }
         static createDetails(e) {
@@ -268,13 +264,14 @@ for(var i=0; i<mapLocations.length; i++){
           persons: []
       }],
       location: ["id:"+i],
-      type: "point"
+      type: "point",
+      text: "Default Location"
   })
 }
 for(var i=0; i<mapLocations.length; i++){
   mapData.Locations.push({
           Id: "id:"+i,
-          source: {}
+          source: {},
       })
 }
 for(var i=0; i<mapLocations.length; i++){
