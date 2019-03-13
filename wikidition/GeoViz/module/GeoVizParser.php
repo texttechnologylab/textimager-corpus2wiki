@@ -29,10 +29,12 @@ class GeoVizParser {
       $info = addslashes($info);
 
       $html  = '
+        <div style="visibility:hidden;">
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
         <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
         <script src="https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js"></script>
-        <link href="https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css" rel="stylesheet" />';
+        <link href="https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css" rel="stylesheet" />
+        </div>';
 
       $html .= '<div id="map" style="height: 500px; width: 100%; display: block;"></div><div id="mapdata">'.$info.'</div>';
 

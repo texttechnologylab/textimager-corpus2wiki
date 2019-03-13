@@ -61,7 +61,7 @@ var GeoViz = function(e, data) {
     class o {
         constructor(e, t) {
             t = t || {}, this.mapboxToken = "pk.eyJ1IjoiZGlya21leWVyIiwiYSI6ImNpa284YTgybTAwYWJ2cWxzdjB0bXk0eGoifQ.V_Iz6OIBEqZDf4rqVmsKAg", L.mapbox.accessToken = this.mapboxToken, this.mapInstance = L.mapbox.map(e, void 0, {
-                minZoom: t.minZoom || 5,
+                minZoom: t.minZoom || 1,
                 maxZoom: t.maxZoom || 18
             });
             const n = L.mapbox.tileLayer("mapbox.streets").addTo(this.mapInstance);
@@ -70,7 +70,7 @@ var GeoViz = function(e, data) {
                 Satellite: L.mapbox.tileLayer("mapbox.streets-satellite")
             }).addTo(this.mapInstance), t.minimap && new L.Control.MiniMap(L.mapbox.tileLayer("mapbox.streets"), {
                 toggleDisplay: !0
-            }).addTo(this.mapInstance), this.mapInstance.setView(t.initView || [50.108101, 8.68212], t.initZoom || 13)
+            }).addTo(this.mapInstance), this.mapInstance.setView(t.initView || [50.108101, 8.68212], t.initZoom || 2)
         }
         addMarker(e, t) {
             return L.marker(e, {
@@ -121,7 +121,7 @@ var GeoViz = function(e, data) {
     }
     class a {
         constructor(e) {
-            this.htmlElement = document.createElement("div"), this.htmlElement.style.height = "100%", this.htmlElement.style.width = "70%", this.htmlElement.id = e + "map";
+            this.htmlElement = document.createElement("div"), this.htmlElement.style.height = "100%", this.htmlElement.style.width = "100%", this.htmlElement.id = e + "map";
             const t = document.getElementById(e);
             t && t.appendChild(this.htmlElement)
         }
@@ -131,7 +131,7 @@ var GeoViz = function(e, data) {
             this.textcounter = 0, this.currentlyShowing = -1, this.loadedTexts = new Map, this.htmlElement = document.createElement("div"), this.customizeHtmlElements(e)
         }
         customizeHtmlElements(e) {
-            this.htmlElement.style.height = "100%", this.htmlElement.style.width = "30%", this.htmlElement.id = e + "text";
+            this.htmlElement.style.height = "100%", this.htmlElement.style.width = "0%", this.htmlElement.id = e + "text";
             const t = document.getElementById(e);
             t && t.appendChild(this.htmlElement)
         }
@@ -246,7 +246,7 @@ var GeoViz = function(e, data) {
 // Here we are building the data structure for GeoViz from the Data on the Wikidition Page
 
 var locationString = document.getElementById("mapdata").innerText
-var mapLocations = locationString.split(",")
+var mapLocations = locationString.split(":")
 document.getElementById("mapdata").innerText = ""
 
 var mapData ={
@@ -265,7 +265,7 @@ for(var i=0; i<mapLocations.length; i++){
       }],
       location: ["id:"+i],
       type: "point",
-      text: "Default Location"
+      text: mapLocations[i].split(", ")[2]
   })
 }
 for(var i=0; i<mapLocations.length; i++){
@@ -278,7 +278,7 @@ for(var i=0; i<mapLocations.length; i++){
   mapData.Context.push({
           Id: "id:"+i,
           reference: "id:"+i,
-          center: mapLocations[i].split(":").map(x => parseFloat(x)),
+          center: mapLocations[i].split(", ").slice(0,2).map(x => parseFloat(x)),
           type: "geoJson",
           geoJson: {
               type: "Polygon",
