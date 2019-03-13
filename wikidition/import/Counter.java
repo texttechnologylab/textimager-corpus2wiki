@@ -60,7 +60,7 @@ public class Counter{
 				}
 				if(currentLineArr[i].contains("DDC")){
 					if(!ddc_tags.contains(currentLineArr[i].substring(currentLineArr[i].indexOf("DDC:")+4,currentLineArr[i].length()))){
-						ddc_tags= ddc_tags +":"+ currentLineArr[i].substring(currentLineArr[i].indexOf("DDC:")+4,currentLineArr[i].length())+",";
+						ddc_tags= ddc_tags +":"+ currentLineArr[i].substring(currentLineArr[i].indexOf("DDC:")+4,currentLineArr[i].length()).replaceAll(",", " & ")+",";
 					}
 				}
 			}//end for
@@ -100,7 +100,8 @@ public class Counter{
 	String currLine = br.readLine();
 	String nextLine = br.readLine();
 	//String for Locations 
-	String locations = "";
+	//String locations = "";
+	String geovizLocations = ""; 
 	
 	while(nextLine!=null){
 		//if(currLine.contains("xml:space")) {
@@ -152,11 +153,13 @@ public class Counter{
 			    currLine=currLine+tempo+" ";
 			    //Saving Locations in Array
 					if(currentLineArr2[i].contains("LOCATION")) {
-						locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+"~"+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"));
-			    	}
+						//locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+"~"+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"));
+						geovizLocations = geovizLocations+"{{#geocode:location="+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+"|format=float|directional=no}}"+","+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+":";
+					}
 					if(currentLineArr2[i].contains("I-LOC")) {
-						locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+"~"+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"));
-			    	}
+						//locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+"~"+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"));
+						geovizLocations = geovizLocations+"{{#geocode:location="+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+"|format=float|directional=no}}"+","+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+":";
+					}
 		    	}
 		}
 		
@@ -173,11 +176,15 @@ public class Counter{
 		currLine = currLine + " " + prettyPrint(maps.get(hashMapCount));
 		hashMapCount++;
 		//Add Map to MediaWiki File if only there is any location in the text
-		if(!locations.isEmpty()){
-			currLine = currLine + "{{#display_map:" +locations+ "}}";
+		//if(!locations.isEmpty()){
+		//	currLine = currLine + "{{#display_map:" +locations+ "}}";
+		//}
+		if(!geovizLocations.isEmpty()){
+			currLine = currLine + "{{#geoviz: " +geovizLocations.substring(0, geovizLocations.length() - 1)+ "}}";
 		}
 		//To reset locations for the next text
-		locations = "";
+		//locations = "";
+		geovizLocations= "";
 	    }
 	    //Continue to reading lines in output file 
 	    currLine=currLine.replaceAll(" & "," &#38; ");
