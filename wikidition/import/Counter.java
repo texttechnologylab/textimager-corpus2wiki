@@ -29,9 +29,9 @@ public class Counter{
 	    while(!currentLine.contains("</page>")){
 	    	//If it contains pos, it must be saved 
 		    if(currentLine.contains("pos:")){
-		    //Split:  {{#tip-text: whatever |lemma:whatever,pos:NNP,NE:LOCATION
-		    //or {{#tip-text: whatever |lemma:whatever,pos:VBZ
-		    //TODO It could cause error, if {{#tip-text: }} |lemma:},pos:}}}}
+		    //Split:  {{#word: whatever |lemma:whatever,pos:NNP,NE:LOCATION
+		    //or {{#word: whatever |lemma:whatever,pos:VBZ
+		    //TODO It could cause error, if {{#word: }} |lemma:},pos:}}}}
 			String[] currentLineArr = currentLine.split("}} ");
 			//For each splited part
 			for(int i=0;i<currentLineArr.length;i++){
@@ -118,7 +118,7 @@ public class Counter{
 				 currLine=currLine+tempo+"}}";
 			}
 		}
-		//Rewrite the tooltip-Tag 
+		//Rewrite the word-Tag 
 		// from  ",pos:whatever}}" to  ",pos:whatever|pos_whatever}}" 
 		// or from  ",pos:whatever,NE:LOCATION}}" to  ",pos:whatever,NE:Location|pos_whatever}}"
 		if(currLine.contains("pos:")){
@@ -163,6 +163,7 @@ public class Counter{
 		    	}
 		}
 		
+		//To give DDC-Tag with the biggest score for the text (optional)
 		//if(nextLine.contains("[[Category:DDC")) {
 		//	currLine = nextLine;
 		//	while(nextLine.contains("[[Category:DDC")) {
@@ -180,6 +181,7 @@ public class Counter{
 		//	currLine = currLine + "{{#display_map:" +locations+ "}}";
 		//}
 		if(!geovizLocations.isEmpty()){
+			//Add GeoViz-Map to MediaWiki file
 			currLine = currLine + "{{#geoviz: " +geovizLocations.substring(0, geovizLocations.length() - 1)+ "}}";
 		}
 		//To reset locations for the next text
