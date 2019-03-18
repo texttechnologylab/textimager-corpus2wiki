@@ -9,7 +9,7 @@
 class GeoVizParser {
 
     /**
-     * Parser function handler for {{#sentence: sentence_id | START/END | attribute:value,...}}
+     * Parser function handler for {{#geoviz: lat,long,name:...}}
      *
      * @param Parser $parser
      * @param string $arg
