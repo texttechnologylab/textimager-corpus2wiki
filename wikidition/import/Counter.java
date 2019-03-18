@@ -123,6 +123,9 @@ public class Counter{
 				 currLine=currLine+tempo+"}}";
 			}
 		}
+		if(currLine.contains("paragraph:")){
+			currLine=currLine.replaceAll(","," & ");
+		}
 		//Rewrite the word-Tag 
 		// from  ",pos:whatever}}" to  ",pos:whatever|pos_whatever}}" 
 		// or from  ",pos:whatever,NE:LOCATION}}" to  ",pos:whatever,NE:Location|pos_whatever}}"
@@ -157,6 +160,7 @@ public class Counter{
 				   
 			    }else {
 			    	tempo= currentLineArr2[i]+"}}";
+			    	tempo=tempo.replaceAll(",", " & ");
 			    } 
 			    
 			    //tempo= currentLineArr2[i]+"|pos_"+currentTag2+"}}";
