@@ -1,8 +1,8 @@
-![Logo Wikidition][wikidition/logo.png]
+![Logo Wikidition](wikidition/logo.png)
 
 # wikidition
 
-![Screenshot][images/screenshot.png]
+![Screenshot](images/screenshot.png)
 
 Wikidition is based on MediaWiki and allows the vizualisation of word-, sentence-, paragraph- and text-information. It provides tooltips for all the information, supports graphical hilighting of word-based information, shows a histogram of POS-frequency and a map of the locations mentioned in the text.
 
@@ -14,7 +14,7 @@ An import form is provided for simple and automated document analysis and import
 
 1. Install [docker](https://www.docker.com/get-started) and [docker-compose](https://docs.docker.com/compose/install/)
 2. Download this repo
-3. Run installation, configuration and start containers by running `./wikidition.sh` (or alternatively `docker-compose -f stack.yml up`, if you want a newly compiled wikidition container, add --build)
+3. Run installation, configuration and start containers by running `./wikidition.sh` from the wikidition directory (or alternatively `docker-compose -f stack.yml up`, if you want a newly compiled wikidition container, add --build)
 
 Wikidition is now set up on port 8080 (default) with the following parameters:
 
@@ -33,7 +33,7 @@ Start containers by running `./wikidition.sh` (or alternatively `docker-compose 
 
 ## Add Files to Wikitition:
 
-<img align="right" src="images/import.png" alt="upload form">
+<img align="right" src="images/import.png" alt="upload form" width="100">
 
 1. Make sure the containers are running, then open your browser and go to localhost:8080/import (if accessing from remote, replace localhost with the appropiate ip-address/url)
 2. Select all the files you want to be analized and added to the Wikidition and select the appropriate settings
