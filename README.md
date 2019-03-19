@@ -1,10 +1,10 @@
 ![Logo Wikidition](wikidition/logo.png)
 
-# wikidition
-
-![Screenshot](images/screenshot.png)
+# Wikidition
 
 Wikidition is based on MediaWiki and allows the vizualisation of word-, sentence-, paragraph- and text-information. It provides tooltips for all the information, supports graphical hilighting of word-based information, shows a histogram of POS-frequency and a map of the locations mentioned in the text.
+
+![Screenshot](images/screenshot.png)
 
 The text analysis is made by the TextImager service provided by the Text Technology Lab (University of Frankfurt). Wikidition currently supports POS, MORPH, DDC, Lemma and NE information in German and English texts.
 
@@ -33,7 +33,7 @@ Start containers by running `./wikidition.sh` (or alternatively `docker-compose 
 
 ## Add Files to Wikitition:
 
-<img align="right" src="images/import.png" alt="upload form" width="100">
+<img align="right" src="images/import.png" alt="upload form" width="170">
 
 1. Make sure the containers are running, then open your browser and go to localhost:8080/import (if accessing from remote, replace localhost with the appropiate ip-address/url)
 2. Select all the files you want to be analized and added to the Wikidition and select the appropriate settings
