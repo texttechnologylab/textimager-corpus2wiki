@@ -20,6 +20,7 @@ public class Counter{
 	List<HashMap<String,Integer>> texts = new ArrayList<HashMap<String,Integer>>();
 	HashMap<String, Integer> corpus = new HashMap<>();
 	String ddc_tags = "";
+	List<String> ddc_texts = new ArrayList< String>();
 	//Read till the end of Output file 
 	while(currentLine!=null){
 		//Local HashMap for loop 
@@ -29,9 +30,9 @@ public class Counter{
 	    while(!currentLine.contains("</page>")){
 	    	//If it contains pos, it must be saved 
 		    if(currentLine.contains("pos:")){
-		    //Split:  {{#tip-text: whatever |lemma:whatever,pos:NNP,NE:LOCATION
-		    //or {{#tip-text: whatever |lemma:whatever,pos:VBZ
-		    //TODO It could cause error, if {{#tip-text: }} |lemma:},pos:}}}}
+		    //Split:  {{#word: whatever |lemma:whatever,pos:NNP,NE:LOCATION
+		    //or {{#word: whatever |lemma:whatever,pos:VBZ
+		    //TODO It could cause error, if {{#word: }} |lemma:},pos:}}}}
 			String[] currentLineArr = currentLine.split("}} ");
 			//For each splited part
 			for(int i=0;i<currentLineArr.length;i++){
@@ -76,6 +77,8 @@ public class Counter{
 	    if(currentLine==null)
 		break;
 	    texts.add(someText);
+	    ddc_texts.add(ddc_tags);
+	    ddc_tags = "";
 	    currentLine = br.readLine();
 	   
 	}//end outer while - lines
@@ -84,18 +87,19 @@ public class Counter{
 	//add the last page entry with data
 	texts.add(corpus);
 	//rewrite xml file
-	fileWrite(output, texts, ddc_tags);
+	fileWrite(output, texts, ddc_texts);
 
     }
 	    
     //rewrites file with freqs from hashmap inbetween <text> </text> tags
-    public static void fileWrite(File origFile, List<HashMap<String,Integer>> maps, String ddc_tags) throws FileNotFoundException, IOException{
+    public static void fileWrite(File origFile, List<HashMap<String,Integer>> maps, List<String> ddc_texts) throws FileNotFoundException, IOException{
 	//To rewrite output xml file, that got from MediaWikiWriter 
     BufferedReader br = new BufferedReader(new FileReader(origFile));
     //Create new file to copy at the end to original file 
 	File tmp = new File("./maintenance/tmp.xml");
 	PrintWriter pw = new PrintWriter(new FileWriter(tmp));
 	int hashMapCount=0;
+	int ddcCount=0;
 	//Processing the actual and next line 
 	String currLine = br.readLine();
 	String nextLine = br.readLine();
@@ -113,12 +117,16 @@ public class Counter{
 			for(int i=0;i<currentLineArr2.length;i++){
 				String tempo="";
 				 if(currentLineArr2[i].contains("#textinfo:")) {
-				    	tempo= currentLineArr2[i]+"DDC"+ddc_tags.substring(0, ddc_tags.length() - 1);
-				    }
+					 tempo= currentLineArr2[i]+"DDC"+ ddc_texts.get(ddcCount).substring(0, ddc_texts.get(ddcCount).length() - 1);
+					 ddcCount++;
+				 }
 				 currLine=currLine+tempo+"}}";
 			}
 		}
-		//Rewrite the tooltip-Tag 
+		if(currLine.contains("paragraph:")){
+			currLine=currLine.replaceAll(","," & ");
+		}
+		//Rewrite the word-Tag 
 		// from  ",pos:whatever}}" to  ",pos:whatever|pos_whatever}}" 
 		// or from  ",pos:whatever,NE:LOCATION}}" to  ",pos:whatever,NE:Location|pos_whatever}}"
 		if(currLine.contains("pos:")){
@@ -144,9 +152,15 @@ public class Counter{
 				    //Creating the form {{#tip-text: whatever |lemma:whatever,pos:NNP,NE:LOCATION|pos_whatever}}
 				    //or {{#tip-text: whatever |lemma:whatever,pos:VBZ|pos_whatever}}
 				    tempo= currentLineArr2[i]+"|pos_"+currentTag2+"}}";
+				    tempo=tempo.replaceAll("&", "&#38;");
+				    tempo=tempo.replaceAll("<", "&#60;");
+				    tempo=tempo.replaceAll(">", "&#62;");
+				    tempo=tempo.replaceAll("'", "&#39;");
+				    tempo=tempo.replaceAll("\"","&#34;");
 				   
 			    }else {
 			    	tempo= currentLineArr2[i]+"}}";
+			    	tempo=tempo.replaceAll(",", " & ");
 			    } 
 			    
 			    //tempo= currentLineArr2[i]+"|pos_"+currentTag2+"}}";
@@ -163,6 +177,7 @@ public class Counter{
 		    	}
 		}
 		
+		//To give DDC-Tag with the biggest score for the text (optional)
 		//if(nextLine.contains("[[Category:DDC")) {
 		//	currLine = nextLine;
 		//	while(nextLine.contains("[[Category:DDC")) {
@@ -180,6 +195,7 @@ public class Counter{
 		//	currLine = currLine + "{{#display_map:" +locations+ "}}";
 		//}
 		if(!geovizLocations.isEmpty()){
+			//Add GeoViz-Map to MediaWiki file
 			currLine = currLine + "{{#geoviz: " +geovizLocations.substring(0, geovizLocations.length() - 1)+ "}}";
 		}
 		//To reset locations for the next text
