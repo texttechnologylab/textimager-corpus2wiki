@@ -117,8 +117,10 @@ public class Counter{
 			for(int i=0;i<currentLineArr2.length;i++){
 				String tempo="";
 				 if(currentLineArr2[i].contains("#textinfo:")) {
-					 tempo= currentLineArr2[i]+"DDC"+ ddc_texts.get(ddcCount).substring(0, ddc_texts.get(ddcCount).length() - 1);
-					 ddcCount++;
+					 if(ddc_texts.get(ddcCount).length()>1){
+						 tempo= currentLineArr2[i]+"DDC"+ ddc_texts.get(ddcCount).substring(0, ddc_texts.get(ddcCount).length() - 1);
+					}
+					ddcCount++;
 				 }
 				 currLine=currLine+tempo+"}}";
 			}
