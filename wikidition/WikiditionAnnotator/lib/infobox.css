@@ -1,0 +1,25 @@
+.textinformation {
+  float:right;
+  border:1px;
+  border-color: #666;
+  border-style: solid;
+}
+
+.textinformation th {
+  background-color: #89d;
+  padding: 10px
+}
+
+.textinformation td {
+  padding: 10px;
+}
+
+.textinformation tr:nth-child(even){
+  background-color: #fff;
+  color:#333;
+}
+
+.textinformation tr:nth-child(odd){
+  background-color: #ccf;
+  color:#333;
+}

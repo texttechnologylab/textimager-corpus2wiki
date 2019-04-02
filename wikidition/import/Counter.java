@@ -19,6 +19,8 @@ public class Counter{
 	//the grapic at the ende of text will be created with this hash map 
 	List<HashMap<String,Integer>> texts = new ArrayList<HashMap<String,Integer>>();
 	HashMap<String, Integer> corpus = new HashMap<>();
+	String ddc_tags = "";
+	List<String> ddc_texts = new ArrayList< String>();
 	//Read till the end of Output file 
 	while(currentLine!=null){
 		//Local HashMap for loop 
@@ -28,9 +30,9 @@ public class Counter{
 	    while(!currentLine.contains("</page>")){
 	    	//If it contains pos, it must be saved 
 		    if(currentLine.contains("pos:")){
-		    //Split:  {{#tip-text: whatever |lemma:whatever,pos:NNP,NE:LOCATION
-		    //or {{#tip-text: whatever |lemma:whatever,pos:VBZ
-		    //TODO It could cause error, if {{#tip-text: }} |lemma:},pos:}}}}
+		    //Split:  {{#word: whatever |lemma:whatever,pos:NNP,NE:LOCATION
+		    //or {{#word: whatever |lemma:whatever,pos:VBZ
+		    //TODO It could cause error, if {{#word: }} |lemma:},pos:}}}}
 			String[] currentLineArr = currentLine.split("}} ");
 			//For each splited part
 			for(int i=0;i<currentLineArr.length;i++){
@@ -38,13 +40,14 @@ public class Counter{
 				String currentTag;
 				//If the splited part has NE the tag is between "pos:" and ",NE"
 				//Else betwenn "pos:" and end of string 
-				if(currentLineArr[i].contains("NE")){
-					currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf(",NE")-1);
-
-				}else {
-					currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].length());
-
-				}
+				if(currentLineArr[i].contains("#word")){
+					if(currentLineArr[i].contains("NE:")){
+						currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].indexOf(",NE:"));
+	
+					}else {
+						currentTag = currentLineArr[i].substring(currentLineArr[i].indexOf("pos:")+4,currentLineArr[i].length());
+	
+					}
 				//to save in HashMap for single page
 			    if(someText.containsKey(currentTag))
 				someText.put(currentTag, someText.get(currentTag) + 1);
@@ -55,6 +58,12 @@ public class Counter{
 				corpus.put(currentTag, corpus.get(currentTag) + 1);
 			    else 
 				corpus.put(currentTag, 1);
+				}
+				if(currentLineArr[i].contains("DDC")){
+					if(!ddc_tags.contains(currentLineArr[i].substring(currentLineArr[i].indexOf("DDC:")+4,currentLineArr[i].length()))){
+						ddc_tags= ddc_tags +":"+ currentLineArr[i].substring(currentLineArr[i].indexOf("DDC:")+4,currentLineArr[i].length()).replaceAll(",", " & ")+",";
+					}
+				}
 			}//end for
 			currentLine = br.readLine();
 		    }//end if
@@ -68,6 +77,8 @@ public class Counter{
 	    if(currentLine==null)
 		break;
 	    texts.add(someText);
+	    ddc_texts.add(ddc_tags);
+	    ddc_tags = "";
 	    currentLine = br.readLine();
 	   
 	}//end outer while - lines
@@ -76,26 +87,48 @@ public class Counter{
 	//add the last page entry with data
 	texts.add(corpus);
 	//rewrite xml file
-	fileWrite(output, texts);
+	fileWrite(output, texts, ddc_texts);
 
     }
 	    
     //rewrites file with freqs from hashmap inbetween <text> </text> tags
-    public static void fileWrite(File origFile, List<HashMap<String,Integer>> maps) throws FileNotFoundException, IOException{
+    public static void fileWrite(File origFile, List<HashMap<String,Integer>> maps, List<String> ddc_texts) throws FileNotFoundException, IOException{
 	//To rewrite output xml file, that got from MediaWikiWriter 
     BufferedReader br = new BufferedReader(new FileReader(origFile));
     //Create new file to copy at the end to original file 
 	File tmp = new File("./maintenance/tmp.xml");
 	PrintWriter pw = new PrintWriter(new FileWriter(tmp));
 	int hashMapCount=0;
+	int ddcCount=0;
 	//Processing the actual and next line 
 	String currLine = br.readLine();
 	String nextLine = br.readLine();
 	//String for Locations 
-	String locations = "";
+	//String locations = "";
+	String geovizLocations = ""; 
 	
 	while(nextLine!=null){
-		//Rewrite the tooltip-Tag 
+		//if(currLine.contains("xml:space")) {
+		//	currLine=currLine.replaceAll(" & "," and ");
+		//}
+		if(currLine.contains("textinfo:")){
+			String[] currentLineArr2 = currLine.split("}}");
+			currLine="";
+			for(int i=0;i<currentLineArr2.length;i++){
+				String tempo="";
+				 if(currentLineArr2[i].contains("#textinfo:")) {
+					 if(ddc_texts.get(ddcCount).length()>1){
+						 tempo= currentLineArr2[i]+"DDC"+ ddc_texts.get(ddcCount).substring(0, ddc_texts.get(ddcCount).length() - 1);
+					}
+					ddcCount++;
+				 }
+				 currLine=currLine+tempo+"}}";
+			}
+		}
+		if(currLine.contains("paragraph:")){
+			currLine=currLine.replaceAll(","," & ");
+		}
+		//Rewrite the word-Tag 
 		// from  ",pos:whatever}}" to  ",pos:whatever|pos_whatever}}" 
 		// or from  ",pos:whatever,NE:LOCATION}}" to  ",pos:whatever,NE:Location|pos_whatever}}"
 		if(currLine.contains("pos:")){
@@ -108,25 +141,51 @@ public class Counter{
 		    	//Temporary file for saving strings for current line 
 		    	String tempo="";
 		    	//Read pos-Tag but this time for not summing up, but for rewriting for each Token
-			    String currentTag2;  
-			    if(currentLineArr2[i].contains("NE")){
-			    	currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].indexOf(",NE")-1);
-
-				}else {
-					currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].length());
-
-				}
-			    //Creating the form {{#tip-text: whatever |lemma:whatever,pos:NNP,NE:LOCATION|pos_whatever}}
-			    //or {{#tip-text: whatever |lemma:whatever,pos:VBZ|pos_whatever}}
-			    tempo= currentLineArr2[i]+"|pos_"+currentTag2+"}}";
+			    String currentTag2; 
+			    if(currentLineArr2[i].contains("#word")) {
+			    	
+				    if(currentLineArr2[i].contains("NE:")){
+				    	currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].indexOf(",NE:"));
+	
+					}else {
+						currentTag2 = currentLineArr2[i].substring(currentLineArr2[i].indexOf("pos:")+4,currentLineArr2[i].length());
+	
+					}
+				    //Creating the form {{#tip-text: whatever |lemma:whatever,pos:NNP,NE:LOCATION|pos_whatever}}
+				    //or {{#tip-text: whatever |lemma:whatever,pos:VBZ|pos_whatever}}
+				    tempo= currentLineArr2[i]+"|pos_"+currentTag2+"}}";
+				    tempo=tempo.replaceAll("&", "&#38;");
+				    tempo=tempo.replaceAll("<", "&#60;");
+				    tempo=tempo.replaceAll(">", "&#62;");
+				    tempo=tempo.replaceAll("'", "&#39;");
+				    tempo=tempo.replaceAll("\"","&#34;");
+				   
+			    }else {
+			    	tempo= currentLineArr2[i]+"}}";
+			    	tempo=tempo.replaceAll(",", " & ");
+			    } 
+			    
+			    //tempo= currentLineArr2[i]+"|pos_"+currentTag2+"}}";
 			    currLine=currLine+tempo+" ";
 			    //Saving Locations in Array
 					if(currentLineArr2[i].contains("LOCATION")) {
-						locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("text:")+5,currentLineArr2[i].indexOf(" |l"));
-			    	}
+						//locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+"~"+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"));
+						geovizLocations = geovizLocations+"{{#geocode:location="+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+"|format=float|directional=no}}"+","+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+":";
+					}
+					if(currentLineArr2[i].contains("I-LOC")) {
+						//locations=locations+"; "+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+"~"+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"));
+						geovizLocations = geovizLocations+"{{#geocode:location="+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+"|format=float|directional=no}}"+","+currentLineArr2[i].substring(currentLineArr2[i].indexOf("#word:")+6,currentLineArr2[i].indexOf(" |l"))+":";
+					}
 		    	}
 		}
-
+		
+		//To give DDC-Tag with the biggest score for the text (optional)
+		//if(nextLine.contains("[[Category:DDC")) {
+		//	currLine = nextLine;
+		//	while(nextLine.contains("[[Category:DDC")) {
+		//		nextLine = br.readLine();
+		//	}
+		//}
 		
 		// If the next line is </text> add Graph 
 	    if(nextLine.equals("</text>")){
@@ -134,11 +193,19 @@ public class Counter{
 		currLine = currLine + " " + prettyPrint(maps.get(hashMapCount));
 		hashMapCount++;
 		//Add Map to MediaWiki File if only there is any location in the text
-		if(!locations.isEmpty()){
-			currLine = currLine + "{{#display_map:" +locations+"}}";
+		//if(!locations.isEmpty()){
+		//	currLine = currLine + "{{#display_map:" +locations+ "}}";
+		//}
+		if(!geovizLocations.isEmpty()){
+			//Add GeoViz-Map to MediaWiki file
+			currLine = currLine + "{{#geoviz: " +geovizLocations.substring(0, geovizLocations.length() - 1)+ "}}";
 		}
+		//To reset locations for the next text
+		//locations = "";
+		geovizLocations= "";
 	    }
 	    //Continue to reading lines in output file 
+	    currLine=currLine.replaceAll(" & "," &#38; ");
 	    pw.println(currLine);
 	    currLine = nextLine;
 	    nextLine = br.readLine();
@@ -163,7 +230,7 @@ public class Counter{
 
     public static String prettyPrint(HashMap<String, Integer> map){
 	List<String> keys = new ArrayList<>(map.keySet());
-	String jsonReturn = "&lt;graph&gt;{ \"width\": 1000,\"height\": 200,\"padding\": {\"top\": 20, \"left\": 30, \"bottom\": 20, \"right\": 10},\"data\": [{\"name\": \"table\",\"values\": [";
+	String jsonReturn = "&lt;br&gt;&lt;graph&gt;{ \"width\": 1000,\"height\": 200,\"padding\": {\"top\": 20, \"left\": 30, \"bottom\": 20, \"right\": 10},\"data\": [{\"name\": \"table\",\"values\": [";
 	for(int i=0;i<keys.size();i++){
 	    if(i==0)
 		jsonReturn+= "{\"category\":\"" + keys.get(i) + "\",\"amount\":" + map.get(keys.get(i)) + "}";
@@ -178,3 +245,6 @@ public class Counter{
     }
 
 }
+
+
+

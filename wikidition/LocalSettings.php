@@ -66,8 +66,11 @@ $wgDBprefix = "";
 $wgDBTableOptions = "ENGINE=InnoDB, DEFAULT CHARSET=binary";
 
 ## Shared memory settings
-$wgMainCacheType = CACHE_ACCEL;
-$wgMemCachedServers = [];
+## This disables all cache which is convenient for extension development
+$wgMainCacheType = CACHE_NONE;
+$wgMessageCacheType = CACHE_NONE;
+$wgParserCacheType = CACHE_NONE;
+$wgCachePages = false;
 
 ## To enable image uploads, make sure the 'images' directory
 ## is writable, then set this to true:
@@ -134,11 +137,11 @@ wfLoadSkin( 'Vector' );
 wfLoadExtension( 'JsonConfig' );
 wfLoadExtension( 'Graph' );
 wfLoadExtension( 'Maps');
-require_once "$IP/extensions/MorphMarker/MorphMarker.php";
+require_once "$IP/extensions/WikiditionAnnotator/WikiditionAnnotator.php";
+require_once "$IP/extensions/GeoViz/GeoViz.php";
 require_once __DIR__ . '/extensions/Maps/Maps_Settings.php';
 
 # Enable Debuging (TODO: remove for release)
-$wgShowExceptionDetails = true; 
+$wgShowExceptionDetails = true;
 $wgShowDBErrorBacktrace = true;
 $wgShowDebug = true;
-
