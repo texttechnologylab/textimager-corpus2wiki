@@ -36,7 +36,12 @@ class WordInformationParser {
         $parts = explode(",", $info);
         for($i=0; $i<sizeof($parts); $i++){
           $this_part = explode(":", $parts[$i]);
-          if($this_part[0]=="lemma") continue;
+          // add lemma to class
+          if($this_part[0]=="lemma"){
+            $hilite_categories .= " " . $this_part[0] . "_" . $this_part[1];
+            continue;
+          }
+          // Everything else with MARK_ so that it appears in the sidebar
           $hilite_categories .= " MARK_" . $this_part[0] . "_" . $this_part[1];
         }
 

@@ -228,8 +228,8 @@ var GeoViz = function(e, data) {
                             autoPan: !0,
                             maxHeight: 400
                         }).on("click", () => {
-                            const e = n.occurrences[0].source;
-                            console.log("popup click", e.begin, e.end)//, this.htmlTextElement.selectPhrase(e.begin, e.end)
+
+                            markText(n.text)
                         });
                         break;
                     default:
@@ -242,6 +242,20 @@ var GeoViz = function(e, data) {
         return c
     })
 }]);
+
+// New function to hilight according to lemma
+var lastLemma = ""
+function markText(lemma){
+  var remove = document.querySelectorAll('[class*="lemma_'+lastLemma+'"]')
+  for(var element of remove){
+    element.style.backgroundColor = ""
+  }
+  lastLemma = lemma
+  var hilight = document.querySelectorAll('[class*="lemma_'+lemma+'"]')
+  for(var element of hilight){
+    element.style.backgroundColor = "#ffaaaa"
+  }
+}
 
 // Here we are building the data structure for GeoViz from the Data on the Wikidition Page
 
