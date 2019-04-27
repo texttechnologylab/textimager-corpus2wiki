@@ -1,12 +1,12 @@
 <?php
 
 /**
- * WikiditionAnnotator Parser Functions
+ * Corpus2WikiAnnotator Parser Functions
  *
  * @file
  * @ingroup Extensions
  */
-class WikiditionAnnotatorParserFunction {
+class Corpus2WikiAnnotatorParserFunction {
 
     /**
      * Parser function handler for {{#tip-text: inline-text | tooltip-text | group_mark}}
@@ -16,7 +16,7 @@ class WikiditionAnnotatorParserFunction {
      *
      * @return string: HTML to insert in the page.
      */
-    public static function wikiditionAnnotator( $parser, $value /* arg2, arg3, */ ) {
+    public static function corpus2WikiAnnotator( $parser, $value /* arg2, arg3, */ ) {
 
         $args = array_slice( func_get_args(), 2 );
         $info = $args[0];

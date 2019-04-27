@@ -1,2 +1,2 @@
 This forlder contains xml files of the analyzed texts, that are to be imported to Mediawiki.
-It is the directory where the Wikidition Importer stores its temporary data.
+It is the directory where the Corpus2Wiki Importer stores its temporary data.

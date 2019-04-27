@@ -1,7 +1,7 @@
 <?php
 
 /**
- * WikiditionAnnotator Document Information
+ * Corpus2WikiAnnotator Document Information
  *
  * @file
  * @ingroup Extensions

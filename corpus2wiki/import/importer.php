@@ -1,5 +1,5 @@
 <?php
-// Importer.php, Wikidition
+// Importer.php, Corpus2Wiki
 // (c)2018 Text Technology Lab, Goethe University Frankfurt
 
 // Ensure that we are getting all Messages
@@ -66,9 +66,9 @@ function print_log($log){
 }
 
 // Page header
-echo '<!DOCTYPE html><html lang="en" ><head><meta charset="UTF-8"><title>Wikidition Importer</title><link rel="stylesheet" href="css/style.css"></head>';
+echo '<!DOCTYPE html><html lang="en" ><head><meta charset="UTF-8"><title>Corpus2Wiki Importer</title><link rel="stylesheet" href="css/style.css"></head>';
 echo '<body><div class="content"><img src="logo.png" style="border:none">';
-echo '<h1>Wikidition Uploader</h1><h2>Step 2: Processing and Analyzing Files...</h2>';
+echo '<h1>Corpus2Wiki Uploader</h1><h2>Step 2: Processing and Analyzing Files...</h2>';
 echo '<b>Please note</b>: This process may take a wile... Closing this window before the process is completed will abort the import.<br>';
 
 if($default_lan == 1){
@@ -89,7 +89,7 @@ echo '<script>
 // Step 0: Upload files to docker
 // Count total files
 $countfiles = count($_FILES['file']['name']);
-echo "Upload data to Wikidition ($countfiles files)...";
+echo "Upload data to Corpus2Wiki ($countfiles files)...";
 // Looping all files
 for($i=0;$i<$countfiles;$i++){
 	$filename = $_FILES['file']['name'][$i];
@@ -133,7 +133,7 @@ echo '<script>set_progress(60);</script>';
 
 
 // Step 3: Prepare for import
-echo "Prepare texts for Wikidition import...";
+echo "Prepare texts for Corpus2Wiki import...";
 exec("sed -i 's/<span class=\"sentence\">//g' maintenance/output.wiki.xml", $log31);
 exec("sed -i 's/<\/span>//g' maintenance/output.wiki.xml", $log32);
 exec("sed -i 's/Ä/\&#196;/g;s/Ö/\&#214;/g;s/Ü/\&#220;/g;s/ä/\&#228;/g;s/ö/\&#246;/g;s/ü/\&#252;/g;s/ß/\&#223;/g;' maintenance/output.wiki.xml", $log322);
@@ -146,7 +146,7 @@ liveExecuteCommand("javac Counter.java; wait; java Counter;wait");
 echo '<script>set_progress(80);</script>';
 
 // Step 4: Import into Mediawiki
-echo "Import texts into Wikidition...";
+echo "Import texts into Corpus2Wiki...";
 liveExecuteCommand("php ../maintenance/importDump.php < maintenance/output.wiki.xml");
 liveExecuteCommand("php ../maintenance/rebuildrecentchanges.php");
 echo '<b>done</b><br>';
@@ -163,7 +163,7 @@ echo '<script>set_progress(100);</script>';
 
 // All done.
 echo '<p style="color:green;"><b>Input procedure terminated</b></p>';
-echo '<p>All documents that were processed sucessfully are now available in the <a href="http://localhost:8080/index.php/Special:AllPages"><b>Wikidition</b></a></p>';
+echo '<p>All documents that were processed sucessfully are now available in the <a href="http://localhost:8080/index.php/Special:AllPages"><b>Corpus2Wiki</b></a></p>';
 
 
 ?>

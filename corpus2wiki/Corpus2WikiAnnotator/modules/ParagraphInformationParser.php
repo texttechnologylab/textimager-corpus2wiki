@@ -2,7 +2,7 @@
 //Sinclude 'TooltipParser.php';
 
 /**
- * WikiditionAnnotator Parser Functions
+ * Corpus2WikiAnnotator Parser Functions
  *
  * @file
  * @ingroup Extensions

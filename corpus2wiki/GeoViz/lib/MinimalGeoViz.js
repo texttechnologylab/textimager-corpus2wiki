@@ -2,7 +2,7 @@
 
 // This a modified version of the bundle.js from the GeoViz Project (16/17)
 // It is intended as a proof of concept regarding the integration of GeoViz
-// into the Wikidition Project
+// into the Corpus2Wiki Project
 
 // Most funcitonality of GeoViz has been disabled, or, due to a lack of availability
 // of data, not implemented for this demo.
@@ -257,7 +257,7 @@ function markText(lemma){
   }
 }
 
-// Here we are building the data structure for GeoViz from the Data on the Wikidition Page
+// Here we are building the data structure for GeoViz from the Data on the Corpus2Wiki Page
 
 var locationString = document.getElementById("mapdata").innerText
 var mapLocations = locationString.split(":")

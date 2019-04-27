@@ -1,7 +1,7 @@
 <?php
-# This file will be copied to the Mediawiki Instance used by wikidition.
+# This file will be copied to the Mediawiki Instance used by Corpus2Wiki.
 # Make all changes to LocalSettings here. If you want this file to be reloaded
-# wikidition container must be rebuilt (use --build flag)
+# Corpus2Wiki container must be rebuilt (use --build flag)
 #
 # See includes/DefaultSettings.php for all configurable settings
 # and their default values, but don't forget to make changes in _this_
@@ -19,7 +19,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 ## Uncomment this to disable output compression
 # $wgDisableOutputCompression = true;
 
-$wgSitename = "Wikidition";
+$wgSitename = "Corpus2Wiki";
 
 ## The URL base path to the directory containing the wiki;
 ## defaults for all runtime URL paths are based off of this.
@@ -137,7 +137,7 @@ wfLoadSkin( 'Vector' );
 wfLoadExtension( 'JsonConfig' );
 wfLoadExtension( 'Graph' );
 wfLoadExtension( 'Maps');
-require_once "$IP/extensions/WikiditionAnnotator/WikiditionAnnotator.php";
+require_once "$IP/extensions/Corpus2WikiAnnotator/Corpus2WikiAnnotator.php";
 require_once "$IP/extensions/GeoViz/GeoViz.php";
 require_once __DIR__ . '/extensions/Maps/Maps_Settings.php';
 

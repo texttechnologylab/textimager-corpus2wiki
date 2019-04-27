@@ -69,7 +69,7 @@ RUN set -x; \
 	&& rm -r textimager-client
 
 # Copy custom extensions
-COPY WikiditionAnnotator $MW_Home/extensions/WikiditionAnnotator/
+COPY Corpus2WikiAnnotator $MW_Home/extensions/Corpus2WikiAnnotator/
 COPY GeoViz $MW_Home/extensions/GeoViz/
 
 # Copy and run the config script

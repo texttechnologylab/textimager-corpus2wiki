@@ -14,17 +14,17 @@ services:
       MYSQL_PASSWORD: wikidbpw
       MYSQL_ROOT_PASSWORD: wikiexporterpw
     container_name: mariadb
-  wikidition:
+  corpus2wiki:
     build:
-      context: ./wikidition
+      context: ./corpus2wiki
       dockerfile: dockerfile
     restart: always
     links:
       - database
     ports:
       - 8080:80
-    container_name: wikidition
-    environment: 
+    container_name: corpus2wiki
+    environment:
       - MW_SITE_NAME=MediaWiki
       - MW_SITE_LANG=en
       - MW_DEFAULT_SKIN=vector
@@ -39,4 +39,3 @@ services:
       - MW_DB_INSTALLDB_PASS=wikiexporterpw
       - MW_AUTOUPDATE=true
       - MW_MAIN_CACHE_TYPE=None
-
