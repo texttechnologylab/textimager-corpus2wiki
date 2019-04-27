@@ -1,13 +1,11 @@
-// SO WHAT IS THIS???
-
 // This a modified version of the bundle.js from the GeoViz Project (16/17)
 // It is intended as a proof of concept regarding the integration of GeoViz
 // into the Corpus2Wiki Project
 
 // Most funcitonality of GeoViz has been disabled, or, due to a lack of availability
-// of data, not implemented for this demo.
+// of data, not implemented for this version.
 
-// We strongly recommend to exchange this file for a proper implementation.
+// For a fully fledged integration, this component needs to be refactored.
 
 
 var GeoViz = function(e, data) {
