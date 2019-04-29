@@ -1,13 +1,11 @@
-// SO WHAT IS THIS???
-
 // This a modified version of the bundle.js from the GeoViz Project (16/17)
 // It is intended as a proof of concept regarding the integration of GeoViz
-// into the Wikidition Project
+// into the Corpus2Wiki Project
 
 // Most funcitonality of GeoViz has been disabled, or, due to a lack of availability
-// of data, not implemented for this demo.
+// of data, not implemented for this version.
 
-// We strongly recommend to exchange this file for a proper implementation.
+// For a fully fledged integration, this component needs to be refactored.
 
 
 var GeoViz = function(e, data) {
@@ -228,8 +226,8 @@ var GeoViz = function(e, data) {
                             autoPan: !0,
                             maxHeight: 400
                         }).on("click", () => {
-                            const e = n.occurrences[0].source;
-                            console.log("popup click", e.begin, e.end)//, this.htmlTextElement.selectPhrase(e.begin, e.end)
+
+                            markText(n.text)
                         });
                         break;
                     default:
@@ -243,7 +241,21 @@ var GeoViz = function(e, data) {
     })
 }]);
 
-// Here we are building the data structure for GeoViz from the Data on the Wikidition Page
+// New function to hilight according to lemma
+var lastLemma = ""
+function markText(lemma){
+  var remove = document.querySelectorAll('[class*="lemma_'+lastLemma+'"]')
+  for(var element of remove){
+    element.style.backgroundColor = ""
+  }
+  lastLemma = lemma
+  var hilight = document.querySelectorAll('[class*="lemma_'+lemma+'"]')
+  for(var element of hilight){
+    element.style.backgroundColor = "#ffaaaa"
+  }
+}
+
+// Here we are building the data structure for GeoViz from the Data on the Corpus2Wiki Page
 
 var locationString = document.getElementById("mapdata").innerText
 var mapLocations = locationString.split(":")

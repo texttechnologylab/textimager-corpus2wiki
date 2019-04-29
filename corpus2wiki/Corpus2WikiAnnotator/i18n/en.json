@@ -6,5 +6,5 @@
 			"Text Technology Lab, Goethe Universitaet Frankfurt"
 		]
 	},
-	"wikiditionAnnotator-desc": "{{desc|name=wikiditionAnnotator|url=https://www.texttechnologylab.org}}"
+	"corpus2WikiAnnotator-desc": "Provides tooltips and text hilighting functionality"
 }

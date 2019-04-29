@@ -1,6 +1,6 @@
-# Wikidition Annotator
+# Corpus2Wiki Annotator
 
-WikiditionAnnotator is a MediaWiki extension that can be used to Annotate Words, Sentences, Paragraphs and Texts with key-value pairs. It provides the following features:
+Corpus2WikiAnnotator is a MediaWiki extension that can be used to Annotate Words, Sentences, Paragraphs and Texts with key-value pairs. It provides the following features:
 
 - Tool-tips with information about Words, Sentences and Paragraphs in tabular form
 - Info-box with information about the text

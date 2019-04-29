@@ -1,6 +1,6 @@
 <?php
 /**
- * WikiditionAnnotator Extension
+ * Corpus2WikiAnnotator Extension
  * Provides basic tooltips, and highlighting of word groups.
  *
  *
@@ -27,7 +27,7 @@ $dirbasename = basename( $dir );
 // CONFIGURATION                        //
 //////////////////////////////////////////
 
-$wgWikiditionAnnotatorSubmitText = 'NEW';
+$wgCorpus2WikiAnnotatorSubmitText = 'NEW';
 
 
 //////////////////////////////////////////
@@ -36,11 +36,11 @@ $wgWikiditionAnnotatorSubmitText = 'NEW';
 
 $wgExtensionCredits['other'][] = array(
    'path'           => __FILE__,
-   'name'           => 'WikiditionAnnotator',
+   'name'           => 'Corpus2WikiAnnotator',
    'author'         => array( 'Alex Hunziker', 'Hasanagha Mammadov', 'Text Technology Lab, University of Frankfurt' ),
    'version'        => '0.1',
    'url'            => 'https://www.texttechnologylab.org',
-   'descriptionmsg' => 'wikiditionAnnotator-desc',
+   'descriptionmsg' => 'corpus2WikiAnnotator-desc',
    'license-name'   => 'MIT'
 );
 
@@ -49,7 +49,7 @@ $wgExtensionCredits['other'][] = array(
 // RESOURCE LOADER                      //
 //////////////////////////////////////////
 
-$wgResourceModules['ext.WikiditionAnnotator'] = array(
+$wgResourceModules['ext.Corpus2WikiAnnotator'] = array(
    'scripts' => array(
       'lib/jquery.tooltipster.js',
       'lib/SimpleTooltip.js',
@@ -64,7 +64,7 @@ $wgResourceModules['ext.WikiditionAnnotator'] = array(
       // No dependencies
    ),
    'localBasePath' => __DIR__,
-   'remoteExtPath' => 'WikiditionAnnotator',
+   'remoteExtPath' => 'Corpus2WikiAnnotator',
 );
 
 
@@ -73,12 +73,12 @@ $wgResourceModules['ext.WikiditionAnnotator'] = array(
 //////////////////////////////////////////
 
 // Register i18n
-$wgMessagesDirs['WikiditionAnnotator'] = $dir . '/i18n';
-$wgExtensionMessagesFiles['WikiditionAnnotator'] = $dir . '/WikiditionAnnotator.i18n.php';
-$wgExtensionMessagesFiles['WikiditionAnnotatorMagic'] = $dir . '/WikiditionAnnotator.i18n.magic.php';
+$wgMessagesDirs['Corpus2WikiAnnotator'] = $dir . '/i18n';
+$wgExtensionMessagesFiles['Corpus2WikiAnnotator'] = $dir . '/Corpus2WikiAnnotator.i18n.php';
+$wgExtensionMessagesFiles['Corpus2WikiAnnotatorMagic'] = $dir . '/Corpus2WikiAnnotator.i18n.magic.php';
 
 // Register files
-$wgAutoloadClasses['WikiditionAnnotatorParserFunction'] = $dir . '/modules/WikiditionAnnotatorParserFunction.php';
+$wgAutoloadClasses['Corpus2WikiAnnotatorParserFunction'] = $dir . '/modules/Corpus2WikiAnnotatorParserFunction.php';
 $wgAutoloadClasses['TextInformationParser'] = $dir . '/modules/TextInformationParser.php';
 $wgAutoloadClasses['ParagraphInformationParser'] = $dir . '/modules/ParagraphInformationParser.php';
 $wgAutoloadClasses['SentenceInformationParser'] = $dir . '/modules/SentenceInformationParser.php';
@@ -86,8 +86,8 @@ $wgAutoloadClasses['WordInformationParser'] = $dir . '/modules/WordInformationPa
 $wgAutoloadClasses['TooltipParser'] = $dir . '/modules/TooltipParser.php';
 
 // Register hooks
-$wgHooks['BeforePageDisplay'][] = 'WikiditionAnnotatorOnBeforePageDisplay';
-$wgHooks['ParserFirstCallInit'][] = 'WikiditionAnnotatorOnParserFirstCallInit';
+$wgHooks['BeforePageDisplay'][] = 'Corpus2WikiAnnotatorOnBeforePageDisplay';
+$wgHooks['ParserFirstCallInit'][] = 'Corpus2WikiAnnotatorOnParserFirstCallInit';
 
 
 
@@ -98,10 +98,10 @@ $wgHooks['ParserFirstCallInit'][] = 'WikiditionAnnotatorOnParserFirstCallInit';
 /**
 * Add libraries to resource loader
 */
-function WikiditionAnnotatorOnBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
+function Corpus2WikiAnnotatorOnBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
 
   // Add as ResourceLoader Module
-  $out->addModules('ext.WikiditionAnnotator');
+  $out->addModules('ext.Corpus2WikiAnnotator');
 
   return true;
 }
@@ -111,7 +111,7 @@ function WikiditionAnnotatorOnBeforePageDisplay( OutputPage &$out, Skin &$skin )
 *
 * See also http://www.mediawiki.org/wiki/Manual:Parser_functions
 */
-function WikiditionAnnotatorOnParserFirstCallInit( &$parser ) {
+function Corpus2WikiAnnotatorOnParserFirstCallInit( &$parser ) {
 
   // Register parser functions
   $parser->setFunctionHook('textinfo', 'TextInformationParser::parseTextInfo');

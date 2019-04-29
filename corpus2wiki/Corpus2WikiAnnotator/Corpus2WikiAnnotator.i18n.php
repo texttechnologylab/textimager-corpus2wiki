@@ -10,8 +10,8 @@
  * This shim maintains compatibility back to MediaWiki 1.17.
  */
 $messages = array();
-if ( !function_exists( 'wfJsonI18nShimWikiditionAnnotator' ) ) {
-   function wfJsonI18nShimWikiditionAnnotator( $cache, $code, &$cachedData ) {
+if ( !function_exists( 'wfJsonI18nShimCorpus2WikiAnnotator' ) ) {
+   function wfJsonI18nShimCorpus2WikiAnnotator( $cache, $code, &$cachedData ) {
        $codeSequence = array_merge( array( $code ), $cachedData['fallbackSequence'] );
        foreach ( $codeSequence as $csCode ) {
            $fileName = dirname( __FILE__ ) . "/i18n/$csCode.json";
@@ -24,11 +24,11 @@ if ( !function_exists( 'wfJsonI18nShimWikiditionAnnotator' ) ) {
                }
                $cachedData['messages'] = array_merge( $data, $cachedData['messages'] );
            }
- 
+
            $cachedData['deps'][] = new FileDependency( $fileName );
        }
        return true;
    }
- 
+
    $GLOBALS['wgHooks']['LocalisationCacheRecache'][] = 'wfJsonI18nSimpleTooltip';
 }

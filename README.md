@@ -1,12 +1,12 @@
-![Logo Wikidition](wikidition/logo.png)
+![Logo Corpus2Wiki](corpus2wiki/logo.png)
 
-# Wikidition
+# Corpus2Wiki
 
-Wikidition is based on MediaWiki and allows the vizualisation of word-, sentence-, paragraph- and text-information. It provides tooltips for all the information, supports graphical hilighting of word-based information, shows a histogram of POS-frequency and a map of the locations mentioned in the text.
+Corpus2Wiki is based on MediaWiki and allows the vizualisation of word-, sentence-, paragraph- and text-information. It provides tooltips for all the information, supports graphical hilighting of word-based information, shows a histogram of POS-frequency and a map of the locations mentioned in the text.
 
 ![Screenshot](images/screenshot.png)
 
-The text analysis is made by the TextImager service provided by the Text Technology Lab (University of Frankfurt). Wikidition currently supports POS, MORPH, DDC, Lemma and NE information in German and English texts.
+The text analysis is made by the TextImager service provided by the Text Technology Lab (University of Frankfurt). Corpus2Wiki currently supports POS, MORPH, DDC, Lemma and NE information in German and English texts.
 
 An import form is provided for simple and automated document analysis and import.
 
@@ -14,9 +14,9 @@ An import form is provided for simple and automated document analysis and import
 
 1. Install [docker](https://www.docker.com/get-started) and [docker-compose](https://docs.docker.com/compose/install/)
 2. Download this repo
-3. Run installation, configuration and start containers by running `./wikidition.sh` from the wikidition directory (or alternatively `docker-compose -f stack.yml up`, if you want a newly compiled wikidition container, add --build)
+3. Run installation, configuration and start containers by running `./corpus2wiki.sh` from the corpus2wiki directory (or alternatively `docker-compose -f stack.yml up`, if you want a newly compiled Corpus2Wiki container, add --build)
 
-Wikidition is now set up on port 8080 (default) with the following parameters:
+Corpus2Wiki is now set up on port 8080 (default) with the following parameters:
 
 ```
 - MW_ADMIN_USER=admin
@@ -28,15 +28,15 @@ Wikidition is now set up on port 8080 (default) with the following parameters:
 - MW_DB_INSTALLDB_PASS=wikiexporterpw
 ```
 
-## Start Wikidition:
-Start containers by running `./wikidition.sh` (or alternatively `docker-compose -f stack.yml up`) from the wikidition directory.
+## Start Corpus2Wiki:
+Start containers by running `./corpus2wiki.sh` (or alternatively `docker-compose -f stack.yml up`) from the corpus2wiki directory.
 
 ## Add Files to Wikitition:
 
 <img align="right" src="images/import.png" alt="upload form" width="170">
 
 1. Make sure the containers are running, then open your browser and go to localhost:8080/import (if accessing from remote, replace localhost with the appropiate ip-address/url)
-2. Select all the files you want to be analized and added to the Wikidition and select the appropriate settings
+2. Select all the files you want to be analized and added to the Corpus2Wiki and select the appropriate settings
 3. Pressing the "Upload & Process"-Button will start the import procedure. Please keep the browser open until the process is finished.
 
 ## Access Results
