@@ -30,10 +30,10 @@ class TextInformationParser {
 
         $info = str_replace(",", "</td></tr><tr><td><b>", $info);
         $info = str_replace(":", "</b></td><td>", $info);
-       
+
         $info = preg_replace("/(\d+)(_[^<]+)/", "[[Category:DDC$1|$1$2]]");
         $info = $parser->recursiveTagParse($info);
-        
+
         $html  = '<table class="textinformation">';
         $html .= '<tr><th colspan=2>Text Information</th></tr>';
         $html .= '<tr><td><b>'.$info.'</td></tr></table>';
