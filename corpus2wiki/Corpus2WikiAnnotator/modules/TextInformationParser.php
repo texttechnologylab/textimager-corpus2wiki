@@ -22,26 +22,27 @@ class TextInformationParser {
         $info = $args[0];
 
         //////////////////////////////////////////
-        // BUILD HTML                           //
+        // BUILD WIKITEXT                       //
         //////////////////////////////////////////
 
         $info = htmlspecialchars(Sanitizer::removeHTMLtags($info));
         $info = addslashes($info);
 
-        $info = str_replace(",", "</td></tr><tr><td><b>", $info);
-        $info = str_replace(":", "</b></td><td>", $info);
+		// create a wiki table
+		$wiki = "{| class=\"textinformation\"
+			!colspan=\"2\"|Text Information
+			|-
+			|<b>" . $info . "
+			|}";
+		$wiki = str_replace([",", ":"], ["</b>\n|-\n|", "\n|"], $wiki);
 
-        $info = preg_replace("/(\d+)(_[^<]+)/", "[[Category:DDC$1|$1$2]]");
-        $info = $parser->recursiveTagParse($info);
-
-        $html  = '<table class="textinformation">';
-        $html .= '<tr><th colspan=2>Text Information</th></tr>';
-        $html .= '<tr><td><b>'.$info.'</td></tr></table>';
+		// create wiki links from categories
+        $wiki = preg_replace("/(\d+)(_[^<]+)/", "[[:Category:DDC$1|$1$2]]", $wiki);
 
         return array(
-            $html,
-            'noparse' => true,
-            'isHTML' => true,
+            $wiki,
+            'noparse' => false,
+            'isHTML' => false,
             "markerType" => 'nowiki'
         );
     }
