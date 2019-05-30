@@ -21,7 +21,7 @@ class ParagraphInformationParser {
 
         $args = array_slice( func_get_args(), 2 );
         $switch = $args[0];
-	      $info = $args[1];
+        $info = count($args) > 1 ? $args[1] : "";
 
         //////////////////////////////////////////
         // BUILD HTML                           //
