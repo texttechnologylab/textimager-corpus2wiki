@@ -34,21 +34,27 @@ class WordInformationParser {
 
         $hilite_categories = "";
 		$lemma = null;
+		$pos = null;
         $parts = explode(",", $info);
         for($i=0; $i<sizeof($parts); $i++){
           $this_part = explode(":", $parts[$i]);
           // add lemma to class
-          if($this_part[0]=="lemma"){
+          if($this_part[0] === "lemma"){
             $hilite_categories .= " " . $this_part[0] . "_" . $this_part[1];
 			$lemma = $this_part[1];
-            continue;
-          }
-          // Everything else with MARK_ so that it appears in the sidebar
-          $hilite_categories .= " MARK_" . $this_part[0] . "_" . $this_part[1];
+          } else {
+	          // Everything else with MARK_ so that it appears in the sidebar
+    	      $hilite_categories .= " MARK_" . $this_part[0] . "_" . $this_part[1];
+			  if ($this_part[0] === "pos") {
+				  $pos = $this_part[1];
+			  }
+		  }
         }
 
         $html = TooltipParser::parseTooltip($value, $info, $value, $hilite_categories);
-		$html = "<a href=\"https://en.wikipedia.org/wiki/" . $lemma . "\">" . $html . "</a>";
+		if (in_array($pos, ["NNP", "NN", "LOCATION", "ORGANIZATION"])) {
+			$html = "<a href=\"https://en.wikipedia.org/wiki/" . $lemma . "\">" . $html . "</a>";
+		}
 
         return array(
             $html,
