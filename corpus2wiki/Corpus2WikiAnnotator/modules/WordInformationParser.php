@@ -52,7 +52,9 @@ class WordInformationParser {
         }
 
         $html = TooltipParser::parseTooltip($value, $info, $value, $hilite_categories);
-		if (in_array($pos, ["NNP", "NN", "LOCATION", "ORGANIZATION"])) {
+		if ($pos === "NNP") {
+			$html = "<i>" . $html . "</i>";
+		} else if (in_array($pos, ["NN", "LOCATION", "ORGANIZATION"])) {
 			$html = "<a href=\"https://en.wikipedia.org/wiki/" . $lemma . "\">" . $html . "</a>";
 		}
 

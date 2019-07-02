@@ -14,7 +14,6 @@ if($lang == ""){
 	$default_lan = 1;
 }
 $DEFAULT_PIPELINES = [
-	//"en" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer",
 	"en" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService",
 	"de" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService",
 ];
@@ -106,11 +105,11 @@ echo "<b>done</b><br><script>set_progress(2);</script>";
 
 // Step 1: Create Backup of Mediawiki
 echo "Create Backup of current data...";
-$backup_file = "/var/www/html/import/corpus/backup.xml";
+$backup_file = "import/corpus/backup.xml";
 if(file_exists($backup_file)) {
 	unlink($backup_file);
 }
-exec("php /var/www/html/maintenance/dumpBackup.php --full > ".$backup_file, $log1);
+exec("php maintenance/dumpBackup.php --full > ".$backup_file, $log1);
 if(file_exists($backup_file)) {
 	echo "<b>done</b><br>";
 } else {
