@@ -28,16 +28,24 @@ class TextInformationParser {
         $info = htmlspecialchars(Sanitizer::removeHTMLtags($info));
         $info = addslashes($info);
 
+		// create wiki cells
+		$info = str_replace("&amp;", "&", $info);
+		$info = str_replace(":", "</b>\n|", $info);
+//		$info = str_replace(":", "\n|", $info);
+        $info = preg_replace("/(\d+)( [^;]+)/", "[[:Category:DDC$1|$1$2]]", $info);
+		$info = str_replace("|", "\n|-\n|\n|", $info);
+//        $info = preg_replace("/(\d+)/", "xxDDC$1xx", $info);
+
 		// create a wiki table
 		$wiki = "{| class=\"textinformation\"
 			!colspan=\"2\"|Text Information
 			|-
 			|<b>" . $info . "
 			|}";
-		$wiki = str_replace([",", ":"], ["</b>\n|-\n|", "\n|"], $wiki);
+//		$wiki = str_replace([",", ":"], ["</b>\n|-\n|", "\n|"], $wiki);
 
 		// create wiki links from categories
-        $wiki = preg_replace("/(\d+)(_[^<]+)/", "[[:Category:DDC$1|$1$2]]", $wiki);
+//        $wiki = preg_replace("/(\d+)(_[^<]+)/", "[[:Category:DDC$1|$1$2]]", $wiki);
 
         return array(
             $wiki,
