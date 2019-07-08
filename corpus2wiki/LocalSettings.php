@@ -145,3 +145,8 @@ require_once __DIR__ . '/extensions/Maps/Maps_Settings.php';
 $wgShowExceptionDetails = true;
 $wgShowDBErrorBacktrace = true;
 $wgShowDebug = true;
+
+define("NS_LEMMA", 102);
+define("NS_LEMMA_TALK", 103);
+$wgExtraNamespaces[NS_LEMMA] = "Lemma";
+$wgExtraNamespaces[NS_LEMMA_TALK] = "Lemma_talk";
