@@ -31,10 +31,10 @@ class TextInformationParser {
 		// create wiki cells
 		$info = str_replace("&amp;", "&", $info);
 		$info = str_replace(":", "</b>\n|", $info);
-//		$info = str_replace(":", "\n|", $info);
-        $info = preg_replace("/(\d+)( [^;]+)/", "[[:Category:DDC$1|$1$2]]", $info);
-		$info = str_replace("|", "\n|-\n|\n|", $info);
-//        $info = preg_replace("/(\d+)/", "xxDDC$1xx", $info);
+		$info = str_replace(";", "\n|-\n|<b>", $info);
+		$info = str_replace("<b></b>", "", $info);
+		// create wiki links from DDC entries
+        $info = preg_replace("/^\|DDC(\d{3})( .+)$/im", "|[[:Category:DDC$1|$1$2]]", $info);
 
 		// create a wiki table
 		$wiki = "{| class=\"textinformation\"
@@ -42,10 +42,6 @@ class TextInformationParser {
 			|-
 			|<b>" . $info . "
 			|}";
-//		$wiki = str_replace([",", ":"], ["</b>\n|-\n|", "\n|"], $wiki);
-
-		// create wiki links from categories
-//        $wiki = preg_replace("/(\d+)(_[^<]+)/", "[[:Category:DDC$1|$1$2]]", $wiki);
 
         return array(
             $wiki,
