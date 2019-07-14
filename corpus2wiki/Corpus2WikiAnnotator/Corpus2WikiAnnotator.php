@@ -84,6 +84,7 @@ $wgAutoloadClasses['ParagraphInformationParser'] = $dir . '/modules/ParagraphInf
 $wgAutoloadClasses['SentenceInformationParser'] = $dir . '/modules/SentenceInformationParser.php';
 $wgAutoloadClasses['WordInformationParser'] = $dir . '/modules/WordInformationParser.php';
 $wgAutoloadClasses['TooltipParser'] = $dir . '/modules/TooltipParser.php';
+$wgAutoloadClasses['LemmaInformationParser'] = $dir . '/modules/LemmaInformationParser.php';
 
 // Register hooks
 $wgHooks['BeforePageDisplay'][] = 'Corpus2WikiAnnotatorOnBeforePageDisplay';
@@ -118,6 +119,7 @@ function Corpus2WikiAnnotatorOnParserFirstCallInit( &$parser ) {
   $parser->setFunctionHook('paragraph', 'ParagraphInformationParser::parseParagraphInfo');
   $parser->setFunctionHook('sentence', 'SentenceInformationParser::parseSentenceInfo');
   $parser->setFunctionHook('word', 'WordInformationParser::parseWordInfo');
+  $parser->setFunctionHook('lemmainfo', 'LemmaInformationParser::parseLemmaInfo');
 
   return true;
 }
