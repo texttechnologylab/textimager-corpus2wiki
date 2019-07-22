@@ -55,6 +55,12 @@ RUN wget https://getcomposer.org/composer.phar
 COPY import $MW_Home/import
 RUN chmod 777 -R import
 
+# Copy Files for tooltip
+RUN set -x; mkdir -p $MW_Home/resources/lib/selfmade/css
+COPY Resources.php $MW_Home/resources/
+COPY selfmade/*.js $MW_Home/resources/lib/selfmade/
+COPY selfmade/*.css $MW_Home/resources/lib/selfmade/css/
+
 # Download and Build textimager CLI
 # This will clone the latest version of textimager-client; if it is broken, build will fail.
 RUN set -x; \
