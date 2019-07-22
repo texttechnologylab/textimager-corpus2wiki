@@ -30,7 +30,7 @@ class SentenceInformationParser {
         $html = "";
 
         if($switch == "START"){
-          $html = '<span class="SENTENCE_'.$value.'">';
+          $html = '<span id="SENTENCE_'.$value.'" class="SENTENCE_'.$value.'">';
         }
 
         if($switch == "END"){

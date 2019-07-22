@@ -40,7 +40,7 @@ class ParagraphInformationParser {
           $tooltip_title  = "Paragraph ".$value;
           $value_txt = '<span style="background-color:#ddd;">('.$value.')</span>';
 
-          $html  = '<span class="PARAGRAPH_'.$value.'">';
+          $html  = '<span id="'.$value.'" class="PARAGRAPH_'.$value.'">';
           $html .= TooltipParser::parseTooltip($value_txt, $info, $tooltip_title, "");
         }
 
