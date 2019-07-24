@@ -150,3 +150,7 @@ define("NS_LEMMA", 102);
 define("NS_LEMMA_TALK", 103);
 $wgExtraNamespaces[NS_LEMMA] = "Lemma";
 $wgExtraNamespaces[NS_LEMMA_TALK] = "Lemma_talk";
+define("NS_TOOLTIP", 104);
+define("NS_TOOLTIP_TALK", 105);
+$wgExtraNamespaces[NS_TOOLTIP] = "Tooltip";
+$wgExtraNamespaces[NS_TOOLTIP_TALK] = "Tooltip_talk";
