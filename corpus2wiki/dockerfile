@@ -74,6 +74,13 @@ RUN set -x; \
 	&& cd .. \
 	&& rm -r textimager-client
 
+# Download Word2Vec word embeddings
+RUN set -x; \
+	cd $MW_Home/import \
+	&& mkdir word2vec \
+	&& wget http://service.hucompute.org/embeddings/api/v1/embeddings/wikipedia_lemmapos_mikolov.vec/download -O word2vec/syntagmatic-de.vec \
+	&& wget http://service.hucompute.org/embeddings/api/v1/embeddings/wikipedia_lemmapos_mikolov.skipgram.vec/download -O word2vec/paradigmatic-de.vec
+
 # Copy custom extensions
 COPY Corpus2WikiAnnotator $MW_Home/extensions/Corpus2WikiAnnotator/
 COPY GeoViz $MW_Home/extensions/GeoViz/
