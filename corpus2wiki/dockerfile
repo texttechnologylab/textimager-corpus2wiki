@@ -78,8 +78,8 @@ RUN set -x; \
 RUN set -x; \
 	cd $MW_Home/import \
 	&& mkdir word2vec \
-	&& wget http://service.hucompute.org/embeddings/api/v1/embeddings/wikipedia_lemmapos_mikolov.vec/download -O word2vec/syntagmatic-de.vec \
-	&& wget http://service.hucompute.org/embeddings/api/v1/embeddings/wikipedia_lemmapos_mikolov.skipgram.vec/download -O word2vec/paradigmatic-de.vec
+	&& wget http://service.hucompute.org/embeddings/api/v1/embeddings/zeit_lemmapos_mikolov_cbow.vec/download -O word2vec/syntagmatic-de.vec \
+	&& wget http://service.hucompute.org/embeddings/api/v1/embeddings/zeit_lemmapos_mikolov_skip.vec/download -O word2vec/paradigmatic-de.vec
 
 # Copy custom extensions
 COPY Corpus2WikiAnnotator $MW_Home/extensions/Corpus2WikiAnnotator/
