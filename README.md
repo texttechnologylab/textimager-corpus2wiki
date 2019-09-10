@@ -26,7 +26,11 @@ Corpus2Wiki is now set up on port 8080 (default) with the following parameters:
 - MW_DB_PASS=wikidbpw
 - MW_DB_INSTALLDB_USER=root
 - MW_DB_INSTALLDB_PASS=wikiexporterpw
+- MW_SCRIPT_PATH=
+- MW_SERVER_NAME=http://localhost:8080
 ```
+
+These parameters can be changed by editing the stack.yml file.
 
 ## Start Corpus2Wiki:
 Start containers by running `./corpus2wiki.sh` (or alternatively `docker-compose -f stack.yml up`) from the corpus2wiki directory.
