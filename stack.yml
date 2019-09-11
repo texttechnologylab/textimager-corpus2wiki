@@ -39,3 +39,5 @@ services:
       - MW_DB_INSTALLDB_PASS=wikiexporterpw
       - MW_AUTOUPDATE=true
       - MW_MAIN_CACHE_TYPE=None
+      - MW_SCRIPT_PATH=
+      - MW_SERVER_NAME=http://localhost:8080

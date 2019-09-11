@@ -26,10 +26,10 @@ $wgSitename = "Corpus2Wiki";
 ## For more information on customizing the URLs
 ## (like /w/index.php/Page_title to /wiki/Page_title) please see:
 ## https://www.mediawiki.org/wiki/Manual:Short_URL
-$wgScriptPath = "";
+$wgScriptPath = getenv( 'MW_SCRIPT_PATH' );
 
 ## The protocol and server name to use in fully-qualified URLs
-$wgServer = "http://localhost:8080";
+$wgServer = getenv( 'MW_SERVER_NAME' );
 
 ## The URL path to static resources (images, scripts, etc.)
 $wgResourceBasePath = $wgScriptPath;
@@ -141,7 +141,7 @@ require_once "$IP/extensions/Corpus2WikiAnnotator/Corpus2WikiAnnotator.php";
 require_once "$IP/extensions/GeoViz/GeoViz.php";
 require_once __DIR__ . '/extensions/Maps/Maps_Settings.php';
 
-# Enable Debuging (TODO: remove for release)
-$wgShowExceptionDetails = true;
-$wgShowDBErrorBacktrace = true;
-$wgShowDebug = true;
+# Enable Debuging
+# $wgShowExceptionDetails = true;
+# $wgShowDBErrorBacktrace = true;
+# $wgShowDebug = true;
