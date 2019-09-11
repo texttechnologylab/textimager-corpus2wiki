@@ -145,3 +145,7 @@ require_once __DIR__ . '/extensions/Maps/Maps_Settings.php';
 # $wgShowExceptionDetails = true;
 # $wgShowDBErrorBacktrace = true;
 # $wgShowDebug = true;
+
+$wgGroupPermissions['*']['createaccount'] = false;
+$wgGroupPermissions['*']['edit'] = false;
+
