@@ -8,29 +8,39 @@
  */
 class TooltipParser {
 
-    /**
-     * generates the tooltip <span> object, including the table with annotations
-     *
-     * @param string $value
-     * @param string $info
-     * @param string $title
-     * @param string $hilite_categories
-     *
-     * @return string: HTML to insert in the page.
-     */
-     public static function parseTooltip( $value, $info, $title, $hilite_categories ) {
+	/**
+	 * generates the tooltip <span> object, including the table with annotations
+	 *
+	 * @param string $value
+	 * @param string $info
+	 * @param string $title
+	 * @param string $hilite_categories
+	 *
+	 * @return string: HTML to insert in the page.
+	 */
+	 public static function parseTooltip( $value, $info, $title, $hilite_categories ) {
 
-       $info = str_replace(",", "</td></tr><tr><td><b>", $info);
-       $info = str_replace(":", "</b></td><td>", $info);
+		# extract POS
+		$pos = null;
+		preg_match("/pos:[A-Z]*/", $info, $pos);
+		if (count($pos) > 0) {
+			$pos = str_replace("pos:", "", $pos[0]);
+		 } else {
+			$pos = null;
+		}
 
-       $html  = '<span class="simple-tooltip simple-tooltip-inline ';
-       $html .= $hilite_categories . '"';
-       $html .= ' data-simple-tooltip="<table><tr><th colspan=2>';
-       $html .= $title . '</th></tr><tr><td><b>' . $info . '</td></tr></table>"';
-       $html .= '>' . $value . '</span>';
+		# TODO text and sentence level in tooltip
+		$tooltip_content = '[
+			{"name": "Word Level", "content": "./Tooltip:Lemma_' . html_entity_decode($title) . '_' . $pos . '?action=render"}
+		]';
 
-       return $html;
+		$html = "";
+		if ($pos != null) {
+			$html = '<span class="tooltip" title=\'' . $tooltip_content . '\'>' . $value . '</span>';
+		} else {
+			$html = $value;
+		}
 
-    }
-
+		return $html;
+	 }
 }
