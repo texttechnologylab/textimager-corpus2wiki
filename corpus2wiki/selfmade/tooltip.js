@@ -604,9 +604,9 @@
                         tab.setAttribute('id', 'tab' + i);
                         if (self.options.contentAsURL){
                             tab.innerHTML = self.httpGet(input[i].content);
-                        }
-                        else
+                        } else {
                             tab.innerHTML = input[i].content;
+                        }
                         tab_content.appendChild(tab);
                         if (i == 0) {
                             tabItem.setAttribute('class', 'active');
