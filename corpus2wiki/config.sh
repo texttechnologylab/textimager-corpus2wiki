@@ -49,7 +49,7 @@ if [ ! -e "$MW_VOLUME/LocalSettings.php" ]; then
         fi
     done
 
-    for i in {15..0}; do
+    for i in {30..0}; do
         echo "Waiting for database to start ($i)..."
         sleep 1
     done

@@ -8,17 +8,25 @@ RUN set -x; \
 	mkdir -p /usr/share/man/man1
 
 # Install required packages
-# only jre 8 is in the reposisories currently...
 RUN set -x; \
 	apt-get update \
 	&& apt-get install -y --no-install-recommends \
 	git \
 	wget \
-	default-jdk \
 	nano \
 	unzip \
-	maven \
 	&& apt-get clean
+
+# Install OpenJDK 8
+# Add repo, since Debian 10 only includes JDK11 (default)
+RUN echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends \
+	openjdk-8-jdk
+RUN echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> /etc/environment
+RUN apt-get install -y --no-install-recommends maven
+RUN java -version
+
 
 # Set MediaWiki Variables
 ENV MW_Version=1.31.1
@@ -47,7 +55,6 @@ EXPOSE 8080:80
 COPY LocalSettings.php $MW_Home/DockerSettings.php
 
 # Now we add the custom composer file and install composer
-# (It would be nice if a way was found to install all plugins without composer)
 COPY composer.local.json $MW_Home/composer.local.json
 RUN wget https://getcomposer.org/composer.phar
 
