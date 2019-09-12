@@ -34,6 +34,10 @@ class LemmaInformationParser {
 			'<tr><th colspan="2">Lemma</th></tr>' .
 			"<tr><td>" . $info . "</td></tr></table>";
 		$info = str_replace("<tr><td></td></tr>", "", $info);
+
+		// create pos link
+		//$info = preg_replace("/<td>Part of Speech<\/td><td>(\w+)<\/td>/i", '<td>Part of Speech</td><td><a href="/index.php?title=POS:$1">$1</a></td>', $info);
+
 		// create wiktionary links
 		$info = preg_replace("/<td>WIKTIONARY (\w+) (\w+)/i", '<td><a href="https://$1.wiktionary.org/wiki/$2">$2</a>', $info);
 
