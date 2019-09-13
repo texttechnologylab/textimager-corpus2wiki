@@ -163,7 +163,7 @@ echo '<script>set_progress(100);</script>';
 
 // All done.
 echo '<p style="color:green;"><b>Input procedure terminated</b></p>';
-echo '<p>All documents that were processed sucessfully are now available in the <a href="http://localhost:8080/index.php/Special:AllPages"><b>Corpus2Wiki</b></a></p>';
+echo '<p>All documents that were processed sucessfully are now available in the <a href="../index.php/Special:AllPages"><b>Corpus2Wiki</b></a></p>';
 
 
 ?>
