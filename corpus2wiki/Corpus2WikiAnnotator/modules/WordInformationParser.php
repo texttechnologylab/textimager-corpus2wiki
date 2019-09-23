@@ -42,7 +42,7 @@ class WordInformationParser {
           if($this_part[0] === "lemma"){
             $hilite_categories .= " " . $this_part[0] . "_" . $this_part[1];
 			$lemma = $this_part[1];
-          } elseif (count($this_part) > 0) {
+          } elseif (count($this_part) > 1) {
 	          // Everything else with MARK_ so that it appears in the sidebar
     	      $hilite_categories .= " MARK_" . $this_part[0] . "_" . $this_part[1];
 			  if ($this_part[0] === "pos") {
@@ -52,11 +52,6 @@ class WordInformationParser {
         }
 
         $html = TooltipParser::parseTooltip($value, $info, $lemma, $hilite_categories);
-		if ($pos === "NNP") {
-			$html = "<i>" . $html . "</i>";
-//		} else if (in_array($pos, ["NN", "LOCATION", "ORGANIZATION"])) {
-//			$html = "<a href=\"https://en.wikipedia.org/wiki/" . $lemma . "\">" . $html . "</a>";
-		}
 
         return array(
             $html,
