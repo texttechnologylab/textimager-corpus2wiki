@@ -20,6 +20,14 @@ class TooltipParser {
 	 */
 	 public static function parseTooltip( $value, $info, $title, $hilite_categories ) {
 
+		# convert title to unicode
+		$title = html_entity_decode($title);
+		$title = preg_replace_callback(
+			"/(&#[0-9]+;)/",
+			function($m) {
+				return mb_convert_encoding($m[1], "UTF-8", "HTML-ENTITIES");
+			}, $title);
+
 		# extract POS
 		$pos = null;
 		preg_match("/pos:[A-Z]*/", $info, $pos);
@@ -31,15 +39,16 @@ class TooltipParser {
 
 		# TODO text and sentence level in tooltip
 		$tooltip_content = '[
-			{"name": "Word Level", "content": "./Tooltip:Lemma_' . html_entity_decode($title) . '_' . $pos . '?action=render"}
+			{"name": "Word Level: Lemma_' . $title . '_' . $pos . '", "content": "./Tooltip:Lemma_' . $title . '_' . $pos . '?action=render"}
 		]';
 
 		$html = "";
 		if ($pos != null) {
-			$html = '<span class="tooltip" title=\'' . $tooltip_content . '\'>' . $value . '</span>';
+			$html = '<span class="tooltip ' . $hilite_categories . '" title=\'' . $tooltip_content . '\'>' . html_entity_decode($value) . '</span>';
 		} else {
-			$html = $value;
+			$html = '<span class="' . $hilite_categories . '">' . html_entity_decode($value) . '</span>';
 		}
+		#$html .= '<pre>' . html_entity_decode($title) . '</pre>';
 
 		return $html;
 	 }
