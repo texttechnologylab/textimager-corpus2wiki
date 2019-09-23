@@ -121,7 +121,7 @@ echo '<script>set_progress(7);</script>';
 // Step 2: Call Textimager
 echo "Analyze Texts...";
 putenv("SHELL=/bin/bash");
-liveExecuteCommand("nohup java -jar textimager-CLI.jar -i 'corpus' --input-format TXT --input-language ".$lang." -output maintenance --output-format MEDIAWIKI -p '$pipeline'");
+liveExecuteCommand("nohup java -Xms512m -Xmx4g -jar textimager-CLI.jar -i 'corpus' --input-format TXT --input-language ".$lang." -output maintenance --output-format MEDIAWIKI -p '$pipeline'");
 if(file_exists("maintenance/output.wiki.xml")){
 	echo "<b>done</b><br>";
 } else {
