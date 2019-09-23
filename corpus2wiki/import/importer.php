@@ -133,10 +133,7 @@ echo '<script>set_progress(60);</script>';
 
 // Step 3: Prepare for import
 echo "Prepare texts for Corpus2Wiki import...";
-exec("sed -i 's/<span class=\"sentence\">//g' maintenance/output.wiki.xml", $log31);
-exec("sed -i 's/<\/span>//g' maintenance/output.wiki.xml", $log32);
-exec("sed -i 's/Ä/\&#196;/g;s/Ö/\&#214;/g;s/Ü/\&#220;/g;s/ä/\&#228;/g;s/ö/\&#246;/g;s/ü/\&#252;/g;s/ß/\&#223;/g;' maintenance/output.wiki.xml", $log322);
-$log3 = array_merge($log31, $log32);
+exec("sed -i 's/Ä/\&#196;/g;s/Ö/\&#214;/g;s/Ü/\&#220;/g;s/ä/\&#228;/g;s/ö/\&#246;/g;s/ü/\&#252;/g;s/ß/\&#223;/g;' maintenance/output.wiki.xml", $log3);
 echo "<b>done</b><br>";
 if (!empty($playerlist)) {
      print_log($log3);
