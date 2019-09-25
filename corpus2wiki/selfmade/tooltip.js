@@ -578,6 +578,7 @@
             }
             else {
                 if (self.options.contentAsTabs) {
+                    console.log("input: " + self.Content);
                     var input = JSON.parse(self.Content);
                     var tabs = document.createElement("div");
                     tabs.setAttribute('class', 'tabs');
@@ -595,6 +596,7 @@
 
                         var anchor = document.createElement("a");
                         anchor.setAttribute('href', '#tab' + i);
+                        console.log(input[i].name + ": " + input[i].content);
                         anchor.textContent = input[i].name;
                         tabItem.appendChild(anchor);
                         tabsList.appendChild(tabItem);
@@ -1414,9 +1416,9 @@ $(document).ready(function () {
         contentAsTabs: true,
         trigger: 'hover',
         interactive: true,
-        functionReady: function (origin, continueTooltip) {
-            wikifikation();
-            initTabs();
-        },
+//        functionReady: function (origin, continueTooltip) {
+//            wikifikation();
+//            initTabs();
+//        },
     });
 });
