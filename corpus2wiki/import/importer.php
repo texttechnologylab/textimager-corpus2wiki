@@ -9,6 +9,7 @@ error_reporting(E_ALL);
 // Get parameters
 $default_lan = 0;
 $lang = $_POST["language"];
+$corpus_dir = "import/corpus";
 if($lang == ""){
 	$lang = "en";
 	$default_lan = 1;
@@ -105,7 +106,11 @@ echo "<b>done</b><br><script>set_progress(2);</script>";
 
 // Step 1: Create Backup of Mediawiki
 echo "Create Backup of current data...";
-$backup_file = "import/corpus/backup.xml";
+
+if(!file_exists($corpus_dir)) {
+	mkdir($corpus_dir, 0777, true);
+}
+$backup_file = $corpus_dir . "/backup.xml";
 if(file_exists($backup_file)) {
 	unlink($backup_file);
 }
