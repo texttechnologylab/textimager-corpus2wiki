@@ -157,3 +157,12 @@ define("NS_TOOLTIP", 104);
 define("NS_TOOLTIP_TALK", 105);
 $wgExtraNamespaces[NS_TOOLTIP] = "Tooltip";
 $wgExtraNamespaces[NS_TOOLTIP_TALK] = "Tooltip_talk";
+
+# Workaround because d3.js is not loaded properly by Resources.php
+$wgHooks['BeforePageDisplay'][] ='onBeforePageDisplay';
+function onBeforePageDisplay( OutputPage &$out, Skin &$skin )
+{
+	$script = '<script type="text/javascript" src="https://d3js.org/d3.v3.js"></script>';
+	$out->addHeadItem("d3js script", $script);
+	return true;
+};
