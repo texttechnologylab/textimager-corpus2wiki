@@ -39,7 +39,7 @@ class TooltipParser {
 
 		# TODO text and sentence level in tooltip
 		$tooltip_content = '[
-			{"name": "Word Level: Lemma_' . $title . '_' . $pos . '", "content": "./Tooltip:Lemma_' . $title . '_' . $pos . '?action=render"}
+			{"name": "Word Level", "content": "./Tooltip:Lemma_' . $title . '_' . $pos . '?action=render"}
 		]';
 
 		$html = "";
