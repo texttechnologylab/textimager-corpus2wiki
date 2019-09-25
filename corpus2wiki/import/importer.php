@@ -120,6 +120,9 @@ echo '<script>set_progress(7);</script>';
 
 // Step 2: Call Textimager
 echo "Analyze Texts...";
+if(file_exists("maintainance/output.wiki.xml")){
+	unlink("maintainance/output.wiki.xml");
+}
 putenv("SHELL=/bin/bash");
 liveExecuteCommand("nohup java -Xms512m -Xmx4g -jar textimager-CLI.jar -i 'corpus' --input-format TXT --input-language ".$lang." -output maintenance --output-format MEDIAWIKI -p '$pipeline'");
 if(file_exists("maintenance/output.wiki.xml")){
@@ -130,15 +133,11 @@ if(file_exists("maintenance/output.wiki.xml")){
 }
 echo '<script>set_progress(60);</script>';
 
-
 // Step 3: Prepare for import
 echo "Prepare texts for Corpus2Wiki import...";
-exec("sed -i 's/Ä/\&#196;/g;s/Ö/\&#214;/g;s/Ü/\&#220;/g;s/ä/\&#228;/g;s/ö/\&#246;/g;s/ü/\&#252;/g;s/ß/\&#223;/g;' maintenance/output.wiki.xml", $log3);
+exec("sed -i 's/Ä/\&#196;/g;s/Ö/\&#214;/g;s/Ü/\&#220;/g;s/ä/\&#228;/g;s/ö/\&#246;/g;s/ü/\&#252;/g;s/ß/\&#223;/g' maintenance/output.wiki.xml", $log3);
 echo "<b>done</b><br>";
-if (!empty($playerlist)) {
-     print_log($log3);
-}
-liveExecuteCommand("javac Counter.java; wait; java Counter;wait");
+//liveExecuteCommand("javac Counter.java; wait; java Counter;wait");
 echo '<script>set_progress(80);</script>';
 
 // Step 4: Import into Mediawiki
@@ -151,7 +150,7 @@ echo '<script>set_progress(95);</script>';
 // Step 5: Clean up
 echo "Cleaning up...";
 if(file_exists("maintainance/output.wiki.xml")){
-        unlink("maintainance/output.wiki.xml");
+	unlink("maintainance/output.wiki.xml");
 }
 array_map('unlink', array_filter((array) glob("corpus/*")));
 echo '<b>done</b><br>';
