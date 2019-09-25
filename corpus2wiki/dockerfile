@@ -62,9 +62,10 @@ RUN wget https://getcomposer.org/composer.phar
 COPY import $MW_Home/import
 RUN chmod 777 -R import
 
-# Copy Files for tooltip
+# Copy Files for plugins
 RUN set -x; mkdir -p $MW_Home/resources/lib/selfmade/css
 COPY Resources.php $MW_Home/resources/
+COPY d3 $MW_Home/resources/lib/d3
 COPY selfmade/*.js $MW_Home/resources/lib/selfmade/
 COPY selfmade/*.css $MW_Home/resources/lib/selfmade/css/
 
