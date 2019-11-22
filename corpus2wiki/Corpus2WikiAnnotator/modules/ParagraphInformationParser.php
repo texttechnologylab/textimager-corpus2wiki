@@ -21,7 +21,7 @@ class ParagraphInformationParser {
 
         $args = array_slice( func_get_args(), 2 );
         $switch = $args[0];
-	      $info = $args[1];
+        $info = count($args) > 1 ? $args[1] : "";
 
         //////////////////////////////////////////
         // BUILD HTML                           //
@@ -40,7 +40,7 @@ class ParagraphInformationParser {
           $tooltip_title  = "Paragraph ".$value;
           $value_txt = '<span style="background-color:#ddd;">('.$value.')</span>';
 
-          $html  = '<span class="PARAGRAPH_'.$value.'">';
+          $html  = '<span id="'.$value.'" class="PARAGRAPH_'.$value.'">';
           $html .= TooltipParser::parseTooltip($value_txt, $info, $tooltip_title, "");
         }
 

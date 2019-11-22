@@ -13,5 +13,6 @@ $magicWords['en'] = array(
     'textinfo' => array(0, 'textinfo'),
     'paragraph' => array(0, 'paragraph'),
     'sentence' => array(0, 'sentence'),
-    'word' => array(0, 'word')
+    'word' => array(0, 'word'),
+	'lemmainfo' => array(0, 'lemmainfo')
 );

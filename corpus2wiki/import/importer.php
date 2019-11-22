@@ -9,14 +9,14 @@ error_reporting(E_ALL);
 // Get parameters
 $default_lan = 0;
 $lang = $_POST["language"];
+$corpus_dir = "import/corpus";
 if($lang == ""){
 	$lang = "en";
 	$default_lan = 1;
 }
 $DEFAULT_PIPELINES = [
-	//"en" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer",
-	"en" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService",
-	"de" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService",
+	"en" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService,MateMorphTagger",
+	"de" => "LanguageToolSegmenter,LanguageToolLemmatizer,StanfordPosTagger,StanfordNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService,TagMeLocalAnnotator,MateMorphTagger",
 ];
 if(array_key_exists($lang, $DEFAULT_PIPELINES)){
 	$pipeline = $DEFAULT_PIPELINES[$lang];
@@ -106,11 +106,15 @@ echo "<b>done</b><br><script>set_progress(2);</script>";
 
 // Step 1: Create Backup of Mediawiki
 echo "Create Backup of current data...";
-$backup_file = "/var/www/html/import/corpus/backup.xml";
+
+if(!file_exists($corpus_dir)) {
+	mkdir($corpus_dir, 0777, true);
+}
+$backup_file = $corpus_dir . "/backup.xml";
 if(file_exists($backup_file)) {
 	unlink($backup_file);
 }
-exec("php /var/www/html/maintenance/dumpBackup.php --full > ".$backup_file, $log1);
+exec("php maintenance/dumpBackup.php --full > ".$backup_file, $log1);
 if(file_exists($backup_file)) {
 	echo "<b>done</b><br>";
 } else {
@@ -121,8 +125,11 @@ echo '<script>set_progress(7);</script>';
 
 // Step 2: Call Textimager
 echo "Analyze Texts...";
+if(file_exists("maintainance/output.wiki.xml")){
+	unlink("maintainance/output.wiki.xml");
+}
 putenv("SHELL=/bin/bash");
-liveExecuteCommand("nohup java -jar textimager-CLI.jar -i 'corpus' --input-format TXT --input-language ".$lang." -output maintenance --output-format MEDIAWIKI -p '$pipeline'");
+liveExecuteCommand("nohup java -Xms512m -Xmx4g -jar textimager-CLI.jar -i 'corpus' --input-format TXT --input-language ".$lang." -output maintenance --output-format MEDIAWIKI -p '$pipeline'");
 if(file_exists("maintenance/output.wiki.xml")){
 	echo "<b>done</b><br>";
 } else {
@@ -131,18 +138,11 @@ if(file_exists("maintenance/output.wiki.xml")){
 }
 echo '<script>set_progress(60);</script>';
 
-
 // Step 3: Prepare for import
 echo "Prepare texts for Corpus2Wiki import...";
-exec("sed -i 's/<span class=\"sentence\">//g' maintenance/output.wiki.xml", $log31);
-exec("sed -i 's/<\/span>//g' maintenance/output.wiki.xml", $log32);
-exec("sed -i 's/Ä/\&#196;/g;s/Ö/\&#214;/g;s/Ü/\&#220;/g;s/ä/\&#228;/g;s/ö/\&#246;/g;s/ü/\&#252;/g;s/ß/\&#223;/g;' maintenance/output.wiki.xml", $log322);
-$log3 = array_merge($log31, $log32);
+exec("sed -i 's/Ä/\&#196;/g;s/Ö/\&#214;/g;s/Ü/\&#220;/g;s/ä/\&#228;/g;s/ö/\&#246;/g;s/ü/\&#252;/g;s/ß/\&#223;/g' maintenance/output.wiki.xml", $log3);
 echo "<b>done</b><br>";
-if (!empty($playerlist)) {
-     print_log($log3);
-}
-liveExecuteCommand("javac Counter.java; wait; java Counter;wait");
+//liveExecuteCommand("javac Counter.java; wait; java Counter;wait");
 echo '<script>set_progress(80);</script>';
 
 // Step 4: Import into Mediawiki
@@ -155,7 +155,7 @@ echo '<script>set_progress(95);</script>';
 // Step 5: Clean up
 echo "Cleaning up...";
 if(file_exists("maintainance/output.wiki.xml")){
-        unlink("maintainance/output.wiki.xml");
+	unlink("maintainance/output.wiki.xml");
 }
 array_map('unlink', array_filter((array) glob("corpus/*")));
 echo '<b>done</b><br>';

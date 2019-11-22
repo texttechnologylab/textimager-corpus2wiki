@@ -21,7 +21,7 @@ class SentenceInformationParser {
 
         $args = array_slice( func_get_args(), 2 );
         $switch = $args[0];
-	      $info = $args[1];
+        $info = count($args) > 1 ? $args[1] : "";
 
         //////////////////////////////////////////
         // BUILD HTML                           //
@@ -30,7 +30,7 @@ class SentenceInformationParser {
         $html = "";
 
         if($switch == "START"){
-          $html = '<span class="SENTENCE_'.$value.'">';
+          $html = '<span id="SENTENCE_'.$value.'" class="SENTENCE_'.$value.'">';
         }
 
         if($switch == "END"){

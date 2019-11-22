@@ -26,32 +26,41 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 return [
 
-	'tabs' => array(
-		'scripts' => array(
+	'tabs' => [
+		'scripts' => [
 			'resources/lib/selfmade/tab.js',
-		),
+		],
 		'styles' => 'resources/lib/selfmade/css/tab.css',
-
-	),
-	'posMarker' => array(
-		'scripts' => array(
+	],
+	'posMarker' => [
+		'scripts' => [
 			'resources/lib/selfmade/posMarker.js',
-		),
+		],
 		'styles' => 'resources/lib/selfmade/css/posMarker.css',
-
-	),
-
-	'tooltip' => array(
-		'scripts' => array(
+	],
+	'tooltip' => [
+		'scripts' => [
 			'resources/lib/selfmade/wikifikation.js',
 			'resources/lib/selfmade/tooltip.js',
 			'resources/lib/selfmade/tab.js',
-		),
+		],
 		'styles' => 'resources/lib/selfmade/css/tooltip.css',
-		'dependencies' => array(
+		'dependencies' => [
 			'tabs',
-		),
-	),
+		],
+	],
+	'd3' => [
+		'scripts' => [ 'resources/lib/d3/d3.v3.min.js' ],
+	],
+	'graph' => [
+		'scripts' => [
+			'resources/lib/selfmade/tooltip.js',
+			'resources/lib/selfmade/graph.js',
+			'resources/lib/selfmade/wikifikation.js',
+		],
+		'styles' => 'resources/lib/selfmade/css/tooltip.css',
+		'dependencies' => [ 'd3' ],
+	],
 
 	/**
 	 * Special modules who have their own classes

@@ -60,6 +60,7 @@ RUN wget https://getcomposer.org/composer.phar
 
 # Copy Files for input procedure
 COPY import $MW_Home/import
+RUN mkdir -p $MW_Home/import/corpus
 RUN chmod 777 -R import
 
 # Download and Build textimager CLI
@@ -67,17 +68,29 @@ RUN chmod 777 -R import
 RUN set -x; \
 	cd $MW_Home/import \
 	&& git clone --depth 1 https://github.com/texttechnologylab/textimager-client.git
-RUN set -x; \
-	cd $MW_Home/import \
 	&& cd textimager-client \
 	&& mvn install -DskipTests \
 	&& mv target/textimager-CLI.jar ../textimager-CLI.jar \
 	&& cd .. \
 	&& rm -r textimager-client
 
+# Download Word2Vec word embeddings
+RUN set -x; \
+	cd $MW_Home/import \
+	&& mkdir word2vec \
+	&& echo 'Download syntagmatic embeddings' \
+	&& wget -q http://service.hucompute.org/embeddings/api/v1/embeddings/zeit_lemmapos_mikolov_cbow.vec/download -O word2vec/syntagmatic-de.vec \
+	&& echo 'Download paradigmatic embeddings' \
+	&& wget -q http://service.hucompute.org/embeddings/api/v1/embeddings/zeit_lemmapos_mikolov_skip.vec/download -O word2vec/paradigmatic-de.vec
+
 # Copy custom extensions
 COPY Corpus2WikiAnnotator $MW_Home/extensions/Corpus2WikiAnnotator/
 COPY GeoViz $MW_Home/extensions/GeoViz/
+RUN set -x; mkdir -p $MW_Home/resources/lib/selfmade/css
+COPY Resources.php $MW_Home/resources/
+COPY d3 $MW_Home/resources/lib/d3
+COPY selfmade/*.js $MW_Home/resources/lib/selfmade/
+COPY selfmade/*.css $MW_Home/resources/lib/selfmade/css/
 
 # Copy and run the config script
 COPY config.sh /config.sh
