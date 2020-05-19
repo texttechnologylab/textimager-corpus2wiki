@@ -1,4 +1,4 @@
-FROM mediawiki:1.31
+FROM mediawiki:1.31.7
 
 MAINTAINER alexhunziker@sunrise.ch
 
@@ -6,6 +6,8 @@ MAINTAINER alexhunziker@sunrise.ch
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199
 RUN set -x; \
 	mkdir -p /usr/share/man/man1
+
+RUN echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list
 
 # Install required packages
 RUN set -x; \
@@ -15,12 +17,16 @@ RUN set -x; \
 	wget \
 	nano \
 	unzip \
+	libgcc-8-dev \
+	libc6-dev \
 	&& apt-get clean
 
 # Install OpenJDK 8
 # Add repo, since Debian 10 only includes JDK11 (default)
-RUN echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list
-RUN apt-get update \
+# RUN echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list
+
+RUN apt-get clean && \
+	apt-get update \
 	&& apt-get install -y --no-install-recommends \
 	openjdk-8-jdk
 RUN echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> /etc/environment
@@ -67,9 +73,10 @@ RUN chmod 777 -R import
 # This will clone the latest version of textimager-client; if it is broken, build will fail.
 RUN set -x; \
 	cd $MW_Home/import \
-	&& git clone --depth 1 https://github.com/texttechnologylab/textimager-client.git
+	&& git clone --depth 1 https://github.com/texttechnologylab/textimager-client.git \
 	&& cd textimager-client \
-	&& mvn install -DskipTests \
+	&& git checkout tags/0.2.4 \
+	&& mvn install -DskipTests -P CLI\
 	&& mv target/textimager-CLI.jar ../textimager-CLI.jar \
 	&& cd .. \
 	&& rm -r textimager-client

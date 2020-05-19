@@ -22,7 +22,7 @@ services:
     links:
       - database
     ports:
-      - 8080:80
+      - 4358:80
     container_name: corpus2wiki
     environment:
       - MW_SITE_NAME=MediaWiki
