@@ -2,25 +2,29 @@
 #
 # Access via "http://localhost:8080"
 #   (or "http://$(docker-machine ip):8080" if using docker-machine)
-version: '3'
+version: '3.4'
 services:
   database:
-    image: mariadb
+    image: mariadb:10.5.3
     restart: always
     environment:
       # @see https://phabricator.wikimedia.org/source/mediawiki/browse/master/includes/DefaultSettings.php
-      MYSQL_DATABASE: wikidb
-      MYSQL_USER: mediawiki
-      MYSQL_PASSWORD: wikidbpw
-      MYSQL_ROOT_PASSWORD: wikiexporterpw
-    container_name: mariadb
+      MYSQL_DATABASE: 'wikidb'
+      MYSQL_USER: 'mediawiki'
+      MYSQL_PASSWORD: 'wikidbpw'
+      MYSQL_ROOT_PASSWORD: 'wikiexporterpw'
+    container_name: 'mariadb'
+    networks:
+      - exchange
+
+  
   corpus2wiki:
+    depends_on:
+      - database
     build:
       context: ./corpus2wiki
       dockerfile: dockerfile
     restart: always
-    links:
-      - database
     ports:
       - 4358:80
     container_name: corpus2wiki
@@ -41,3 +45,9 @@ services:
       - MW_MAIN_CACHE_TYPE=None
       - MW_SCRIPT_PATH=
       - MW_SERVER_NAME=http://localhost:8080
+    networks:
+      - exchange
+
+networks:
+  exchange:
+    driver: bridge
