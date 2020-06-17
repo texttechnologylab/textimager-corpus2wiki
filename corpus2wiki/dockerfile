@@ -1,4 +1,4 @@
-FROM mediawiki:1.31.7
+FROM mediawiki:1.32.0
 
 MAINTAINER alexhunziker@sunrise.ch
 
@@ -17,6 +17,7 @@ RUN set -x; \
 	wget \
 	nano \
 	unzip \
+	gcc-8-base \
 	libgcc-8-dev \
 	libc6-dev \
 	&& apt-get clean
@@ -35,7 +36,7 @@ RUN java -version
 
 
 # Set MediaWiki Variables
-ENV MW_Version=1.31.1
+ENV MW_Version=1.32.0
 ENV MW_Home=/var/www/html
 ENV MW_Volume=/mediawiki
 
@@ -51,8 +52,12 @@ COPY logo.png $MW_Home/logo.png
 # MediaWiki extensions, clone them from github.
 RUN set -x; \
 	cd $MW_Home/extensions \
-	&& git clone --depth 1 https://github.com/wikimedia/mediawiki-extensions-Graph.git Graph\
-	&& git clone --depth 1 https://github.com/wikimedia/mediawiki-extensions-JsonConfig.git  JsonConfig
+	&& git clone https://github.com/wikimedia/mediawiki-extensions-Graph.git Graph \
+	&& git clone https://github.com/wikimedia/mediawiki-extensions-JsonConfig.git  JsonConfig \
+	&& cd Graph \
+	&& git checkout wmf/1.34.0-wmf.18 \
+	&& cd ../JsonConfig \
+	&& git checkout wmf/1.34.0-wmf.18 
 
 # Open Port
 EXPOSE 8080:80
@@ -62,7 +67,8 @@ COPY LocalSettings.php $MW_Home/DockerSettings.php
 
 # Now we add the custom composer file and install composer
 COPY composer.local.json $MW_Home/composer.local.json
-RUN wget https://getcomposer.org/composer.phar
+RUN wget -cO - https://getcomposer.org/composer-stable.phar > composer.phar
+# RUN wget https://getcomposer.org/download/1.0.0/composer.phar
 
 # Copy Files for input procedure
 COPY import $MW_Home/import
