@@ -48,6 +48,25 @@ Go to localhost:8080 (or ip-address/url if accessing from remote).
 
 Visit "localhost/index.php/Special:AllPages" to see a list of links to your files - click on any of them to access the analyzed text and visualizations.
 
+## Known Bugs
+We are aware that sometimes when setting up a wiki for the first time, the connection with the MariaDB Container reporst connection
+issues and is not setup up properly.After the initial docker compose up it is also only possible to setup the credentials by hand.
+
+This Bug actually stems from the first time the MariaDB and Wiki-Container are initialised.In this process it seaams the
+timezone configuration delays the inital setup and if the user is impationed and aborts the setup,everything has to be set by hand.
+However the solution to this problem is very easy,just wait.At some point the DB seams to notice the error and fixes it by itself 
+depending on the machine 10 - 15 min.But this only works in the inital up, after that the containers are "configured" and load that as 
+default.After that the rest of the setup is done without an human intervention as usual.
+
+This Bug atleast exists on win 10 pro 1909,Debian 10 and Ubuntu 18.10. 
+
+## Given Config
+A small note on the configuration regarding the internal network of the setup.
+The used inter network driver is the bridge driver,however other drivers should also be possible.
+Given that we desire to give as many people as possible access to the software we will stick to the bridge driver for compability 
+reasons,atleast for now.
+
+
 ## Legal
 (c)2018 [Text Technology Lab](https://www.texttechnologylab.org), Goethe University Frankfurt
 
