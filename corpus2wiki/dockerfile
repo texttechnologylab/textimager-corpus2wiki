@@ -79,22 +79,25 @@ RUN chmod 777 -R import
 # This will clone the latest version of textimager-client; if it is broken, build will fail.
 RUN set -x; \
 	cd $MW_Home/import \
-	&& git clone --depth 1 https://github.com/texttechnologylab/textimager-client.git \
+	&& git clone https://github.com/texttechnologylab/textimager-client.git \
 	&& cd textimager-client \
-	&& git checkout tags/0.2.5.1 \
+	&& git checkout tags/0.2.6.3 \
 	&& mvn install -DskipTests -P CLI\
 	&& mv target/textimager-CLI.jar ../textimager-CLI.jar \
 	&& cd .. \
 	&& rm -r textimager-client
 
 # Download Word2Vec word embeddings
-RUN set -x; \
-	cd $MW_Home/import \
-	&& mkdir word2vec \
-	&& echo 'Download syntagmatic embeddings' \
-	&& wget -q http://service.hucompute.org/embeddings/api/v1/embeddings/zeit_lemmapos_mikolov_cbow.vec/download -O word2vec/syntagmatic-de.vec \
-	&& echo 'Download paradigmatic embeddings' \
-	&& wget -q http://service.hucompute.org/embeddings/api/v1/embeddings/zeit_lemmapos_mikolov_skip.vec/download -O word2vec/paradigmatic-de.vec
+#RUN set -x; \
+#	cd $MW_Home/import \
+#	&& mkdir word2vec \
+#	&& echo 'Download syntagmatic embeddings' \
+#	&& wget -q http://service.hucompute.org/embeddings/api/v1/embeddings/zeit_lemmapos_mikolov_cbow.vec/download -O word2vec/syntagmatic-de.vec \
+#	&& echo 'Download paradigmatic embeddings' \
+#	&& wget -q http://service.hucompute.org/embeddings/api/v1/embeddings/zeit_lemmapos_mikolov_skip.vec/download -O word2vec/paradigmatic-de.vec
+
+
+
 
 # Copy custom extensions
 COPY Corpus2WikiAnnotator $MW_Home/extensions/Corpus2WikiAnnotator/
