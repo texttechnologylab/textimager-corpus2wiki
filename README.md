@@ -49,6 +49,7 @@ Go to localhost:8080 (or ip-address/url if accessing from remote).
 Visit "localhost/index.php/Special:AllPages" to see a list of links to your files - click on any of them to access the analyzed text and visualizations.
 
 ## Known Bugs
+### Timezone skip
 We are aware that sometimes when setting up a wiki for the first time, the connection with the MariaDB Container reporst connection
 issues and is not setup up properly.After the initial docker compose up it is also only possible to setup the credentials by hand.
 
@@ -58,7 +59,24 @@ However the solution to this problem is very easy,just wait.At some point the DB
 depending on the machine 10 - 15 min.But this only works in the inital up, after that the containers are "configured" and load that as 
 default.After that the rest of the setup is done without an human intervention as usual.
 
-This Bug atleast exists on win 10 pro 1909,Debian 10 and Ubuntu 18.10. 
+This Bug atleast exists on win 10 pro 1909,Debian 10 and Ubuntu 18.10.
+
+### Error 127
+This error will be displayed if "usr/local/bin/docker-php-entrypoint: 9: exec: /config.sh: not found" happens.
+You are mostliky on an windows machine and just have encounterd an encoding problem.
+
+What actually happens,well win and linux uses different symbols to represent an end of line win (CR LF), linux (LF).
+So when we download the source cdoe from github and save it on our windows machine it uses the CR LF standart to save the /config.sh - this however produces an damaged file for linux with the LF standart.
+Precisesly the first line in which we use shebang to specify the tool to run the config is in shambles and not useable anymore.
+Note that for example nano is still able to display the file properly with out problem we litrally cant see the difference.
+
+The solution.
+We just revert the config back to LF with an tool of choice: dos2unix,notpad and vscode are jsut a few.
+Then we can just build the container normally.
+
+That's it your container should run again. 
+
+
 
 ## Given Config
 A small note on the configuration regarding the internal network of the setup.
