@@ -21,9 +21,10 @@ services:
   corpus2wiki:
     depends_on:
       - database
-    build:
-      context: ./corpus2wiki
-      dockerfile: dockerfile
+    image: corpus2wikidevSoSe20
+    #build:
+      #context: ./corpus2wiki
+      #dockerfile: dockerfile
     restart: always
     ports:
       - 4358:80

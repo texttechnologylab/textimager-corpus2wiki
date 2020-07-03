@@ -33,7 +33,27 @@ Corpus2Wiki is now set up on port 8080 (default) with the following parameters:
 These parameters can be changed by editing the stack.yml file.
 
 ## Start Corpus2Wiki:
-Start containers by running `./corpus2wiki.sh` (or alternatively `docker-compose -f stack.yml up`) from the corpus2wiki directory.
+Start containers by running:
+
+> <code>./corpus2wiki.sh </code>
+
+or alternatively:  
+
+> <code> docker-compose -f stack.yml up </code>  
+
+from the corpus2wiki directory.
+
+## Building the corpus-wiki-image
+For development purposes we can just use build in the directory corpus2wiki.  
+Once we are inside the directory we can use:
+> <code>sudo docker -t corpus2wikidevSoSe20 .</code>
+
+To create an new image which then can be used by docker-compose.
+This allows us to make better use of caching as well as the docker-compose
+overhead since we only build the container new and dont wait on the DB to wake up.
+
+Note:changed code shell be copyied at the end of the dockerfile into the new image to maximise the speed up by layers and cache.
+Perhaps we may also want to restrukture the dockerfile if development is futher slowed down by building.
 
 ## Add Files to Wikitition:
 
