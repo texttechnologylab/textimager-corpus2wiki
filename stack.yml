@@ -21,7 +21,7 @@ services:
   corpus2wiki:
     depends_on:
       - database
-    image: corpus2wikidevSoSe20
+    image: corpus2wikidevsose20
     #build:
       #context: ./corpus2wiki
       #dockerfile: dockerfile
