@@ -46,7 +46,7 @@ from the corpus2wiki directory.
 ## Building the corpus-wiki-image
 For development purposes we can just use build in the directory corpus2wiki.  
 Once we are inside the directory we can use:
-> <code>sudo docker -t corpus2wikidevSoSe20 .</code>
+> <code>sudo docker build -t corpus2wikidevsose20 .</code>
 
 To create an new image which then can be used by docker-compose.
 This allows us to make better use of caching as well as the docker-compose
