@@ -81,7 +81,7 @@ RUN set -x; \
 	cd $MW_Home/import \
 	&& git clone https://github.com/texttechnologylab/textimager-client.git \
 	&& cd textimager-client \
-	&& git checkout tags/0.2.6.3 \
+	&& git checkout tags/0.2.6.4 \
 	&& mvn install -DskipTests -P CLI\
 	&& mv target/textimager-CLI.jar ../textimager-CLI.jar \
 	&& cd .. \
