@@ -1,2 +1,0 @@
-Hello and Welcome to Corpus2Wiki!
-If you see this page in your Corpus2Wiki, this means that your first import of files was successful.

@@ -15,8 +15,8 @@ if($lang == ""){
 	$default_lan = 1;
 }
 $DEFAULT_PIPELINES = [
-	"en" => "LanguageToolSegmenter,LanguageToolLemmatizer,CoreNlpPosTagger,CoreNlpNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService,MateMorphTagger",
-	"de" => "LanguageToolSegmenter,LanguageToolLemmatizer,CoreNlpPosTagger,CoreNlpNamedEntityRecognizer,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesService,TagMeLocalAnnotator,MateMorphTagger",
+	"en" => "LanguageToolSegmenter,LanguageToolLemmatizer,CoreNlpPosTagger,SpaCyNER,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesTextImagerService,TagMeAPIAnnotator",
+	"de" => "LanguageToolSegmenter,LanguageToolLemmatizer,CoreNlpPosTagger,SpaCyNER,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesTextImagerService,TagMeLocalAnnotator,MateMorphTagger",
 ];
 if(array_key_exists($lang, $DEFAULT_PIPELINES)){
 	$pipeline = $DEFAULT_PIPELINES[$lang];
@@ -66,7 +66,7 @@ function print_log($log){
 }
 
 // Page header
-echo '<!DOCTYPE html><html lang="en" ><head><meta charset="UTF-8"><title>Corpus2Wiki Importer</title><link rel="stylesheet" href="css/style.css"></head>';
+echo '<!DOCTYPE html><html lang="en" ><head><meta charset="UTF-8"><title>Corpus2Wiki Importer test</title><link rel="stylesheet" href="css/style.css"></head>';
 echo '<body><div class="content"><img src="logo.png" style="border:none">';
 echo '<h1>Corpus2Wiki Uploader</h1><h2>Step 2: Processing and Analyzing Files...</h2>';
 echo '<b>Please note</b>: This process may take a wile... Closing this window before the process is completed will abort the import.<br>';
