@@ -15,8 +15,8 @@ if($lang == ""){
 	$default_lan = 1;
 }
 $DEFAULT_PIPELINES = [
-	"en" => "LanguageToolLemmatizer,CoreNlpPosTagger,SpaCyNER,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesTextImagerService,TagMeAPIAnnotator",
-	"de" => "LanguageToolSegmenter,LanguageToolLemmatizer,CoreNlpPosTagger,SpaCyNER,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesTextImagerService,TagMeLocalAnnotator,MateMorphTagger",
+	"en" => "LanguageToolLemmatizer,CoreNlpPosTagger,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesTextImagerService,TagMeAPIAnnotator",
+	"de" => "LanguageToolSegmenter,LanguageToolLemmatizer,CoreNlpPosTagger,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesTextImagerService,TagMeLocalAnnotator,MateMorphTagger",
 ];
 if(array_key_exists($lang, $DEFAULT_PIPELINES)){
 	$pipeline = $DEFAULT_PIPELINES[$lang];
@@ -29,7 +29,7 @@ function liveExecuteCommand($cmd){
 
     while (@ ob_end_flush()); // end all output buffers if any
 
-		echo '<div style="width:100%; font-family:Monospace; height:170px;overflow:auto;background-color:black;color:lime;">';
+		echo '<div style="width:200%; font-family:Monospace; height:170px;overflow:auto;background-color:black;color:lime;">';
 
     $proc = popen("$cmd 2>&1 ; echo Exit status : $?", 'r');
 
@@ -60,7 +60,7 @@ function liveExecuteCommand($cmd){
 }
 
 function print_log($log){
-	echo '<textarea cols="70" rows="8" style="overflow:auto;background-color:black;color:lime;">';
+	echo '<textarea cols="130" rows="20" style="overflow:auto;background-color:black;color:lime;">';
 	print_r($log);
 	echo '</textarea><br><br>';
 }
