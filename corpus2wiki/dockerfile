@@ -1,4 +1,5 @@
-FROM mediawiki:1.32.0
+# Mediawiki Version outdated gewechselt auf lts version
+FROM mediawiki:1.35.2
 
 MAINTAINER alexhunziker@sunrise.ch
 
@@ -7,7 +8,8 @@ MAINTAINER alexhunziker@sunrise.ch
 RUN set -x; \
 	mkdir -p /usr/share/man/man1
 
-RUN echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list
+# Debian Version "sid" breaks dependencies from libc and libgcc, removed (by commenting)
+# RUN echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list
 
 # Install required packages
 RUN set -x; \
@@ -22,10 +24,12 @@ RUN set -x; \
 	libc6-dev \
 	&& apt-get clean
 
+
 # Install OpenJDK 8
 # Add repo, since Debian 10 only includes JDK11 (default)
 # RUN echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list
-
+# Debian version Sid's package list doesn't include openjdk-8 anymore, include stretch repo instead
+RUN echo "deb http://security.debian.org/debian-security stretch/updates main" >> /etc/apt/sources.list
 RUN apt-get clean && \
 	apt-get update \
 	&& apt-get install -y --no-install-recommends \
@@ -36,7 +40,9 @@ RUN java -version
 
 
 # Set MediaWiki Variables
-ENV MW_Version=1.32.0
+#ENV Variable geupdatet
+#ENV MW_Version=1.32.0
+ENV MW_Version=1.35.2
 ENV MW_Home=/var/www/html
 ENV MW_Volume=/mediawiki
 
@@ -79,9 +85,8 @@ RUN chmod 777 -R import
 # This will clone the latest version of textimager-client; if it is broken, build will fail.
 RUN set -x; \
 	cd $MW_Home/import \
-	&& git clone https://github.com/texttechnologylab/textimager-client.git \
+	&& git clone https://github.com/MarcelFaizi/textimager-client.git \
 	&& cd textimager-client \
-	&& git checkout tags/0.2.6.4 \
 	&& mvn install -DskipTests -P CLI\
 	&& mv target/textimager-CLI.jar ../textimager-CLI.jar \
 	&& cd .. \
@@ -90,11 +95,13 @@ RUN set -x; \
 # Download Word2Vec word embeddings
 #RUN set -x; \
 #	cd $MW_Home/import \
-#	&& mkdir word2vec \
 #	&& echo 'Download syntagmatic embeddings' \
 #	&& wget -q http://service.hucompute.org/embeddings/api/v1/embeddings/zeit_lemmapos_mikolov_cbow.vec/download -O word2vec/syntagmatic-de.vec \
 #	&& echo 'Download paradigmatic embeddings' \
 #	&& wget -q http://service.hucompute.org/embeddings/api/v1/embeddings/zeit_lemmapos_mikolov_skip.vec/download -O word2vec/paradigmatic-de.vec
+
+#Put the word embeddings into /corpus2wiki/word2vec manually to avoid re-downloading them every time
+COPY word2vec $MW_Home/import/word2vec/
 
 
 
