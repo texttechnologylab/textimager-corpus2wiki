@@ -24,7 +24,7 @@ vagrant up
 # code --install-extension felixfbecker.php-debug
 
 #Configure Mediawiki to accept the import of dumps
-echo "$wgWBRepoSettings['allowEntityImport'] = true;" >> ./vagrant/LocalSettings.php
+echo "\$wgWBRepoSettings['allowEntityImport'] = true;" >> LocalSettings.php
 
 #Create dump-importer Script
 cat > import_wikidata.sh<<- "EOF"
