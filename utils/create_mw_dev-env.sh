@@ -27,6 +27,8 @@ vagrant up
 echo "\$wgWBRepoSettings['allowEntityImport'] = true;" >> LocalSettings.php
 
 #Create dump-importer Script
+#Taken from https://www.mediawiki.org/wiki/MediaWiki-Vagrant/de
+mkdir wikidata_dumps
 cat > import_wikidata.sh<<- "EOF"
 #!/usr/bin/env bash
 chunks=$(find wikidata_dumps -type f)
@@ -40,7 +42,7 @@ do
     echo "-------------------------------------------" >> wd_import.log
     echo "$now: completed import of $chunk" >> wd_import.log
     echo "===========================================" >> wd_import.log
-done"
+done
 EOF
 
 #Install extensions
