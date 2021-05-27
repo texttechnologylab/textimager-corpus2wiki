@@ -46,5 +46,37 @@ done
 EOF
 
 #Install extensions
-#TODO: MAKE SYMLINKS FROM THE CORPUS2WIKI FOLDER TO /vagrant/mediawiki
+cd mediawiki/extensions \
+&& git clone https://github.com/wikimedia/mediawiki-extensions-Graph.git Graph \
+&& git clone https://github.com/wikimedia/mediawiki-extensions-JsonConfig.git JsonConfig
 
+# Configure Mediawiki to include the extensions
+cd ../..
+#TODO: FIND OUT WHERE THE MAPS EXTENSION IS COMING FROM
+tee -a ./LocalSettings.php << END
+wfLoadExtension( 'JsonConfig' );
+wfLoadExtension( 'Graph' );
+//wfLoadExtension( 'Maps');
+require_once "\$IP/extensions/Corpus2WikiAnnotator/Corpus2WikiAnnotator.php";
+require_once "\$IP/extensions/GeoViz/GeoViz.php";
+//require_once __DIR__ . '/extensions/Maps/Maps_Settings.php';
+
+# Workaround because d3.js is not loaded properly by Resources.php
+\$wgHooks['BeforePageDisplay'][] ='onBeforePageDisplay';
+function onBeforePageDisplay( OutputPage &\$out, Skin &\$skin )
+{
+	\$script = '<script type="text/javascript" src="https://d3js.org/d3.v3.js"></script>';
+	\$out->addHeadItem("d3js script", \$script);
+	return true;
+};
+END
+
+cd ../../corpus2wiki
+#TODO: MAKE SYMLINKS FROM THE CORPUS2WIKI FOLDER TO /vagrant/mediawiki
+cp -r Corpus2WikiAnnotator ../utils/vagrant/mediawiki/extensions/Corpus2WikiAnnotator/
+cp -r GeoViz ../utils/vagrant/mediawiki/extensions/GeoViz/
+mkdir -p ../utils/vagrant/mediawiki/resources/lib/selfmade/css
+cp Resources.php ../utils/vagrant/mediawiki/resources/
+cp -r d3 ../utils/vagrant/mediawiki/resources/lib/d3
+cp selfmade/*.js ../utils/vagrant/mediawiki/resources/lib/selfmade/
+cp selfmade/*.css ../utils/vagrant/mediawiki/resources/lib/selfmade/css/
