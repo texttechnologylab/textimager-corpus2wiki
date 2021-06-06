@@ -1,5 +1,5 @@
 # Mediawiki Version outdated gewechselt auf lts version
-FROM mediawiki:1.35.2
+FROM mediawiki:1.32.0
 
 MAINTAINER alexhunziker@sunrise.ch
 
@@ -19,9 +19,6 @@ RUN set -x; \
 	wget \
 	nano \
 	unzip \
-	gcc-8-base \
-	libgcc-8-dev \
-	libc6-dev \
 	&& apt-get clean
 
 
@@ -42,7 +39,7 @@ RUN java -version
 # Set MediaWiki Variables
 #ENV Variable geupdatet
 #ENV MW_Version=1.32.0
-ENV MW_Version=1.35.2
+ENV MW_Version=1.32.0
 ENV MW_Home=/var/www/html
 ENV MW_Volume=/mediawiki
 
@@ -73,8 +70,9 @@ COPY LocalSettings.php $MW_Home/DockerSettings.php
 
 # Now we add the custom composer file and install composer
 COPY composer.local.json $MW_Home/composer.local.json
-RUN wget -cO - https://getcomposer.org/composer-stable.phar > composer.phar
-# RUN wget https://getcomposer.org/download/1.0.0/composer.phar
+RUN wget -cO - https://getcomposer.org/download/1.0.0/composer.phar > composer.phar
+RUN php composer.phar require --no-update mediawiki/maps:7.2
+RUN php composer.phar update mediawiki/maps --no-dev -o;
 
 # Copy Files for input procedure
 COPY import $MW_Home/import
