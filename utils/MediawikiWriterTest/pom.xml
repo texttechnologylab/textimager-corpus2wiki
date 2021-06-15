@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.texttechnologylab.project.NAME</groupId>
-    <artifactId>Uebung2</artifactId>
+    <groupId>org.texttechnologylab.project.wikidition</groupId>
+    <artifactId>WriterTest</artifactId>
     <version>0.1</version>
 
     <build>
@@ -47,11 +47,13 @@
             <artifactId>textimager-client</artifactId>
             <version>0.2.6.4</version>
         </dependency>
+
         <dependency>
-            <groupId>com.github.texttechnologylab.textimager-uima</groupId>
-            <artifactId>textimager-uima</artifactId>
-            <version>0.3.0.2</version>
+            <groupId>org.hucompute.textimager.uima</groupId>
+            <artifactId>textimager-uima-io-mediawiki</artifactId>
+            <version>0.3.0</version>
         </dependency>
+
 
     </dependencies>
 
