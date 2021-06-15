@@ -13,7 +13,7 @@ import org.apache.uima.jcas.JCas;
 import org.dkpro.core.io.xmi.XmiWriter;
 import org.hucompute.textimager.client.TextImagerClient;
 import org.hucompute.textimager.uima.io.mediawiki.MediawikiWriter;
-import org.texttechnologylab.annotation.NamedEntity;
+import de.tudarmstadt.ukp.dkpro.core.api.ner.type.NamedEntity;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,10 +60,10 @@ public class Test {
         
         try {
              // Der TextImager wird angeworfen
-/*             tic.process(cas.getCas(), sTools.split(","));
+            tic.process(cas.getCas(), sTools.split(","));
 
             // Serialize & save results from the pipeline
-            try(OutputStream outputStream = Files.newOutputStream(outputXmi)) {
+            /* try(OutputStream outputStream = Files.newOutputStream(outputXmi)) {
                 XMLSerializer xmlSerializer = new XMLSerializer(outputStream, true);
                 xmlSerializer.setOutputProperty(OutputKeys.VERSION, "1.0");
                 xmlSerializer.setOutputProperty(OutputKeys.ENCODING, StandardCharsets.UTF_8.toString());
@@ -75,8 +75,10 @@ public class Test {
             try(InputStream inputStream = Files.newInputStream(outputXmi)) {
                 XmiCasDeserializer.deserialize(inputStream, cas.getCas());
             }
-            
-            System.out.println(buildMapsString(extractLocations(cas)));   
+            HashSet<String> locs = extractLocations(cas);
+
+            String res = buildMapsString(locs);
+            System.out.println(res);
 //            MediawikiWriter
             SimplePipeline.runPipeline(cas, aed);
 
@@ -107,7 +109,7 @@ return loc;
             return null;
         }else{
             str.append("{{#display_map:");
-            Iterator it = locs.iterator();
+            Iterator<String> it = locs.iterator();
             while(it.hasNext()) {
                 str.append(it.next());
                 str.append(";");
