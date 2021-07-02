@@ -43,16 +43,18 @@
     <dependencies>
 
         <dependency>
+            <groupId>org.hucompute.textimager.uima</groupId>
+            <artifactId>textimager-uima-io-mediawiki</artifactId>
+            <version>0.3.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.texttechnologylab</groupId>
             <artifactId>textimager-client</artifactId>
             <version>0.2.6.4</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.hucompute.textimager.uima</groupId>
-            <artifactId>textimager-uima-io-mediawiki</artifactId>
-            <version>0.3.0</version>
-        </dependency>
+
 
 
     </dependencies>
