@@ -49,6 +49,12 @@
         </dependency>
 
         <dependency>
+            <groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+            <artifactId>de.tudarmstadt.ukp.dkpro.core.matetools-gpl</artifactId>
+            <version>1.10.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.texttechnologylab</groupId>
             <artifactId>textimager-client</artifactId>
             <version>0.2.6.4</version>
