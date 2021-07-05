@@ -71,8 +71,13 @@ COPY LocalSettings.php $MW_Home/DockerSettings.php
 # Now we add the custom composer file and install composer
 COPY composer.local.json $MW_Home/composer.local.json
 RUN wget -cO - https://getcomposer.org/download/1.0.0/composer.phar > composer.phar
+
+#Install Maps- and Semantic-Mediawiki-Extension
 RUN php composer.phar require --no-update mediawiki/maps:7.2
 RUN php composer.phar update mediawiki/maps --no-dev -o;
+RUN php composer.phar require --no-update mediawiki/semantic-media-wiki;
+RUN php composer.phar update --no-dev;
+RUN php maintenance/update.php --skip-external-dependencies;
 
 # Copy Files for input procedure
 COPY import $MW_Home/import

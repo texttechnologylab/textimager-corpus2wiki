@@ -166,3 +166,4 @@ function onBeforePageDisplay( OutputPage &$out, Skin &$skin )
 	$out->addHeadItem("d3js script", $script);
 	return true;
 };
+enableSemantics( 'localhost' );
