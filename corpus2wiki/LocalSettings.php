@@ -137,6 +137,7 @@ wfLoadSkin( 'Vector' );
 wfLoadExtension( 'JsonConfig' );
 wfLoadExtension( 'Graph' );
 wfLoadExtension( 'Maps');
+wfLoadExtension( 'Chartie' );
 require_once "$IP/extensions/Corpus2WikiAnnotator/Corpus2WikiAnnotator.php";
 require_once "$IP/extensions/GeoViz/GeoViz.php";
 require_once __DIR__ . '/extensions/Maps/Maps_Settings.php';
@@ -166,4 +167,9 @@ function onBeforePageDisplay( OutputPage &$out, Skin &$skin )
 	$out->addHeadItem("d3js script", $script);
 	return true;
 };
-enableSemantics( 'localhost' );
+
+$wgFileExtensions = array_merge(
+	$wgFileExtensions, array(
+		'csv'
+	)
+);

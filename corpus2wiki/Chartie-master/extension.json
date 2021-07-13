@@ -1,0 +1,59 @@
+{
+  "name": "Chartie",
+  "author": "Dolfinus",
+  "url": "https://www.mediawiki.org/wiki/Extension:Chartie",
+  "description": "This extension provides a simple line chart, based on d3.js",
+  "version": "1.0",
+  "license-name": "MIT",
+  "type": "media",
+  "ResourceModules": {
+    "ext.Chartie": {
+      "position": "bottom",
+      "targets" : [
+        "desktop",
+        "mobile"
+      ],
+      "scripts": [
+        "d3.js",
+        "Chartie.js"
+      ],
+      "styles": [
+        "chart.css"
+      ]
+    }
+  },
+  "ExtensionMessagesFiles": {
+    "Chartie": "Chartie_magic.i18n.php"
+  },
+  "ResourceFileModulePaths": {
+    "localBasePath": "js",
+    "remoteExtPath": "Chartie/js"
+  },
+  "MediaHandlers": {
+    "text/csv": "Chartie"
+  },
+  "AutoloadClasses": {
+    "Chartie": "Chartie_body.php"
+  },
+  "Hooks": {
+    "ParserMakeImageParams": [
+	    "Chartie::onParserMakeImageParams"
+	],
+  	"ParserFirstCallInit": [
+	    "Chartie::onParserFirstCallInit"
+	],
+    "ImageBeforeProduceHTML": [
+        "Chartie::onImageBeforeProduceHTML"
+    ],
+    "ImageOpenShowImageInlineBefore": [
+        "Chartie::onImageOpenShowImageInlineBefore"
+    ],
+    "BeforePageDisplay": [
+        "Chartie::onBeforePageDisplay"
+    ],
+    "BeforePageDisplayMobile": [
+		    "Chartie::onBeforePageDisplay"
+    ]
+  },
+  "manifest_version": 1
+}
