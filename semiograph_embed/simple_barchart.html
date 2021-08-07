@@ -63,6 +63,7 @@
 </body>
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
+    // Laenge des Textes -> maximaler Wert auf der Y-Achse 
 	  const textlen = 300;
     
     const word_distribution = [
@@ -114,11 +115,13 @@
     const chart = svg.append('g')
       .attr('transform', `translate(${margin}, ${margin})`); 
 
+    //Skaliere X-Achse um moegliche Werte abzubilden(Alle Basisemotionen)
     const xScale = d3.scaleBand()
       .range([0, width])
       .domain(word_distribution.map((s) => s.emotion)) //Moegliche Werte -> Basisemotionen
       .padding(0.4) //Abstand zwischen den Bars
     
+    //Skaliere Y-Achse([0, #WoerterImText])
     const yScale = d3.scaleLinear()
       .range([height, 0])
       .domain([0, textlen]);
@@ -132,7 +135,7 @@
     chart.append('g')
       .call(d3.axisLeft(yScale));
 
-
+    //Fuege Daten ein
     const barGroups = chart.selectAll()
       .data(word_distribution)
       .enter()
@@ -146,11 +149,10 @@
       .attr('height', (g) => height - yScale(g.value))
       .attr('width', xScale.bandwidth())
       .on('click', function (actual, i) {
+        //Aktion falls auf den Balken gedrueckt wird (Zugriff auf zugehoeriges Objekt mit actual):
         const words = actual.words
-		const emotion = actual.emotion
-        
-
-
+		    const emotion = actual.emotion
+        alert(emotion)
       })
 
     // Y-Achse Label
@@ -177,8 +179,6 @@
       .attr('y', 45)
       .attr('text-anchor', 'middle')
       .text('Verteilung der Wörter auf die Basisemotionen')
-
-  
 
 </script>
 </html>
