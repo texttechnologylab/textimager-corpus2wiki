@@ -7,6 +7,7 @@ ini_set('display_errors', '1');
 error_reporting(E_ALL);
 
 // Get parameters
+// Get language setting
 $default_lan = 0;
 $lang = $_POST["language"];
 $corpus_dir = "/var/www/html/import/corpus";
@@ -14,6 +15,33 @@ if($lang == ""){
 	$lang = "en";
 	$default_lan = 1;
 }
+
+// Get embedding paramteres and check if they match language
+$default_emb = 0;
+$mismatch_emb = 0;
+if (isset($_POST['embedding'])){
+	$emb = $_POST["embedding"];
+}
+else{	
+	if($lang == "de"){
+		// assign default pipeline for german language setting
+		$emb = "zeit_komninos.CBOW_DE_100_NN_NE_V_ADJ";
+	}
+	if($lang == "en"){
+		// assign default pipeline for english language setting
+		$emb = "glove.6B.300d.txt_100nn_ALL";
+	}
+	$default_emb = 1;
+} 
+if (($lang == "de" && $emb == "glove.6B.300d.txt_100nn_ALL") or ($lang == "de" && $emb == "GoogleNews-vectors-negative300.bin_100nn_ALL") or ($lang == "de" && $emb == "enwiki_upos_skipgram_300_5_2017_model.txt_100nn_PROPN_NOUN_VERB_ADJ")){
+	$mismatch_emb = 1;
+}
+
+if (($lang == "en" && $emb != "glove.6B.300d.txt_100nn_ALL") and ($lang == "en" && $emb != "GoogleNews-vectors-negative300.bin_100nn_ALL") and ($lang == "en" && $emb != "enwiki_upos_skipgram_300_5_2017_model.txt_100nn_PROPN_NOUN_VERB_ADJ")){
+	$mismatch_emb = 1;
+}
+
+// Assign pipelines
 $DEFAULT_PIPELINES = [
 	"en" => "LanguageToolLemmatizer,CoreNlpPosTagger,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesTextImagerService,TagMeAPIAnnotator",
 	"de" => "LanguageToolSegmenter,LanguageToolLemmatizer,CoreNlpPosTagger,FastTextDDCMulLemmaNoPunctPOSNoFunctionwordsWithCategoriesTextImagerService,TagMeLocalAnnotator,MateMorphTagger",
@@ -22,6 +50,11 @@ if(array_key_exists($lang, $DEFAULT_PIPELINES)){
 	$pipeline = $DEFAULT_PIPELINES[$lang];
 }else{
 	echo "<b>FATAL ERROR:</b> The language $lang is not assigned any pipeline. Process aborted.";
+	exit;
+}
+
+if($mismatch_emb == 1){
+	echo "FATAL ERROR: Embedding does not match language. Please reconsider. <br><br>";
 	exit;
 }
 
@@ -74,6 +107,11 @@ echo '<b>Please note</b>: This process may take a wile... Closing this window be
 if($default_lan == 1){
 	echo 'Warning: No language settings found. English assumed...<br><br>';
 }
+
+if($default_emb == 1){
+	echo "Warning: No embedding settings found. Assuming $emb <br><br>";
+}
+
 
 // Initialize Progress Bar
 echo '<html><style>#myProgress{ width:100%; background-color:#ddd} #myBar{width:1%;height:30px;background-color:#4CAF50;}</style></body>';
