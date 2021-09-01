@@ -7,22 +7,28 @@ import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.cas.impl.XmiCasDeserializer;
 import org.apache.uima.fit.factory.AggregateBuilder;
 import org.apache.uima.fit.factory.JCasFactory;
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.fit.util.LifeCycleUtil;
 import org.apache.uima.jcas.JCas;
 import org.dkpro.core.io.xmi.XmiWriter;
 import org.hucompute.textimager.client.TextImagerClient;
+import org.hucompute.textimager.uima.german.emotion.detection.GermanEmotionDetection;
 import org.hucompute.textimager.uima.io.mediawiki.MediawikiWriter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
 
+import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Token;
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
-import static org.hucompute.textimager.uima.io.mediawiki.MediawikiWriter.PARAM_TARGET_LOCATION;
 
 class TTLabSimplePipeline {
 
@@ -55,8 +61,6 @@ public class Test {
         DocumentMetaData dmd = DocumentMetaData.create(cas);
         dmd.setDocumentTitle("Die Verwandlung");
         dmd.setDocumentId("Verwaldung-12345");
-
-        AnalysisEngineDescription aed = createEngineDescription(MediawikiWriter.class,PARAM_TARGET_LOCATION,true);
 
         Path outputXmi = Paths.get("abc.xmi");
 
@@ -95,10 +99,11 @@ public class Test {
     
             AnalysisEngineDescription writer = createEngineDescription(MediawikiWriter.class, XmiWriter.PARAM_TARGET_LOCATION,"/tmp/",XmiWriter.PARAM_OVERWRITE,true);
             builder.add(createEngineDescription(MateMorphTagger.class));
+            builder.add(createEngineDescription(GermanEmotionDetection.class));
             builder.add(writer);
     
             //SimplePipeline.runPipeline(cas, builder.createAggregate());
-            TTLabSimplePipeline.runPipeline(cas, builder.createAggregate());
+            TTLabSimplePipeline.runPipeline(cas, builder.createAggregate());    
 
 
         } catch (UIMAException e) {
