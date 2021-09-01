@@ -107,9 +107,10 @@ COPY word2vec $MW_Home/import/word2vec/
 
 
 # Copy custom extensions
-COPY Chartie-master $MW_Home/extensions/Chartie/
+
 COPY Corpus2WikiAnnotator $MW_Home/extensions/Corpus2WikiAnnotator/
 COPY GeoViz $MW_Home/extensions/GeoViz/
+COPY semiograph $MW_Home/extensions/semiograph/
 RUN set -x; mkdir -p $MW_Home/resources/lib/selfmade/css
 COPY Resources.php $MW_Home/resources/
 COPY d3 $MW_Home/resources/lib/d3
