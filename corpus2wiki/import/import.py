@@ -4,6 +4,7 @@ from cassis import Cas, load_typesystem, TypeSystem, load_dkpro_core_typesystem,
 
 """
 Writes text to XMI file.
+Usage: python3 import.py <path to text file> <embedding id> <output path to xmi file>
 """
 
 # UIMA types
