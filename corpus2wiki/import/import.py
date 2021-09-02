@@ -18,7 +18,7 @@ with open("./TypeSystemValid.xml", "rb") as typesystem_xml:
 
 typesystem = merge_typesystems(typesystem_base, typesystem_dkpro, typesystem_textimager)
 
-def get_text_from_file(path):
+def get_text_from_file(wpath, fname):
     """Given a path of a txt-file, return string containing all lines of that text file separated by newline.
     Args:
         path (str)
@@ -27,14 +27,14 @@ def get_text_from_file(path):
         str
     """
     try:
-        f = open(path, "rt")
+        f = open(path.join(wpath,fname), "rt")
         text = f.read()
     except:
-        print("Error reading file at:", path)
+        print("Error reading file at:", wpath)
     return text
 
 
-def write_wiki_xmi(text, embedding_id, output_path):
+def write_wiki_xmi(text, fname, embedding_id, output_path):
     """Given a string of text and an embedding_id, write it to XMI file at given output path."""
     
     cas = Cas(typesystem=typesystem)
@@ -55,16 +55,16 @@ def write_wiki_xmi(text, embedding_id, output_path):
         
     # write xmi file
     try:
-        cas.to_xmi(output_path, pretty_print=True)
+        cas.to_xmi(path.join(output_path, fname.rstrip(".txt")), pretty_print=True)
     except:
         print("Error writing file at:", {output_path})
 
 
 if __name__ == "__main__":
-    input_path = argv[1]
-    output_path = argv[2]
-    embedding_id = argv[3]
-    
-    text = get_text_from_file(input_path)
-    write_wiki_xmi(text, embedding_id, output_path)
-    
+    wpath = argv[1]
+    embedding_id = argv[2]
+    files = [f for f in listdir(wpath) if path.isfile(path.join(wpath, f))]
+    for f in files:
+        text = get_text_from_file(wpath, f)
+        write_wiki_xmi(text, f, embedding_id, wpath)
+        
