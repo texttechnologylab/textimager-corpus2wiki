@@ -41,6 +41,40 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.32</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+			<groupId>com.github.texttechnologylab</groupId>
+			<artifactId>UIMATypeSystem</artifactId>
+			<version>c1123cc224</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.texttechnologylab</groupId>
+			<artifactId>textimager-uima</artifactId>
+			<version>4bf1b51798</version>
+		</dependency>
 
         <dependency>
             <groupId>org.hucompute.textimager.uima</groupId>
@@ -59,10 +93,12 @@
             <artifactId>textimager-client</artifactId>
             <version>0.2.6.4</version>
         </dependency>
-
-
-
-
+    
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
     </dependencies>
 
 
