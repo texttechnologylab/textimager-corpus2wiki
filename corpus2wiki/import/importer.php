@@ -176,6 +176,11 @@ if(file_exists("maintenance/output.wiki.xml")){
 }
 echo '<script>set_progress(60);</script>';
 
+// Step 2.1: Write embedding id
+echo "Writing embedding id...";
+liveExecuteCommand("nohup python3 /var/www/html/import/import.py '/var/www/html/import/corpus'".$emb);
+echo '<script>set_progress(70);</script>';
+
 // Step 3: Prepare for import
 echo "Prepare texts for Corpus2Wiki import...";
 exec("sed -i 's/Ä/\&#196;/g;s/Ö/\&#214;/g;s/Ü/\&#220;/g;s/ä/\&#228;/g;s/ö/\&#246;/g;s/ü/\&#252;/g;s/ß/\&#223;/g' /var/www/html/import/maintenance/output.wiki.xml", $log3);
