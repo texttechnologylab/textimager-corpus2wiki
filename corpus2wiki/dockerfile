@@ -116,7 +116,7 @@ COPY Resources.php $MW_Home/resources/
 COPY d3 $MW_Home/resources/lib/d3
 COPY selfmade/*.js $MW_Home/resources/lib/selfmade/
 COPY selfmade/*.css $MW_Home/resources/lib/selfmade/css/
-
+COPY php.ini /usr/local/etc/php/php.ini
 # Copy and run the config script
 COPY config.sh /config.sh
 RUN chmod -v +x /config.sh

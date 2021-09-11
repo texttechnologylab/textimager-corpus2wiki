@@ -137,7 +137,6 @@ wfLoadSkin( 'Vector' );
 wfLoadExtension( 'JsonConfig' );
 wfLoadExtension( 'Graph' );
 wfLoadExtension( 'Maps');
-wfLoadExtension( 'Chartie' );
 require_once "$IP/extensions/Corpus2WikiAnnotator/Corpus2WikiAnnotator.php";
 require_once "$IP/extensions/GeoViz/GeoViz.php";
 require_once __DIR__ . '/extensions/Maps/Maps_Settings.php';
@@ -159,6 +158,12 @@ define("NS_TOOLTIP_TALK", 105);
 $wgExtraNamespaces[NS_TOOLTIP] = "Tooltip";
 $wgExtraNamespaces[NS_TOOLTIP_TALK] = "Tooltip_talk";
 
+$wgUseFileCache = true;
+$wgFileCacheDirectory = "$IP/cache";
+$wgUploadSizeWarning = 2147483647;
+$wgMaxUploadSize = 2147483647;
+$wgMaxArticleSize = 1000000000;
+$wgUseTidy = false;
 # Workaround because d3.js is not loaded properly by Resources.php
 $wgHooks['BeforePageDisplay'][] = 'onBeforePageDisplay';
 
