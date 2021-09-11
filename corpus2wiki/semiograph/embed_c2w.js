@@ -1,8 +1,6 @@
+
 $(document).ready(function ()
 {
-	var rest_baseurl = "http://semiograph.texttechnologylab.org/api";
-	var rest_endpoint = rest_baseurl + "/nn";
-
 	var showLabelIsChecked = true;
 	var showArrowIsChecked = false;
 	var showClassesIsChecked = false;
@@ -61,44 +59,6 @@ $(document).ready(function ()
 			return out_max;
 		}
 		return ret;
-	}
-
-	var generate_graph = function (word_input, embedding, ddc, maxn, width, height, vizDiv)
-	{
-		var payload = {
-			"embeddings": embedding,
-			"words": word_input,
-			"maxn": maxn,
-			"add_ddc_nodes": ddc
-		};
-		console.log(payload);
-
-		$.ajax({
-			method: "POST",
-			contentType: "application/json",
-			dataType: "json",
-			url: rest_endpoint,
-			data: JSON.stringify(payload)
-		})
-			.done(function (jqXHR, textStatus, errorThrown)
-			{
-				console.log(jqXHR);
-
-				$.each(jqXHR, function (index, element)
-				{
-					console.log(index)
-					console.log(element)
-
-					setTimeout(do_generate_graph, 1, index, element, vizDiv, width, height);
-				});
-			})
-			.fail(function (jqXHR, textStatus, errorThrown)
-			{
-				console.log("Error: " + jqXHR.status + ": " + jqXHR.statusText);
-			})
-			.always(function ()
-			{
-			});
 	}
 
 	function round2(val) {
@@ -1138,23 +1098,15 @@ $(document).ready(function ()
 
 	$('.embeddingviz').each(function (ind)
 	{
+		
 		var thisViz = $(this);
 		console.log(thisViz);
-		var word_input = thisViz.attr("data-word").split(" ");
-		var embedding = thisViz.attr("data-embedding").split(" ");
-		var ddc = thisViz.attr("data-ddc") !== "0";
-		var maxn = thisViz.attr("data-maxn");
-		if (maxn == null)
-		{
-			maxn = 25;
-		}
 		var width = thisViz.attr("data-width");
 		var height = thisViz.attr("data-height");
-
 		var content = '<div class="vizdiv"></div>';
+		var embed_index = thisViz.attr("data-embedindex"); //Index of embedding in the array written by MediawikiWriter
 		thisViz.html(content);
-
-		generate_graph(word_input, embedding, ddc, maxn, width, height, thisViz.find('.vizdiv')[0]);
+		do_generate_graph(0, embeds[embed_index], thisViz.find('.vizdiv')[0], width, height)
 	});
 });
 
