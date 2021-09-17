@@ -35,6 +35,9 @@ RUN echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> /etc/environment
 RUN apt-get install -y --no-install-recommends maven
 RUN java -version
 
+#Install pip and dkpro-cassis
+RUN apt-get install python3-pip
+RUN pip3 install dkpro-cassis
 
 # Set MediaWiki Variables
 #ENV Variable geupdatet

@@ -161,25 +161,26 @@ if(file_exists($backup_file)) {
 }
 echo '<script>set_progress(7);</script>';
 
-// Step 2: Call Textimager
 echo "Analyze Texts...";
 if(file_exists("/var/www/html/import/maintenance/output.wiki.xml")){
 	unlink("/var/www/html/import/maintenance/output.wiki.xml");
 }
 putenv("SHELL=/bin/bash");
-liveExecuteCommand("nohup java -Xms512m -Xmx4g -jar /var/www/html/import/textimager-CLI.jar -i '/var/www/html/import/corpus' --input-format TXT --input-language ".$lang." -output /var/www/html/import/maintenance --output-format MEDIAWIKI -p '$pipeline'");
+// Step 2: Write embedding id
+echo "Writing embedding id...";
+liveExecuteCommand("nohup python3 /var/www/html/import/import.py '/var/www/html/import/corpus'".$emb);
+echo '<script>set_progress(60);</script>';
+
+// Step 2.1: Call Textimager
+liveExecuteCommand("nohup java -Xms512m -Xmx4g -jar /var/www/html/import/textimager-CLI.jar -i '/var/www/html/import/corpus' --input-format XMI --input-language ".$lang." -output /var/www/html/import/maintenance --output-format MEDIAWIKI -p '$pipeline'");
 if(file_exists("maintenance/output.wiki.xml")){
 	echo "<b>done</b><br>";
 } else {
 	echo "<b>failed</b><br>";
 	exit;
 }
-echo '<script>set_progress(60);</script>';
-
-// Step 2.1: Write embedding id
-echo "Writing embedding id...";
-liveExecuteCommand("nohup python3 /var/www/html/import/import.py '/var/www/html/import/corpus'".$emb);
 echo '<script>set_progress(70);</script>';
+
 
 // Step 3: Prepare for import
 echo "Prepare texts for Corpus2Wiki import...";
