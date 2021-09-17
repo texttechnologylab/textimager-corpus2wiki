@@ -18,7 +18,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 ## Uncomment this to disable output compression
 # $wgDisableOutputCompression = true;
-
+$wgRawHtml = true;
 $wgSitename = "Corpus2Wiki";
 
 ## The URL base path to the directory containing the wiki;
@@ -158,11 +158,22 @@ define("NS_TOOLTIP_TALK", 105);
 $wgExtraNamespaces[NS_TOOLTIP] = "Tooltip";
 $wgExtraNamespaces[NS_TOOLTIP_TALK] = "Tooltip_talk";
 
+$wgUseFileCache = true;
+$wgFileCacheDirectory = "$IP/cache";
+$wgUploadSizeWarning = 2147483647;
+$wgMaxUploadSize = 2147483647;
+$wgMaxArticleSize = 1000000000;
+$wgUseTidy = false;
 # Workaround because d3.js is not loaded properly by Resources.php
-$wgHooks['BeforePageDisplay'][] ='onBeforePageDisplay';
-function onBeforePageDisplay( OutputPage &$out, Skin &$skin )
-{
-	$script = '<script type="text/javascript" src="https://d3js.org/d3.v3.js"></script>';
-	$out->addHeadItem("d3js script", $script);
-	return true;
+$wgHooks['BeforePageDisplay'][] = 'onBeforePageDisplay';
+
+function onBeforePageDisplay( OutputPage &$out, Skin &$skin ) {
+	$out -> addScriptFile("https://d3js.org/d3.v3.js");
+	$out -> addScriptFile("$wgScriptPath/extensions/semiograph/jquery/jquery-3.3.1.min.js");
+	$out -> addScriptFile("$wgScriptPath/extensions/semiograph/three/three.min.js");
+	$out -> addScriptFile("$wgScriptPath/extensions/semiograph/three/three-spritetext.min.js");
+	$out -> addScriptFile("$wgScriptPath/extensions/semiograph/three/force-graph.min.js");
+	$out -> addScriptFile("$wgScriptPath/extensions/semiograph/three/3d-force-graph.min.js");
+	$out -> addScriptFile("$wgScriptPath/extensions/semiograph/embed_c2w.js");
 };
+

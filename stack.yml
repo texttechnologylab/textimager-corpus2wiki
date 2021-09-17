@@ -5,14 +5,17 @@
 version: '3.4'
 services:
   database:
+    # also builds against newest MariaDB Version, can probably be exchanged to mariadb:latest
     image: mariadb:10.5.3
     restart: always
     environment:
+      # "environment" variable formatting edited
+      # only creates database when MYSQL_USER is set to root, WHY? check config for troubleshooting 
       # @see https://phabricator.wikimedia.org/source/mediawiki/browse/master/includes/DefaultSettings.php
-      MYSQL_DATABASE: 'wikidb'
-      MYSQL_USER: 'mediawiki'
-      MYSQL_PASSWORD: 'wikidbpw'
-      MYSQL_ROOT_PASSWORD: 'wikiexporterpw'
+      - MYSQL_DATABASE=wikidb
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=wikidbpw
+      - MYSQL_ROOT_PASSWORD=wikiexporterpw
     container_name: 'mariadb'
     networks:
       - exchange
@@ -22,12 +25,14 @@ services:
     depends_on:
       - database
     image: corpus2wikidevsose20
-    #build:
-      #context: ./corpus2wiki
-      #dockerfile: dockerfile
+    # build directly from docker-compose file
+    build:
+      context: ./corpus2wiki
+      dockerfile: dockerfile
     restart: always
+    # edited port: was set to 4000 something, but should be forwarding to 8080 
     ports:
-      - 4358:80
+      - 8080:80
     container_name: corpus2wiki
     environment:
       - MW_SITE_NAME=MediaWiki
@@ -36,7 +41,7 @@ services:
       - MW_ENABLE_UPLOADS=1
       - MW_USE_INSTANT_COMMONS=0
       - MW_ADMIN_USER=admin
-      - MW_ADMIN_PASS=password
+      - MW_ADMIN_PASS=password123456
       - MW_DB_NAME=wikidb
       - MW_DB_USER=mediawiki
       - MW_DB_PASS=wikidbpw
@@ -52,3 +57,4 @@ services:
 networks:
   exchange:
     driver: bridge
+

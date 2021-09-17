@@ -1,0 +1,343 @@
+{
+	"name": "Maps",
+	"version": "7.20.1",
+
+	"author": [
+		"[https://www.entropywins.wtf/mediawiki Jeroen De Dauw]",
+		"[https://professional.wiki/ Professional.Wiki]"
+	],
+	"url": "https://maps.extension.wiki",
+	"descriptionmsg": "maps-desc",
+	"license-name": "GPL-2.0-or-later",
+	"type": "parserhook",
+
+	"requires": {
+		"MediaWiki": ">= 1.31.0"
+	},
+
+	"MessagesDirs": {
+		"Maps.class": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"MapsAlias": "i18n/aliases/Aliases.php",
+		"MapsMagic": "i18n/magic/MagicWords.php"
+	},
+
+	"callback": "MapsRegistration::onRegistration",
+	"ContentHandlers": {
+		"GeoJson": "Maps\\GeoJsonPages\\GeoJsonContentHandler"
+	},
+	"namespaces": [
+		{
+			"id": 420,
+			"constant": "NS_GEO_JSON",
+			"name": "GeoJson",
+			"subpages": false,
+			"content": true,
+			"defaultcontentmodel": "GeoJson"
+		},
+		{
+			"id": 421,
+			"constant": "NS_GEO_JSON_TALK",
+			"name": "GeoJson_talk",
+			"subpages": true,
+			"content": false,
+			"defaultcontentmodel": "wikitext"
+		}
+	],
+
+	"ResourceFileModulePaths": {
+		"localBasePath": "resources",
+		"remoteExtPath": "Maps/resources"
+	},
+
+	"ResourceModules": {
+		"ext.sm.common": {
+			"scripts": [
+				"semanticMaps.js"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.geojson.new.page": {
+			"dependencies": [
+				"mediawiki.api.edit"
+			],
+			"scripts": [
+				"geojson.new.page.js"
+			],
+			"messages": [
+				"maps-geo-json-create-page-creating",
+				"maps-geo-json-create-page-summary"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.geojson.page": {
+			"dependencies": [
+				"ext.maps.leaflet.editor"
+			],
+			"scripts": [
+				"geoJsonPage.js"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.resizable": {
+			"dependencies": [
+				"jquery.ui.resizable"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.api": {
+			"dependencies": [
+				"mediawiki.api"
+			],
+			"scripts": [
+				"api.js"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.leaflet.library": {
+			"scripts": [
+				"lib/leaflet/leaflet.js",
+				"lib/leaflet-providers/leaflet-providers.js",
+				"leaflet/imagePath.js"
+			],
+			"styles": [
+				"lib/leaflet/leaflet.css"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.leaflet.fullscreen": {
+			"dependencies": [
+				"ext.maps.leaflet.library"
+			],
+			"scripts": [
+				"lib/leaflet.fullscreen/Control.FullScreen.js"
+			],
+			"styles": [
+				"lib/leaflet.fullscreen/Control.FullScreen.css"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.leaflet.geojson": {
+			"scripts": [
+				"leaflet/GeoJson.js"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.leaflet.loader": {
+			"dependencies": [
+				"ext.maps.api",
+				"ext.maps.leaflet.library",
+				"ext.maps.leaflet.markercluster",
+				"ext.maps.leaflet.fullscreen",
+				"ext.maps.leaflet.geojson",
+				"ext.sm.common"
+			],
+			"scripts": [
+				"leaflet/FeatureBuilder.js",
+				"leaflet/jquery.leaflet.js",
+				"leaflet/LeafletLoader.js"
+			],
+			"messages": [
+				"maps-copycoords-prompt"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.leaflet.markercluster": {
+			"dependencies": [
+				"ext.maps.leaflet.library"
+			],
+			"scripts": [
+				"lib/leaflet.markercluster/leaflet.markercluster.js",
+				"leaflet/LeafletCluster.js"
+			],
+			"styles": [
+				"lib/leaflet.markercluster/MarkerCluster.css"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.leaflet.editor": {
+			"dependencies": [
+				"ext.maps.leaflet.geojson",
+				"ext.maps.leaflet.library",
+				"mediawiki.api.edit",
+				"mediawiki.user",
+				"mediawiki.jqueryMsg",
+				"ext.maps.api",
+				"ext.maps.leaflet.fullscreen"
+			],
+			"scripts": [
+				"lib/leaflet.StyleEditor/javascript/Leaflet.StyleEditor.min.js",
+				"lib/leaflet.draw/leaflet.draw-src.js",
+				"lib/leaflet.EasyButton/easy-button.js",
+				"MapSaver.js",
+				"leaflet/LeafletEditor.js"
+			],
+			"styles": [
+				"lib/leaflet.StyleEditor/css/Leaflet.StyleEditor.min.css",
+				"lib/leaflet.draw/leaflet.draw.css",
+				"lib/leaflet.EasyButton/easy-button.css"
+			],
+			"messages": [
+				"maps-json-editor-button-marker",
+				"maps-json-editor-button-line",
+				"maps-json-editor-button-polygon",
+				"maps-json-editor-button-rectangle",
+				"maps-json-editor-button-circle",
+
+				"maps-json-editor-tooltip-marker",
+				"maps-json-editor-tooltip-line",
+				"maps-json-editor-tooltip-polygon",
+				"maps-json-editor-tooltip-rectangle",
+				"maps-json-editor-tooltip-circle",
+
+				"maps-json-editor-added-marker",
+				"maps-json-editor-added-line",
+				"maps-json-editor-added-polygon",
+				"maps-json-editor-added-rectangle",
+				"maps-json-editor-added-circle",
+
+				"maps-json-editor-edit-removed-shapes",
+				"maps-json-editor-edit-modified",
+				"maps-json-editor-edit-other",
+				"maps-json-editor-edit-failed",
+
+				"maps-json-editor-toolbar-save-title",
+				"maps-json-editor-toolbar-save-text",
+				"maps-json-editor-toolbar-cancel-title",
+				"maps-json-editor-toolbar-cancel-text",
+				"maps-json-editor-toolbar-clear-title",
+				"maps-json-editor-toolbar-clear-text",
+
+				"maps-json-editor-toolbar-button-save",
+				"maps-json-editor-changes-saved",
+
+				"maps-json-editor-toolbar-button-edit",
+				"maps-json-editor-toolbar-button-edit-disabled",
+				"maps-json-editor-toolbar-button-remove",
+				"maps-json-editor-toolbar-button-remove-disabled",
+
+				"maps-editor-edit-geojson"
+			],
+			"targets": [ "desktop" ]
+		},
+
+		"ext.maps.googlemaps3": {
+			"scripts": [
+				"GoogleMaps/jquery.googlemap.js",
+				"GoogleMaps/ext.maps.googlemaps3.js"
+			],
+			"messages": [
+				"maps-googlemaps3-incompatbrowser",
+				"maps-copycoords-prompt",
+				"maps-searchmarkers-text",
+				"maps-fullscreen-button",
+				"maps-fullscreen-button-tooltip",
+				"maps-kml-parsing-failed"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.gm3.markercluster": {
+			"dependencies": [
+				"ext.maps.googlemaps3"
+			],
+			"scripts": [
+				"GoogleMaps/gm3-util-library/markerclusterer.js"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.gm3.markerwithlabel": {
+			"dependencies": [
+				"ext.maps.googlemaps3"
+			],
+			"scripts": [
+				"GoogleMaps/gm3-util-library/markerwithlabel.js"
+			],
+			"styles": [
+				"GoogleMaps/gm3-util-library/markerwithlabel.css"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.gm3.geoxml": {
+			"dependencies": [
+				"ext.maps.googlemaps3"
+			],
+			"scripts": [
+				"GoogleMaps/geoxml3/geoxml3.js",
+				"GoogleMaps/geoxml3/ZipFile.complete.js",
+				"GoogleMaps/geoxml3/ProjectedOverlay.js"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.gm3.earth": {
+			"dependencies": [
+				"ext.maps.googlemaps3"
+			],
+			"scripts": [
+				"GoogleMaps/gm3-util-library/googleearth-compiled.js"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.googlemaps3ajax": {
+			"dependencies": [
+				"ext.maps.googlemaps3",
+				"ext.sm.common"
+			],
+			"scripts": [
+				"GoogleMaps/googlemaps3ajax.js"
+			],
+			"targets": [ "desktop", "mobile" ]
+		},
+
+		"ext.maps.wikitext.editor": {
+			"dependencies": [
+				"jquery.ui.autocomplete",
+				"jquery.ui.slider",
+				"jquery.ui.dialog"
+			],
+			"scripts": [
+				"WikitextEditor/js/jquery.miniColors.js",
+				"WikitextEditor/js/mapeditor.iefixes.js",
+				"WikitextEditor/js/mapeditor.js"
+			],
+			"styles": [
+				"WikitextEditor/css/jquery.miniColors.css",
+				"WikitextEditor/css/mapeditor.css"
+			],
+			"messages": [
+				"mapeditor-parser-error",
+				"mapeditor-none-text",
+				"mapeditor-done-button",
+				"mapeditor-remove-button",
+				"mapeditor-import-button",
+				"mapeditor-export-button",
+				"mapeditor-import-button2",
+				"mapeditor-select-button",
+				"mapeditor-mapparam-button",
+				"mapeditor-clear-button",
+				"mapeditor-imageoverlay-button"
+			],
+			"targets": [ "desktop", "mobile" ]
+		}
+	},
+
+	"load_composer_autoloader": true,
+	"manifest_version": 2
+}
